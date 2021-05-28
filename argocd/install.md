@@ -1,0 +1,45 @@
+# Install
+
+## create git repo
+
+github/gitlab에 argocd용 repo를 하나 만들자.
+
+```bash
+git clone argocd
+cd argocd
+```
+
+클론을 받아서 사용할 준비를 하자.
+
+## install argocd
+
+```bash
+kubectl create namespace argocd
+
+curl -o init/install_argocd.yaml https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl apply -n argocd -f init/install_argocd.yaml
+
+git commit -am "init"
+git push
+```
+
+## 접속 확인
+
+```bash
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+
+{% embed url="http://localhost:8080" caption="" %}
+
+![](../.gitbook/assets/argocd-install-01.png)
+
+## 비번 알아내기
+
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret \
+-o jsonpath="{.data.password}" | base64 -d && echo
+```
+
+admin으로 접속하면 된다.
+
