@@ -23,11 +23,11 @@ ssh-keygen
 > .ssh/argocd
 ```
 
-![](https://github.com/teamsmiley/morden-ci-cd/tree/8ac743513c1fa98e75444a8dbe175ddb17742576/.gitbook/assets/argocd-repo-04.png)
+![](https://github.com/teamsmiley/modern-ci-cd/tree/8ac743513c1fa98e75444a8dbe175ddb17742576/.gitbook/assets/argocd-repo-04.png)
 
 ### repo 등록
 
-* UI
+- UI
 
   private/public 키 argocd에 repo에 등록한다. 또는 커맨드로 추가 가능
 
@@ -37,10 +37,9 @@ ssh-keygen
 
 만들어진 키의 내용을 복사해다 붙여넣는다.
 
-* Command
+- Command
 
 ```bash
 argocd repo add git@github.com:YOURS/argocd.git \
 --ssh-private-key-path ~/.ssh/argocd
 ```
-
