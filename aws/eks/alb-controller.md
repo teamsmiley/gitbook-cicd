@@ -1,18 +1,18 @@
 # ALB Controller
 
-aws alb controller (application load balance controller)
+aws alb controller \(application load balance controller\)
 
-쿠버네티스를 직접 설치하고 사용할때는 ingress-nginx를 사용하였으나 eks에는 aws (alb) application load balance를 사용할수 있는 방법이 있다.
+쿠버네티스를 직접 설치하고 사용할때는 ingress-nginx를 사용하였으나 eks에는 aws \(alb\) application load balance를 사용할수 있는 방법이 있다.
 
 처음 고민이 aws에서 로드발란스를 세팅하는게 번거롭다는 고민이 있엇는데 그걸 aws에서 알고 있엇는지 kubernete 설정파일에 적어만 주면 자동으로 alb가 생성이 된다.
 
-<https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html>
+[https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
 
 ALB Controller를 설치를 해두면 쿠버네티스에 설정을 하면 이 컨트롤러가 ALB를 자동으로 등록해주는 것이다.
 
-이 컨트롤러가 alb에 접속이 가능하게 되야는데 이걸 oidc를 사용한다.(인증)
+이 컨트롤러가 alb에 접속이 가능하게 되야는데 이걸 oidc를 사용한다.\(인증\)
 
-ALB는 nodeport 나 loadbalance만 지원을 한다.(중요)
+ALB는 nodeport 나 loadbalance만 지원을 한다.\(중요\)
 
 링크에 있는 내용을 해주면 된다. 간단하게 요약해보면
 
@@ -24,7 +24,7 @@ ALB는 nodeport 나 loadbalance만 지원을 한다.(중요)
 aws eks describe-cluster --name cluster01 --query "cluster.identity.oidc.issuer" --output text
 ```
 
-```txt
+```text
 > https://oidc.eks.us-west-2.amazonaws.com/id/55078434365FAxxx21D4C440DD
 ```
 
@@ -40,7 +40,7 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 
 ### Create IAM OIDC provider
 
-<https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html>
+[https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
 
 ```bash
 eksctl utils associate-iam-oidc-provider \
@@ -113,11 +113,11 @@ eksctl create iamserviceaccount \
 
 웹에서 마지막단계에서 arn을 복사해두자.
 
-```txt
+```text
 arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
 ```
 
-https://github.com/kubernetes-sigs/aws-load-balancer-controller 에서 최신 릴리즈를 확인하고
+[https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고
 
 git에서 폴더를 하나 만들고
 
@@ -164,7 +164,7 @@ kubectl get deployment -n kube-system aws-load-balancer-controller
 
 ## 기본 ingress 사용법
 
-```yml
+```text
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -201,13 +201,13 @@ ssl의 경우 aws certificate manager 에서 미리 만들어 둬야한다.
 
 anotation에 다음 추가
 
-```yml
+```text
 alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
 ```
 
 그리고 path에 다음 추가
 
-```yml
+```text
 - path: /*
   backend:
     serviceName: ssl-redirect
@@ -216,13 +216,13 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 
 이러면 http로 접근하면 https로 리다이렉트를 시켜준다.
 
-관련 내용은 여기를 참고하자. <https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md>
+관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl\_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
 
 ## ssl backend
 
 특정 pod는 프로그램 자체에서 ssl로 접근을 받아야할 필요가 있을때 alb controller에서는 다음처럼 처리한다.
 
-```yml
+```text
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -252,13 +252,13 @@ spec:
 
 anotation에 다음 추가를 볼수 있다.
 
-```yml
+```text
 alb.ingress.kubernetes.io/backend-protocol: HTTPS # 여기 추가
 ```
 
 만약 이걸 추가하지 않으면 이런 에러를 볼수가 있다.
 
-```txt
+```text
 Getting “Handshake failed…unexpected packet format”
 ```
 
@@ -268,7 +268,7 @@ alb가 기본적으로 http로 통신을 시도하므로 포트는 443을 쓰면
 
 로드 발란스가 기본적으로 pod를 다 체크해서 서비스를 유지해준다. 특별히 health check 경로를 수정하려면 다음처럼 하자.
 
-```yml
+```text
 alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS #기본값 http
 alb.ingress.kubernetes.io/healthcheck-path: /api/values
 ```
@@ -280,9 +280,7 @@ pod가 ssl을 기대하고 있으면 healthcheck-protocol도 맞는값을 넣어
 한번더 모든걸 적용해서 alb를 사용해보자
 
 {% tabs %}
-
 {% tab title="service.yaml" %}
-
 ```yaml
 ---
 apiVersion: v1
@@ -301,11 +299,9 @@ spec:
       port: 80
       targetPort: 80
 ```
-
 {% endtab %}
 
 {% tab title="deployment.yaml" %}
-
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -328,11 +324,9 @@ spec:
         - name: www
           image: nginx
 ```
-
 {% endtab %}
 
 {% tab title="ingress.yaml" %}
-
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -359,14 +353,13 @@ spec:
               serviceName: www
               servicePort: 80
 ```
-
 {% endtab %}
-
 {% endtabs %}
 
 적용하면 alb가 생기는것을 aws console 에서 볼 수 있다.
 
-- ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
-- ssl redirect 적용 완료
-- `internet-facing` : 필수이다.
-- 포트는 80 443은 둘다 열어주면 좋다.
+* ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
+* ssl redirect 적용 완료
+* `internet-facing` : 필수이다.
+* 포트는 80 443은 둘다 열어주면 좋다.
+

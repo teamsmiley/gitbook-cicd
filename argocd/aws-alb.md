@@ -14,7 +14,7 @@ aws alb를 사용하여 오픈해보자.
 
 ## ssl 발급
 
-aws certificate manager에서 소유한 도메인으로 tls(ssl)을 발급받아서 arn을 적어둔다.
+aws certificate manager에서 소유한 도메인으로 tls\(ssl\)을 발급받아서 arn을 적어둔다.
 
 ## argocd를 insecure 모드
 
@@ -44,12 +44,10 @@ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 
 ![](../.gitbook/assets/argocd-aws-alb-02.png)
 
-## alb 설정(with ssl)
+## alb 설정\(with ssl\)
 
 {% tabs %}
-
 {% tab title="argocd/argocd-ssl.yml" %}
-
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -78,9 +76,7 @@ spec:
               serviceName: argocd-server
               servicePort: 80
 ```
-
 {% endtab %}
-
 {% endtabs %}
 
 ssl redirect를 했다.
@@ -102,3 +98,4 @@ route53에 자동으로 생성이 되기는 한다. 없는경우에는 만들어
 이제 http로 접속하면 https로 변경되면서 warning없이 진행된다.
 
 https redirect가 된다.
+

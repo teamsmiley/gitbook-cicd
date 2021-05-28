@@ -1,4 +1,0 @@
-# kustomize
-
-ku
-
