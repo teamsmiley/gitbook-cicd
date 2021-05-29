@@ -65,7 +65,7 @@ github웹사이트에 action페이지에 가보자.
 
 yml을 설명을 좀 해보면
 
-```text
+```yaml
 on:
   push:
     branches: [main, dev]
@@ -96,7 +96,7 @@ nb build --prod
 
 ## 소스코드를 checkout
 
-```text
+```yaml
 - name: Checkout
   uses: actions/checkout@v2
 ```
@@ -116,7 +116,7 @@ runner가 `git checkout` 을 하고 ls -alF를 해서 내용이 확인된다.
 3. npm package install
 4. project build
 
-```text
+```yaml
 - name: Checkout
   uses: actions/checkout@v2
 
@@ -164,7 +164,7 @@ node 12.x가 잘 설치가 되었으며 커맨드들도 잘 실행이 된것을 
 
 빌드하고나면 dist폴더에 결과물이 생긴다 이걸 액션 페이지에서 다운받을수 있게 해보자.
 
-```text
+```yaml
 - name: install @angular/cli && npm install && ng build && cd dist
   run: |
     sudo npm install -g @angular/cli
@@ -207,7 +207,7 @@ Artifact가 업로드 된것을 알수 있다.
 
 ![](../.gitbook/assets/github-action-13.png)
 
-```text
+```yaml
 on:
   push:
     branches: [main, dev]
@@ -219,7 +219,7 @@ dev시에 트리거가 될수있게 추가해준다.
 
 참고로 특정 액션이 특정 브랜치에만 실행이 되야하면 if를 사용할수 있다. `if: github.ref == 'refs/heads/dev'`
 
-```text
+```yaml
 - name: replace staging image version number to sha
   if: github.ref == 'refs/heads/dev'
   run: |
@@ -240,7 +240,7 @@ dev시에 트리거가 될수있게 추가해준다.
 
 s3에 버킷을 하나 만들어두고 유저를 생성해서 s3 full권한을 준다.
 
-```text
+```yaml
 - uses: jakejarvis/s3-sync-action@v0.5.1
   with:
     args: --acl public-read --follow-symlinks --delete
@@ -262,7 +262,7 @@ s3에 버킷을 하나 만들어두고 유저를 생성해서 s3 full권한을 �
 
 developer setting이 잇는데 그걸 누르면 access token을 만들수 있다. 만들때 권한을 줘야하는데 repo정도면 충분해보인다. 생성후 $ 네 넣어주거나 setting에 넣어줘도 된다.
 
-```text
+```yaml
 - name: Checkout argocd
   uses: actions/checkout@v2
   with:
