@@ -14,7 +14,7 @@ gitlab ci/cd도 같은 기능을 한다. 저는 gitlab ci/cd가 너무 좋아서
 
 build.yml
 
-```yml
+```text
 name: CI
 
 on:
@@ -40,13 +40,13 @@ jobs:
 
 github웹사이트에 action페이지에 가보자.
 
-![](images/github-action-01.png)
+![](../.gitbook/assets/github-action-01.png)
 
 안보이던게 생기고 성공햇다고 보여준다.
 
 확인해보자. create build.yml을 클릭
 
-![](images/github-action-02.png)
+![](../.gitbook/assets/github-action-02.png)
 
 화면을 보면 `ls -alF`를 했고 `pwd`를 해서 현재 폴더를 프린트햇다.
 
@@ -54,7 +54,7 @@ github웹사이트에 action페이지에 가보자.
 
 yml을 설명을 좀 해보면
 
-```yml
+```text
 on:
   push:
     branches: [main, dev]
@@ -62,7 +62,7 @@ on:
     branches: [main, dev]
 ```
 
-push나 Pull_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
+push나 Pull\_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
 
 이미지는 ubuntu-latest 를 가지고 빌드를 시작한다.
 
@@ -85,27 +85,27 @@ nb build --prod
 
 ## 소스코드를 checkout
 
-```yml
+```text
 - name: Checkout
   uses: actions/checkout@v2
 ```
 
 추가하고 커밋/푸시 해보자.
 
-![](images/github-action-03.png)
+![](../.gitbook/assets/github-action-03.png)
 
 runner가 `git checkout` 을 하고 ls -alF를 해서 내용이 확인된다.
 
-![](images/github-action-04.png)
+![](../.gitbook/assets/github-action-04.png)
 
 ## build
 
 1. nodejs 12 버전을 이용
-1. @angular/cli 가 글로벌로 설치
-1. npm package install
-1. project build
+2. @angular/cli 가 글로벌로 설치
+3. npm package install
+4. project build
 
-```yml
+```text
 - name: Checkout
   uses: actions/checkout@v2
 
@@ -127,33 +127,33 @@ runner가 `git checkout` 을 하고 ls -alF를 해서 내용이 확인된다.
 
 github action은 마켓 플레이스에 사람들이 만들어서 특정 액션을 공유해둔곳이 있다. 아주 많은 부분들이 벌써 만들어져 있어서 그걸 가져다 사용할수 있어서 아주 편하다. 개인들이 만든것도 있고 특별한것들은 깃허브에서 직접 만들어둔게 있다.
 
-<https://github.com/marketplace?type=actions>
+[https://github.com/marketplace?type=actions](https://github.com/marketplace?type=actions)
 
 위 커맨드는 nodejs환경을 구축해주는 액션인데 가져다 쓰면 된다.
 
-![](images/github-action-05.png)
+![](../.gitbook/assets/github-action-05.png)
 
-![](images/github-action-06.png)
+![](../.gitbook/assets/github-action-06.png)
 
 마지막 @ 다음에는 버전을 쓰면되는데 최신 내용을 보고싶으면 깃헙 페이지를 확인해보면 된다.
 
-![](images/github-action-07.png)
+![](../.gitbook/assets/github-action-07.png)
 
 버전을 골라서 사용하면된다.
 
 빌드가 완료됬으니 확인해보자.
 
-![](images/github-action-08.png)
+![](../.gitbook/assets/github-action-08.png)
 
 node 12.x가 잘 설치가 되었으며 커맨드들도 잘 실행이 된것을 볼수 있다.
 
-![](images/github-action-09.png)
+![](../.gitbook/assets/github-action-09.png)
 
-## artifact (결과물)을 받아보자
+## artifact \(결과물\)을 받아보자
 
 빌드하고나면 dist폴더에 결과물이 생긴다 이걸 액션 페이지에서 다운받을수 있게 해보자.
 
-```yml
+```text
 - name: install @angular/cli && npm install && ng build && cd dist
   run: |
     sudo npm install -g @angular/cli
@@ -172,17 +172,17 @@ node 12.x가 잘 설치가 되었으며 커맨드들도 잘 실행이 된것을 
 
 해보자.
 
-![](images/github-action-10.png)
+![](../.gitbook/assets/github-action-10.png)
 
 현재 폴더를 `/home/runner/work/github-action/github-action` 이고 dist가 빌드되서 생성된것을 확인할수 있다.
 
-![](images/github-action-11.png)
+![](../.gitbook/assets/github-action-11.png)
 
 Artifact가 업로드 된것을 알수 있다.
 
 클릭해서 다운로드 받아서 내용을 확인해보자.
 
-![](images/github-action-12.png)
+![](../.gitbook/assets/github-action-12.png)
 
 정확히 빌드된것을 알수 있다.
 
@@ -194,9 +194,9 @@ Artifact가 업로드 된것을 알수 있다.
 
 일단 프로젝트에 dev 브랜치를 만든다.
 
-![](images/github-action-13.png)
+![](../.gitbook/assets/github-action-13.png)
 
-```yml
+```text
 on:
   push:
     branches: [main, dev]
@@ -206,10 +206,9 @@ on:
 
 dev시에 트리거가 될수있게 추가해준다.
 
-참고로 특정 액션이 특정 브랜치에만 실행이 되야하면 if를 사용할수 있다.
-`if: github.ref == 'refs/heads/dev'`
+참고로 특정 액션이 특정 브랜치에만 실행이 되야하면 if를 사용할수 있다. `if: github.ref == 'refs/heads/dev'`
 
-```yml
+```text
 - name: replace staging image version number to sha
   if: github.ref == 'refs/heads/dev'
   run: |
@@ -220,17 +219,17 @@ dev시에 트리거가 될수있게 추가해준다.
 
 일단 마켓 플레이스에서 s3관련 플러그인을 찾는다.
 
-<https://github.com/marketplace/actions/s3-sync>
+[https://github.com/marketplace/actions/s3-sync](https://github.com/marketplace/actions/s3-sync)
 
 이게 좋을거같다.
 
-![](images/github-action-14.png)
+![](../.gitbook/assets/github-action-14.png)
 
 해보자.
 
 s3에 버킷을 하나 만들어두고 유저를 생성해서 s3 full권한을 준다.
 
-```yml
+```text
 - uses: jakejarvis/s3-sync-action@v0.5.1
   with:
     args: --acl public-read --follow-symlinks --delete
@@ -246,14 +245,13 @@ s3에 버킷을 하나 만들어두고 유저를 생성해서 s3 full권한을 �
 
 ## argocd처럼 다른 github 프로젝트에 커밋하기
 
-빌드하고 artifact를 업로드 하고 argocd에 프로젝트에 커밋을 해야하는경우
-새프로젝트를 다시 체크아웃 받고 필요한 작업을 하고 난후 다시 커밋하면된다.
+빌드하고 artifact를 업로드 하고 argocd에 프로젝트에 커밋을 해야하는경우 새프로젝트를 다시 체크아웃 받고 필요한 작업을 하고 난후 다시 커밋하면된다.
 
-여기에서 PAT라는게 잇는데 이건 github person access token이라는것이다. user >> setting에 가면
+여기에서 PAT라는게 잇는데 이건 github person access token이라는것이다. user &gt;&gt; setting에 가면
 
-developer setting이 잇는데 그걸 누르면 access token을 만들수 있다. 만들때 권한을 줘야하는데 repo정도면 충분해보인다. 생성후 ${{ secrets.PAT }} 네 넣어주거나 setting에 넣어줘도 된다.
+developer setting이 잇는데 그걸 누르면 access token을 만들수 있다. 만들때 권한을 줘야하는데 repo정도면 충분해보인다. 생성후 $ 네 넣어주거나 setting에 넣어줘도 된다.
 
-```yml
+```text
 - name: Checkout argocd
   uses: actions/checkout@v2
   with:
@@ -279,3 +277,4 @@ developer setting이 잇는데 그걸 누르면 access token을 만들수 있다
     git commit -am "change docker tag"
     git push
 ```
+
