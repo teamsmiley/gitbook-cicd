@@ -16,7 +16,9 @@ github에서 demo-angular repository를 생성한다.
 
 github에서 demo-argocd repository를 생성한다.
 
-## local 에서 프로젝트 생성
+## local 에서 demo-angular 프로젝트 생성
+
+angular default project로 사용한다.
 
 ```bash
 mkdir ~/Desktop/devops
@@ -29,5 +31,21 @@ cd demo-angular
 git branch -M main
 git remote add origin git@github.com:teamsmiley/demo-angular.git
 git push -u origin main
+```
 
+## demo-argocd 프로젝트 생성
+
+```bash
+cd ~/Desktop/devops
+
+mkdir demo-argocd
+cd demo-argocd
+
+echo "# demo-argocd" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:teamsmiley/demo-argocd.git
+git push -u origin main
 ```
