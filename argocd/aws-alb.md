@@ -1,4 +1,4 @@
-# aws alb
+# AWS ALB 사용
 
 argocd 를 port forward로 사용하여 localhost로 썼는데 외부로 오픈을 하고 싶다.
 
