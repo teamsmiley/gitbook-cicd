@@ -86,3 +86,7 @@ jobs:
           git commit -am "change docker tag"
           git push
 ```
+
+{% endtab %}
+
+{% endtabs %}
