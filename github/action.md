@@ -12,19 +12,16 @@ gitlab ci/cd도 같은 기능을 한다. 저는 gitlab ci/cd가 너무 좋아서
 
 프로젝트에 `.github/workflows` 라는 폴더를 만들고 거기에 build.yml을 만들어 보자.
 
+```bash
+cd ~/Desktop/demo-angular
+mkdir -p .github/workflows
+touch .github/workflows/build.yml
+```
+
 {% tabs %}
-{% tab title="First Tab" %}
+{% tab title=".github/workflows/build.yml" %}
 
-{% endtab %}
-
-{% tab title="Second Tab" %}
-
-{% endtab %}
-{% endtabs %}
-
-build.yml
-
-```text
+```yaml
 name: CI
 
 on:
@@ -46,6 +43,10 @@ jobs:
           pwd
 ```
 
+{% endtab %}
+
+{% endtabs %}
+
 이제 커밋 푸시해보자.
 
 github웹사이트에 action페이지에 가보자.
@@ -58,7 +59,7 @@ github웹사이트에 action페이지에 가보자.
 
 ![](../.gitbook/assets/github-action-02.png)
 
-화면을 보면 `ls -alF`를 했고 `pwd`를 해서 현재 폴더를 프린트햇다.
+화면을 보면 `ls -alF`를 했고 `pwd`를 해서 현재 폴더를 프린트 햇다.
 
 커밋시 뭔가를 해보는거까지는 성공
 
@@ -72,7 +73,7 @@ on:
     branches: [main, dev]
 ```
 
-push나 Pull\_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
+push나 Pull_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
 
 이미지는 ubuntu-latest 를 가지고 빌드를 시작한다.
 
@@ -126,7 +127,7 @@ runner가 `git checkout` 을 하고 ls -alF를 해서 내용이 확인된다.
 
 - name: install @angular/cli && npm install && ng build
   run: |
-    sudo npm install -g @angular/cli
+    npm install -g @angular/cli
     npm install
     ng build --prod
 ```
@@ -287,4 +288,3 @@ developer setting이 잇는데 그걸 누르면 access token을 만들수 있다
     git commit -am "change docker tag"
     git push
 ```
-

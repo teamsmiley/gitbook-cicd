@@ -21,6 +21,9 @@ github에서 demo-argocd repository를 생성한다.
 angular default project로 사용한다.
 
 ```bash
+# nodejs가 설치되 있어야 한다.
+npm install -g @angular/cli
+
 mkdir ~/Desktop/devops
 cd ~/Desktop/devops
 
@@ -49,4 +52,3 @@ git branch -M main
 git remote add origin git@github.com:teamsmiley/demo-argocd.git
 git push -u origin main
 ```
-
