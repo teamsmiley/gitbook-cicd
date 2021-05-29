@@ -1,6 +1,6 @@
 # Table of contents
 
-* [CICD](README.md)
+* [Modern DEVOPS](README.md)
 * [Source Repository](source-repository.md)
 * [AWS](aws/README.md)
   * [AWS CLI](aws/cli.md)
