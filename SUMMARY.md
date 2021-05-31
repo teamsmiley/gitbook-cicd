@@ -9,6 +9,7 @@
   - [EKS](aws/eks/README.md)
     - [ALB Controller](aws/eks/alb-controller.md)
   - [ECR](aws/ecr.md)
+  - [S3](aws/s3/README.md)
 - [Docker](docker/README.md)
   - [Registry](docker/registry.md)
 - [Kubernetes](kubernetes/README.md)
