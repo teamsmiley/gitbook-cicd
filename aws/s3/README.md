@@ -90,3 +90,18 @@ Bucket website endpoint 로 사이트를 확인할수 있다.
 
 ![](./images/2021-05-31-13-03-02.png)
 
+## cors 설정
+
+bucket >> permission >> cors 설정
+
+```json
+[
+  {
+    "AllowedHeaders": ["Authorization"],
+    "AllowedMethods": ["GET"],
+    "AllowedOrigins": ["https://www.example.com", "https://staging.example.com"],
+    "ExposeHeaders": [],
+    "MaxAgeSeconds": 3000
+  }
+]
+```
