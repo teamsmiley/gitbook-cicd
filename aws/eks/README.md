@@ -76,6 +76,8 @@ eksctl get cluster
 
 생성이 되고 나면 ~/.kube/ 폴더에 config파일이 생성이 된다. 이 정보로 kubernetes와 통신할수 있다.
 
+{% code title="~/.kube/config" %}
+
 ```yaml
 apiVersion: v1
 clusters:
