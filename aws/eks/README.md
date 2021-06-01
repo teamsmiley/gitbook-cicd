@@ -108,7 +108,7 @@ users:
             value: Profile_Name
 ```
 
-이부분을 주의하자 없으면 넣어줄것. 없어도 되지만 프로파일 매번 설정하기 싫은경우에 넣어주면된다.
+이부분을 주의하자 없으면 넣어줄것. 없어도 되지만 프로파일 매번 설정하기 싫은경우에 넣어주면 된다.
 
 ```yaml
 - name: AWS_PROFILE
@@ -154,15 +154,11 @@ eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/aws-config
 
 vi ~/.zshrc
 
-{% tabs %}
-{% tab title="~/.zshrc" %}
+{% code title="~/.zshrc" %}
 
 ```bash
 export KUBECONFIG=~/.kube/config
 ```
-
-{% endtab %}
-{% endtabs %}
 
 ```bash
 kubectl get node

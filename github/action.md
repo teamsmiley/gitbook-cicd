@@ -18,8 +18,8 @@ mkdir -p .github/workflows
 touch .github/workflows/build.yml
 ```
 
-{% tabs %}
-{% tab title=".github/workflows/build.yml" %}
+{% code title=".github/workflows/build.yml" %}
+
 ```yaml
 name: CI
 
@@ -41,8 +41,6 @@ jobs:
           ls -alF
           pwd
 ```
-{% endtab %}
-{% endtabs %}
 
 이제 커밋 푸시해보자.
 
@@ -70,7 +68,7 @@ on:
     branches: [main, dev]
 ```
 
-push나 Pull\_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
+push나 Pull_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
 
 이미지는 ubuntu-latest 를 가지고 빌드를 시작한다.
 
@@ -285,4 +283,3 @@ developer setting이 잇는데 그걸 누르면 access token을 만들수 있다
     git commit -am "change docker tag"
     git push
 ```
-

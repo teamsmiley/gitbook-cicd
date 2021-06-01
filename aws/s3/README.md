@@ -60,17 +60,11 @@ versioning도 할수 있고 로그도 모아서 볼수 있고 암호화도 할�
 
 ![](./images/2021-05-31-12-55-42.png)
 
-{% tabs %}
-
-{% tab title="index.html" %}
+{% code title="index.html" %}
 
 ```txt
 it works
 ```
-
-{% endtab %}
-
-{% endtabs %}
 
 index.html을 업로드하고
 
