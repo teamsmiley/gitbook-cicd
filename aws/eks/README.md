@@ -191,4 +191,4 @@ k9s
 
 argocd를 사용한다.
 
-[argocd](../../argocd/README.md)
+[argocd](../../argocd/install.md)
