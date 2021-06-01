@@ -1,10 +1,12 @@
 # EKS
 
-## aws cli 설치
+## prerequisite
+
+### aws cli 설치
 
 [aws cli](../cli.md)
 
-## eksctl tool 설치
+### eksctl tool 설치
 
 [https://eksctl.io](https://eksctl.io)
 
@@ -42,6 +44,8 @@ eksctl create cluster \
   - t3.small
   - t3.medium
   - t3.large
+
+여기서 한참 걸린다. 한 20분..뭐하지 ?
 
 ```bash
 2021-05-10 12:22:19 [ℹ]  waiting for the control plane availability...
