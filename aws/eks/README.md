@@ -158,9 +158,7 @@ vi ~/.zshrc
 
 ```bash
 export KUBECONFIG=~/.kube/config
-```
 
-```bash
 kubectl get node
 ```
 
