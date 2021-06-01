@@ -127,22 +127,23 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: cluster-in-existing-vpc
+  name: cluster01
   region: us-west-1
+
+nodeGroups:
+  - name: cluster01-node
+    instanceType: t3.micro
+    desiredCapacity: 2
+    privateNetworking: false
+    ssh:
+      publicKeyPath: ~/.ssh/ec2_id_rsa.pub
 
 vpc:
   subnets:
     private:
-      eu-north-1a: { id: subnet-0fxxx6e0c4a6d300c }
-      eu-north-1b: { id: subnet-05xxxb573695c03 }
-      eu-north-1c: { id: subnet-04xxxa607393184 }
-
-nodeGroups:
-  - name: ng-1-workers
-    labels: { role: workers }
-    instanceType: t3.micro
-    desiredCapacity: 10
-    privateNetworking: true
+      eu-north-1a: { id: subnet-0ff156e0c4a6d300c }
+      eu-north-1b: { id: subnet-0549cdab573695c03 }
+      eu-north-1c: { id: subnet-0426fb4a607393184 }
 ```
 {% endcode %}
 
