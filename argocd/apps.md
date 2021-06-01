@@ -23,10 +23,6 @@ cert-manager 를 앱으로 등록하자.
 ![](../.gitbook/assets/argocd-apps-05.png)
 
 {% code title="add-apps/cert-manager.yml" %}
-```
-
-```
-{% endcode %}
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -54,6 +50,8 @@ spec:
       - CreateNamespace=true
 ```
 
+{% endcode %}
+
 save하면 앱이 만들어지고 sync를 누르면 설치가 된다.
 
 ## command line으로 적용
@@ -75,6 +73,7 @@ cd my-webserver
 
 {% tabs %}
 {% tab title="apps/my-webserver/service.yml" %}
+
 ```yaml
 ---
 apiVersion: v1
@@ -92,9 +91,11 @@ spec:
       port: 80
       targetPort: 80
 ```
+
 {% endtab %}
 
 {% tab title="apps/my-webserver/deploy.yml" %}
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -119,14 +120,11 @@ spec:
           ports:
             - containerPort: 80
 ```
+
 {% endtab %}
 {% endtabs %}
 
 {% code title="add-apps/my-webserver.yml" %}
-```
-
-```
-{% endcode %}
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
@@ -152,9 +150,10 @@ spec:
       - CreateNamespace=true
 ```
 
+{% endcode %}
+
 이제 커밋을 하고 app을 추가해 주자.
 
 ```bash
 kubectl apply -f add-apps/my-webserver.yml
 ```
-

@@ -27,3 +27,5 @@ touch .github/workflows/build.yml
     npm install
     ng build --prod
 ```
+
+{% endcode %}
