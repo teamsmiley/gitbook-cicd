@@ -47,6 +47,8 @@ eksctl create cluster \
 
 여기서 한참 걸린다. 한 20분..뭐하지 ?
 
+![](../../.gitbook/assets/aws-eks-00.png)
+
 ```bash
 2021-05-10 12:22:19 [ℹ]  waiting for the control plane availability...
 2021-05-10 12:22:19 [✔]  saved kubeconfig as "/Users/ragon/.kube/c2-config"
@@ -55,17 +57,22 @@ eksctl create cluster \
 2021-05-10 12:22:39 [ℹ]  adding identity "arn:aws:iam::849053568:role/eksctl-cluster01-nodegroup-cluste-NodeInstanceRole-PFUE0IKTPN8T" to auth ConfigMap
 2021-05-10 12:22:40 [ℹ]  nodegroup "cluster01-nodes" has 0 node(s)
 2021-05-10 12:22:40 [ℹ]  waiting for at least 4 node(s) to become ready in "cluster01-nodes"
+2021-06-01 05:43:59 [ℹ]  kubectl command should work with "/Users/ragon/.kube/config", try 'kubectl get nodes'
+2021-06-01 05:43:59 [✔]  EKS cluster "cluster01" in "us-west-1" region is ready
 ```
-
-![](../../.gitbook/assets/aws-eks-00.png)
 
 ## 생성 확인
 
 ```bash
-eksctl get cluster
+kubectl get nodes
 ls ~/.kube/
 cat ~/.kube/config
+eksctl get cluster
 ```
+
+![](./images/2021-06-01-05-45-16.png)
+
+![](./images/2021-06-01-05-47-36.png)
 
 생성이 되고 나면 ~/.kube/ 폴더에 config파일이 생성이 된다. 이 정보로 kubernetes와 통신할수 있다.
 
@@ -101,7 +108,7 @@ users:
             value: Profile_Name
 ```
 
-이부분을 주의하자 없으면 넣어줄것.
+이부분을 주의하자 없으면 넣어줄것. 없어도 되지만 프로파일 매번 설정하기 싫은경우에 넣어주면된다.
 
 ```yaml
 - name: AWS_PROFILE
