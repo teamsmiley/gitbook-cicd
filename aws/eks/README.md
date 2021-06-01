@@ -153,8 +153,6 @@ eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/aws-config
 
 ## 접속 확인
 
-vi ~/.zshrc
-
 {% code title="~/.zshrc" %}
 ```bash
 export KUBECONFIG=~/.kube/config
