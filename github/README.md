@@ -12,7 +12,6 @@ touch .github/workflows/build.yml
 
 {% tabs %}
 {% tab title=".github/workflows/build.yml" %}
-
 ```yaml
 - name: Checkout
   uses: actions/checkout@v2
@@ -28,7 +27,6 @@ touch .github/workflows/build.yml
     npm install
     ng build --prod
 ```
-
 {% endtab %}
-
 {% endtabs %}
+
