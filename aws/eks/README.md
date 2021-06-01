@@ -36,12 +36,12 @@ eksctl create cluster \
 --nodes 2
 ```
 
-* type
-  * t3.nano
-  * t3.micro
-  * t3.small
-  * t3.medium
-  * t3.large
+- type
+  - t3.nano
+  - t3.micro
+  - t3.small
+  - t3.medium
+  - t3.large
 
 ```bash
 2021-05-10 12:22:19 [ℹ]  waiting for the control plane availability...
@@ -52,6 +52,8 @@ eksctl create cluster \
 2021-05-10 12:22:40 [ℹ]  nodegroup "cluster01-nodes" has 0 node(s)
 2021-05-10 12:22:40 [ℹ]  waiting for at least 4 node(s) to become ready in "cluster01-nodes"
 ```
+
+![](./images/aws-eks-01.png)
 
 ## 생성 확인
 
@@ -107,6 +109,7 @@ users:
 config.yml을 미리 만들거나 위에서 만들어진 config를 백업해두면 똑같이 나중에 만들수 있다.
 
 {% code title="config.yml" %}
+
 ```yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -129,6 +132,7 @@ nodeGroups:
     desiredCapacity: 10
     privateNetworking: true
 ```
+
 {% endcode %}
 
 ```bash
@@ -156,4 +160,3 @@ eksctl get cluster
 ```
 
 ![](../../.gitbook/assets/aws-eks-02.png)
-
