@@ -36,6 +36,7 @@ eksctl create cluster \
 --nodegroup-name cluster01-nodes \
 --node-type t3.small \
 --nodes 2
+#--kubeconfig ~/.kube/cluster01
 ```
 
 - type
@@ -152,15 +153,19 @@ vpc:
 {% endcode %}
 
 ```bash
-eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/aws-config
+eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/cluster01
 ```
 
 ## 접속 확인
 
+### kubectl
+
 {% code title="~/.zshrc" %}
 
 ```bash
-export KUBECONFIG=~/.kube/config
+mv ~/.kube/config ~/.kube/cluster01
+export KUBECONFIG=~/.kube/config:~/.kube/cluster01
+
 kubectl get node
 ```
 
@@ -168,16 +173,22 @@ kubectl get node
 
 ![](../../.gitbook/assets/aws-eks-01.png)
 
-## check cluster
-
-```bash
-eksctl get cluster
-```
-
 ![](../../.gitbook/assets/aws-eks-02.png)
 
-설치는 완료 되었고 이제 사용 해보자.
+### k9s로 접속 확인
 
-argocd가 설치가 되야한다.
+{% code title="~/.zshrc" %}
+
+```bash
+k9s
+```
+
+{% endcode %}
+
+## gitops
+
+서버들의 상태관리는 git으로 하는 방법이다.
+
+argocd를 사용한다.
 
 [argocd](../../argocd/README.md)
