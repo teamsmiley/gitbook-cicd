@@ -38,12 +38,12 @@ eksctl create cluster \
 --nodes 2
 ```
 
-- type
-  - t3.nano
-  - t3.micro
-  - t3.small
-  - t3.medium
-  - t3.large
+* type
+  * t3.nano
+  * t3.micro
+  * t3.small
+  * t3.medium
+  * t3.large
 
 여기서 한참 걸린다. 한 20분..뭐하지 ?
 
@@ -70,13 +70,17 @@ cat ~/.kube/config
 eksctl get cluster
 ```
 
-![](./images/2021-06-01-05-45-16.png)
+![](../../.gitbook/assets/2021-06-01-05-45-16.png)
 
-![](./images/2021-06-01-05-47-36.png)
+![](../../.gitbook/assets/2021-06-01-05-47-36.png)
 
 생성이 되고 나면 ~/.kube/ 폴더에 config파일이 생성이 된다. 이 정보로 kubernetes와 통신할수 있다.
 
 {% code title="~/.kube/config" %}
+```
+
+```
+{% endcode %}
 
 ```yaml
 apiVersion: v1
@@ -122,7 +126,6 @@ users:
 config.yml을 미리 만들거나 위에서 만들어진 config를 백업해두면 똑같이 나중에 만들수 있다.
 
 {% code title="config.yml" %}
-
 ```yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -145,7 +148,6 @@ nodeGroups:
     desiredCapacity: 10
     privateNetworking: true
 ```
-
 {% endcode %}
 
 ```bash
@@ -157,6 +159,10 @@ eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/aws-config
 vi ~/.zshrc
 
 {% code title="~/.zshrc" %}
+```
+
+```
+{% endcode %}
 
 ```bash
 export KUBECONFIG=~/.kube/config
@@ -173,3 +179,10 @@ eksctl get cluster
 ```
 
 ![](../../.gitbook/assets/aws-eks-02.png)
+
+```bash
+ㅁㄴㅇㄹㅁㄴㅇㄹ
+```
+
+
+

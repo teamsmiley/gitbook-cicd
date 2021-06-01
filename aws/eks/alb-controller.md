@@ -216,7 +216,7 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 
 이러면 http로 접근하면 https로 리다이렉트를 시켜준다.
 
-관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
+관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl\_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
 
 ## ssl backend
 
@@ -281,7 +281,6 @@ pod가 ssl을 기대하고 있으면 healthcheck-protocol도 맞는값을 넣어
 
 {% tabs %}
 {% tab title="service.yaml" %}
-
 ```yaml
 ---
 apiVersion: v1
@@ -300,11 +299,9 @@ spec:
       port: 80
       targetPort: 80
 ```
-
 {% endtab %}
 
 {% tab title="deployment.yaml" %}
-
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -327,11 +324,9 @@ spec:
         - name: www
           image: nginx
 ```
-
 {% endtab %}
 
 {% tab title="ingress.yaml" %}
-
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -358,13 +353,13 @@ spec:
               serviceName: www
               servicePort: 80
 ```
-
 {% endtab %}
 {% endtabs %}
 
 적용하면 alb가 생기는것을 aws console 에서 볼 수 있다.
 
-- ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
-- ssl redirect 적용 완료
-- `internet-facing` : 필수이다.
-- 포트는 80 443은 둘다 열어주면 좋다.
+* ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
+* ssl redirect 적용 완료
+* `internet-facing` : 필수이다.
+* 포트는 80 443은 둘다 열어주면 좋다.
+
