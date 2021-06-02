@@ -17,10 +17,14 @@ eksctl get cluster
 ## 기타 사용법
 
 ```bash
-eksctl get nodegroup --cluster=ekc-cluster-1
+eksctl get nodegroup --cluster=cluster01
+
 # 노드 확장
-eksctl scale nodegroup --cluster=ekc-cluster-1  --nodes=2 --name=c1-nodes
-eksctl scale nodegroup --cluster=ekc-cluster-1  --nodes=3 --nodes-max=3 --name=c1-nodes
+
+eksctl scale nodegroup --cluster=cluster01  --nodes=2 --name=cluster01-nodes
+
+eksctl scale nodegroup --cluster=cluster01  --nodes=3 --nodes-max=3 --name=cluster01-nodes
+
 eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<nodegroupName> [ --nodes-min=<minSize> ] [ --nodes-max=<maxSize> ]
 ```
 
@@ -29,4 +33,3 @@ eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<no
 ```text
 eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<nodegroupName> [ --nodes-min=<minSize> ] [ --nodes-max=<maxSize> ]
 ```
-
