@@ -184,11 +184,3 @@ k9s
 ```
 {% endcode %}
 
-## gitops
-
-서버들의 상태관리는 git으로 하는 방법이다.
-
-argocd를 사용한다.
-
-[argocd](../../argocd/install.md)
-
