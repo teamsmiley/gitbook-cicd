@@ -29,13 +29,13 @@ aws eks describe-cluster --name cluster01 --query "cluster.identity.oidc.issuer"
 ```
 
 ```yaml
-> https://oidc.eks.us-west-1.amazonaws.com/id/EE9369E583E60EE962C4E916FB01790B
+> https://oidc.eks.us-west-1.amazonaws.com/id/295F23831974F59E6DF049E7284078A6
 ```
 
 ### OIDC Provider 체크
 
 ```bash
-aws iam list-open-id-connect-providers | grep EE9369E583E60EE962C4E916FB01790B
+aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
 ```
 
 아무것도 안나온다. 없다는거다 그러면 생성 해줘야 한다. 있으면 생성 부분을 넘어가면 된다.
@@ -54,16 +54,18 @@ eksctl utils associate-iam-oidc-provider \
 내용 확인
 
 ```bash
-aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
+aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
 ```
 
 ```bash
-> - Arn: arn:aws:iam::YOURACCOUNT:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/55078434365FAxxx21D4C440DD
+> - Arn: arn:aws:iam::530310289353:oidc-provider/oidc.eks.us-west-1.amazonaws.com/id/295F23831974F59E6DF049E7284078A6
 ```
 
 내용이 있다. oidc는 만들어졌다.
 
-웹사이트에서도 생성 확인 가능 <https://console.aws.amazon.com/iamv2/home#/identity_providers>
+웹사이트에서도 생성 확인 가능
+
+<https://console.aws.amazon.com/iamv2/home#/identity_providers>
 
 ![](./images/2021-06-02-09-59-41.png)
 
@@ -81,8 +83,8 @@ curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-lo
 
 ```bash
 aws iam create-policy \
- --policy-name AWSLoadBalancerControllerIAMPolicy \
- --policy-document file://iam_policy.json
+  --policy-name AWSLoadBalancerControllerIAMPolicy \
+  --policy-document file://iam_policy.json
 ```
 
 arn을 복사해서 보관해둔다.
@@ -91,47 +93,71 @@ arn을 복사해서 보관해둔다.
 Policy:
   Arn: arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerIAMPolicy
   AttachmentCount: 0
-  CreateDate: '2021-06-02T17:02:26+00:00'
+  CreateDate: '2021-06-02T22:27:30+00:00'
   DefaultVersionId: v1
   IsAttachable: true
   Path: /
   PermissionsBoundaryUsageCount: 0
-  PolicyId: ANPAXW6HU27EW36RNYMT5
+  PolicyId: ANPAXW6HU27ETIAOLPJGG
   PolicyName: AWSLoadBalancerControllerIAMPolicy
-  UpdateDate: '2021-06-02T17:02:26+00:00'
+  UpdateDate: '2021-06-02T22:27:30+00:00'
 ```
 
 웹사이트에서 확인
 
 <https://console.aws.amazon.com/iam/home#/policies>
 
-AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된것을 알수 있다.
+AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 있다.
 
 ![](./images/2021-06-02-10-03-39.png)
 
 ### create iam role and annotate kubernetes account named aws-load-balancer-controller in kube-system namespaces
 
-```bash
-# eksctl create iamserviceaccount \
-#   --cluster=<CLUSTER-NAME> \
-#   --namespace=kube-system \
-#   --name=aws-load-balancer-controller \
-#   --attach-policy-arn=arn:aws:iam::<YOUR-ACCOUNT>:policy/AWSLoadBalancerControllerIAMPolicy \
-#   --override-existing-serviceaccounts \
-#   --approve
+- Open the IAM console at <https://console.aws.amazon.com/iam/>
 
-eksctl create iamserviceaccount \
-  --cluster=cluster01 \
-  --namespace=kube-system \
-  --name=aws-load-balancer-controller \
-  --attach-policy-arn=arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerIAMPolicy \
-  --override-existing-serviceaccounts \
-  --approve
-```
+- role > create role
+- trusted entity > Web identity
+  ![](./images/2021-06-02-15-31-46.png)
+- permissions
+- Attach Policy section > AWSLoadBalancerControllerIAMPolicy
+  ![](./images/2021-06-02-15-32-50.png)
+- tags > review >
+- Role Name : AmazonEKSLoadBalancerControllerRole > create role
+  생성된거 확인
+  ![](./images/2021-06-02-15-35-48.png)
+- After the role is created, choose the role in the console to open it for editing
+- Trust relationships > Edit trust relationship
+  ![](./images/2021-06-02-15-37-26.png)
+- 다음 부분을 수정
+  ![](./images/2021-06-02-15-39-19.png)
+- 다음 코드로 변경
+  `:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"`
+- Update Trust Policy
+- role arn을 복사해둔다.
+  `arn:aws:iam::530310289353:role/AmazonEKSLoadBalancerControllerRole`
+  ![](./images/2021-06-02-15-42-29.png)
 
-웹사이트에서 생긴것 확인
+  {% code title="aws-load-balancer-controller-service-account.yaml" %}
 
-![](./images/2021-06-02-10-10-31.png)
+  ```yaml
+  apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    labels:
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/name: aws-load-balancer-controller
+    name: aws-load-balancer-controller
+    namespace: kube-system
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::530310289353:role/AmazonEKSLoadBalancerControllerRole
+  ```
+
+  {% endcode %}
+
+  role-arn 을 복사해둔걸로 덮어쓴다.
+
+- create service account
+  `kubectl apply -f aws-load-balancer-controller-service-account.yaml`
 
 ### controller 설치
 
@@ -139,38 +165,12 @@ eksctl create iamserviceaccount \
 
 ```yaml
 kubectl get deployment -n kube-system alb-ingress-controller
-```
-
-arn을 적어둔다.
-
-```text
-Policy:
-  Arn: arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
-  AttachmentCount: 0
-  CreateDate: '2021-06-02T17:18:14+00:00'
-  DefaultVersionId: v1
-  IsAttachable: true
-  Path: /
-  PermissionsBoundaryUsageCount: 0
-  PolicyId: ANPAXW6HU27ETVC5XIILS
-  PolicyName: AWSLoadBalancerControllerAdditionalIAMPolicy
-  UpdateDate: '2021-06-02T17:18:14+00:00'
-```
-
-클라우드포메이션 콘솔에 가서 `eksctl-cluster01-addon-iamserviceaccount-kube-system-aws-load-balancer-controller`
-이름을 찾는다.
-
-> > Resources tab. >> The role name is in the Physical ID column.
-
-```bash
-aws iam attach-role-policy \
- --role-name eksctl-cluster01-addon-iamserviceaccount-kub-Role1-1J67N6GS5IAXI \
- --policy-arn arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerIAMPolicy
+> Error from server (NotFound): deployments.apps "alb-ingress-controller" not found
 ```
 
 ### 이제 설치
 
-[https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고 파일을 다운받는다.
+[https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인한수 버전등은 수정해라.
 
 cert-manager가 디펜던시가 걸려있다. 같이 설치하자.
 
@@ -186,13 +186,9 @@ curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-l
 
 ServiceAccount 삭제
 
-Delete the ServiceAccount section in lines 546-553 of the file.
-
 ![](./images/2021-06-02-10-30-39.png)
 
 cluster name변경
-
-Replace your-cluster-name on line 797 in the Deployment spec section of the file with the name of your cluster.
 
 ![](../../.gitbook/assets/2021-06-02-07-18-26.png)
 
@@ -284,6 +280,10 @@ spec:
 {% endcode %}
 
 이걸 사용하면 자동으로 aws application load balance도 만들어 준다.
+
+```bash
+kubectl apply -f test-deploy.yml
+```
 
 ### 로그 확인
 
