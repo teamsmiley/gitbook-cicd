@@ -20,7 +20,7 @@ cd argocd-init
 
 curl -o argocd_install_v2.0.3.yaml https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.3/manifests/install.yaml
 
-#kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.3/manifests/install.yaml
+# kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.3/manifests/install.yaml
 
 kubectl apply -n argocd -f argocd_install_v2.0.3.yaml
 
@@ -49,4 +49,3 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 ```
 
 admin으로 접속하면 된다.
-

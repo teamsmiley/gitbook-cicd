@@ -6,7 +6,7 @@ aws alb controller \(application load balance controller\)
 
 처음 고민이 aws에서 로드발란스를 세팅하는게 번거롭다는 고민이 있엇는데 그걸 aws에서 알고 있엇는지 kubernete 설정파일에 적어만 주면 자동으로 alb가 생성이 된다.
 
-https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
+{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html" caption="" %}
 
 ALB Controller를 설치를 해두면 쿠버네티스에 설정을 하면 이 컨트롤러가 ALB를 자동으로 등록해주는 것이다.
 
