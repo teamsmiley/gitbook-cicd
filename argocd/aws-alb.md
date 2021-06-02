@@ -36,15 +36,13 @@ kubectl edit deployment/argocd-server -n argocd
 
 alb는 ClusterIP를 지원하지 않으므로 노드 포트로 사용해야한다.
 
-로드발란서도 안됨 왜냐면 alb가 로드발란서라서.
-
 ```bash
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 ```
 
 ![](../.gitbook/assets/argocd-aws-alb-02.png)
 
-## alb 설정\(with ssl\)
+## ingress 설정\(with ssl\)
 
 {% code title="argocd/argocd-ssl.yml" %}
 
@@ -83,7 +81,7 @@ ssl redirect를 했다.
 
 certificate-arn도 기존에 적어놓은 내용을 넣어준다.
 
-이제 커밋/푸시를 하면 argocd 가 적용을 해준다.
+이제 커밋/푸시를 하면 argocd 가 적용을 해준다. \(앱을 추가해줘야하 할수도 있다.\)
 
 aws / ec2 / load balancer 가 자동으로 생성이 된다.
 
