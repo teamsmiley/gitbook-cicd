@@ -65,10 +65,14 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 
 내용이 있다. oidc는 만들어졌다.
 
+
+
+[https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+
 ### Download IAM policy for the AWS Load Balancer Controller
 
 ```bash
-cd rendercore-argocd/apps/aws
+cd argocd/aws-init/oidc
 
 curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/iam_policy.json
 ```
@@ -113,13 +117,17 @@ eksctl create iamserviceaccount \
 
 이 탭을 눌러서 여기에 적힌대로 진행한다.
 
+```text
+kubectl apply -f aws-load-balancer-controller-service-account.yaml
+```
+
 웹에서 마지막단계에서 arn을 복사해두자.
 
 ```text
 arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
 ```
 
-이제 oidc설정은 끝났다.  controller를 설치해보자.
+ controller를 설치해보자.
 
 현재 alb controller가 있는지 확인한다. 없어야 한다.
 
