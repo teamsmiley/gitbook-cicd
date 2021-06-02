@@ -141,9 +141,11 @@ curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-l
 
 파일을 수정하자. clustername만 바꿔주면된다.
 
-![](../../.gitbook/assets/image.png)
+```text
+kubectl apply -f v2_2_0_full.yaml
+```
 
-kubectl apply -f v2\_2\_0\_full.yaml
+
 
 파일 추가
 
@@ -167,6 +169,10 @@ arn을 복사해둔 내용을 여기에 적어넣는다.
 aws-load-balancer-controller-service-account.yaml 도 위에서 복사해둔 내용을 추가해서 저장
 
 적용하자.
+
+```text
+kubectl apply -f aws-load-balancer-controller-service-account.yaml 
+```
 
 ## 확인
 
@@ -301,7 +307,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: www
-  namespace: www-staging
+  namespace: default
   labels:
     app: www
 spec:
@@ -321,7 +327,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: www
-  namespace: www
+  namespace: default
   labels:
     app: www
 spec:
@@ -346,22 +352,22 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: www
-  namespace: www
+  namespace: default
   annotations:
     kubernetes.io/ingress.class: 'alb'
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:YOURACCOUNT:certificate/a2eb12f7-7e36-4d50-811c-8bxxxxx7
+    #alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:YOURACCOUNT:certificate/a2eb12f7-7e36-4d50-811c-8bxxxxx7
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
 spec:
   rules:
-    - host: www.staging.wnwconcept.com
+    - host: www.aaa.com
       http:
         paths:
-          - path: /*
-            backend:
-              serviceName: ssl-redirect
-              servicePort: use-annotation
+          # - path: /*
+          #  backend:
+          #    serviceName: ssl-redirect
+          #    servicePort: use-annotation
           - path: /*
             backend:
               serviceName: www

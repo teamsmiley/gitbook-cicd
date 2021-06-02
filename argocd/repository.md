@@ -12,6 +12,12 @@ argo ui에서 helm repo 등록 : [https://charts.jetstack.io](https://charts.jet
 
 ![](../.gitbook/assets/argocd-repository-03.png)
 
+![](../.gitbook/assets/image.png)
+
+installCRDs를 false에서 true로 변경하자.
+
+앱 생성하자.
+
 ## git repo 등록
 
 git repo를 등록하여 앱에 추가할수 있다.
