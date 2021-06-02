@@ -121,6 +121,12 @@ arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
 
 이제 oidc설정은 끝났다.  controller를 설치해보자.
 
+현재 alb controller가 있는지 확인한다. 없어야 한다.
+
+```text
+kubectl get deployment -n kube-system alb-ingress-controller
+```
+
 [https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고
 
 git에서 폴더를 하나 만들고
@@ -134,6 +140,10 @@ curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-l
 ```
 
 파일을 수정하자. clustername만 바꿔주면된다.
+
+![](../../.gitbook/assets/image.png)
+
+kubectl apply -f v2\_2\_0\_full.yaml
 
 파일 추가
 
