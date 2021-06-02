@@ -24,7 +24,7 @@ ALB는 nodeport 나 loadbalance만 지원을 한다.\(중요\)
 aws eks describe-cluster --name cluster01 --query "cluster.identity.oidc.issuer" --output text
 ```
 
-```text
+```yaml
 > https://oidc.eks.us-west-2.amazonaws.com/id/55078434365FAxxx21D4C440DD
 ```
 
@@ -115,13 +115,13 @@ eksctl create iamserviceaccount \
 
 이 탭을 눌러서 여기에 적힌대로 진행한다.
 
-```text
+```yaml
 kubectl apply -f aws-load-balancer-controller-service-account.yaml
 ```
 
 웹에서 마지막단계에서 arn을 복사해두자.
 
-```text
+```yaml
 arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
 ```
 
@@ -146,7 +146,7 @@ arn을 복사해둔 내용을 여기에 업데이트
 
 적용하자.
 
-```text
+```yaml
 kubectl apply -f aws-load-balancer-controller-service-account.yaml
 ```
 
@@ -154,25 +154,28 @@ kubectl apply -f aws-load-balancer-controller-service-account.yaml
 
 현재 alb controller가 있는지 확인한다. 없어야 한다.
 
-```text
+```yaml
 kubectl get deployment -n kube-system alb-ingress-controller
 ```
 
-[https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고
+[https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고 파일을 다운받는다.
 
-git에서 폴더를 하나 만들고
-
-파일을 다운받는다.
+cert-manager가 디펜던시가 걸려있다. 같이 설치하자.
 
 ```bash
 mkdir aws-alb-controller
 cd aws-alb-controller
+
 curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/v2_2_0_full.yaml
 ```
 
-파일을 수정하자. clustername만 바꿔주면된다.
+파일을 수정하자. cluster name만 바꿔주면된다.
+
+![](./images/2021-06-02-07-18-26.png)
 
 ```bash
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
+
 kubectl apply -f v2_2_0_full.yaml
 ```
 
@@ -186,12 +189,12 @@ kubectl get deployment -n kube-system aws-load-balancer-controller
 
 ## 기본 ingress 사용법
 
-```text
+```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: www
-  namespace: www-staging
+  namespace: default
   annotations:
     kubernetes.io/ingress.class: 'alb' # alb를 사용하겠다
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]' # 포트를 80 443을 로드발란스에서 오픈하겟다.
@@ -223,13 +226,13 @@ ssl의 경우 aws certificate manager 에서 미리 만들어 둬야한다.
 
 anotation에 다음 추가
 
-```text
+```yaml
 alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
 ```
 
 그리고 path에 다음 추가
 
-```text
+```yaml
 - path: /*
   backend:
     serviceName: ssl-redirect
@@ -244,7 +247,7 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 
 특정 pod는 프로그램 자체에서 ssl로 접근을 받아야할 필요가 있을때 alb controller에서는 다음처럼 처리한다.
 
-```text
+```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -274,13 +277,13 @@ spec:
 
 anotation에 다음 추가를 볼수 있다.
 
-```text
+```yaml
 alb.ingress.kubernetes.io/backend-protocol: HTTPS # 여기 추가
 ```
 
 만약 이걸 추가하지 않으면 이런 에러를 볼수가 있다.
 
-```text
+```yaml
 Getting “Handshake failed…unexpected packet format”
 ```
 
@@ -290,7 +293,7 @@ alb가 기본적으로 http로 통신을 시도하므로 포트는 443을 쓰면
 
 로드 발란스가 기본적으로 pod를 다 체크해서 서비스를 유지해준다. 특별히 health check 경로를 수정하려면 다음처럼 하자.
 
-```text
+```yaml
 alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS #기본값 http
 alb.ingress.kubernetes.io/healthcheck-path: /api/values
 ```
