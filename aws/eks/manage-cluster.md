@@ -8,6 +8,8 @@ eksctl delete cluster --name cluster01 --wait
 
 ![](../../.gitbook/assets/2021-06-02-05-47-12.png)
 
+![](./images/2021-06-02-05-53-17.png)
+
 ## check cluster
 
 ```bash
