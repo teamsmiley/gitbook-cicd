@@ -6,6 +6,8 @@
 eksctl delete cluster --name cluster01 --wait
 ```
 
+![](./images/2021-06-02-05-47-12.png)
+
 ### check cluster
 
 ```bash
