@@ -11,7 +11,7 @@
 
 * [AWS CLI](aws/cli.md)
 * [EKS](aws/eks/README.md)
-  * [Untitled](aws/eks/untitled.md)
+  * [eks 관리](aws/eks/untitled.md)
   * [ALB Controller](aws/eks/alb-controller.md)
 * [ECR](aws/ecr.md)
 * [S3](aws/s3.md)
