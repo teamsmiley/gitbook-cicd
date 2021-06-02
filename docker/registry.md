@@ -1,7 +1,5 @@
 # Registry
 
-# docker registry
-
 ## registry 리스트
 
 - docker hub
@@ -13,7 +11,7 @@
 
 ## private registry
 
-https://docs.docker.com/registry/deploying/
+<https://docs.docker.com/registry/deploying/>
 
 1. private registry
 2. docker hub
