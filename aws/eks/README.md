@@ -190,3 +190,26 @@ k9s
 ```
 
 {% endcode %}
+
+## 생성된 내용들 정리
+
+### before
+
+- roles : eksctl
+  ![](./images/2021-06-02-14-59-04.png)
+
+- cloudformation :
+  ![](./images/2021-06-02-14-59-54.png)
+
+- oidc providers
+  ![](./images/2021-06-02-15-00-44.png)
+
+### after
+
+- roles : eksctl
+
+- cloudformation :
+  ![](./images/2021-06-02-14-51-27.png)
+
+- oidc providers
+  아무것도 안생김
