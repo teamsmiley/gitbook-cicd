@@ -18,20 +18,24 @@ ALB는 nodeport 나 loadbalance만 지원을 한다.\(중요\)
 
 ## Oidc를 이용하여 인증을 체크
 
-### oidc.issuer가 있는지 체크
+{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html" caption="" %}
+
+### OIDC Issuer 체크
+
+기본적으로 eksctl로 생성하면 이건 기본값이 같이 생김
 
 ```bash
 aws eks describe-cluster --name cluster01 --query "cluster.identity.oidc.issuer" --output text
 ```
 
 ```yaml
-> https://oidc.eks.us-west-2.amazonaws.com/id/55078434365FAxxx21D4C440DD
+> https://oidc.eks.us-west-1.amazonaws.com/id/EE9369E583E60EE962C4E916FB01790B
 ```
 
-결과 나왓으므로 이걸로 다시
+### OIDC Provider 체크
 
 ```bash
-aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
+aws iam list-open-id-connect-providers | grep EE9369E583E60EE962C4E916FB01790B
 ```
 
 아무것도 안나온다. 없다는거다 그러면 생성 해줘야 한다. 있으면 생성 부분을 넘어가면 된다.
@@ -39,8 +43,6 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 없으면 생성
 
 ### Create IAM OIDC provider
-
-[https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
 
 ```bash
 eksctl utils associate-iam-oidc-provider \
@@ -61,17 +63,21 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 
 내용이 있다. oidc는 만들어졌다.
 
-[https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+웹사이트에서도 생성 확인 가능 <https://console.aws.amazon.com/iamv2/home#/identity_providers>
 
-### Download IAM policy for the AWS Load Balancer Controller
+![](./images/2021-06-02-09-59-41.png)
+
+## ALB Controller Install
+
+{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html" caption="" %}
+
+### Download IAM policy
 
 ```bash
-cd argocd/aws-init/oidc
-
 curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/iam_policy.json
 ```
 
-### Create an IAM policy called AWSLoadBalancerControllerIAMPolicy
+### Create an IAM policy
 
 ```bash
 aws iam create-policy \
@@ -79,97 +85,126 @@ aws iam create-policy \
  --policy-document file://iam_policy.json
 ```
 
+arn을 복사해서 보관해둔다.
+
 ```yaml
 Policy:
-  Arn: arn:aws:iam::YOURACCOUNT:policy/AWSLoadBalancerControllerIAMPolicy
+  Arn: arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerIAMPolicy
   AttachmentCount: 0
-  CreateDate: '2021-05-10T23:28:33+00:00'
+  CreateDate: '2021-06-02T17:02:26+00:00'
   DefaultVersionId: v1
   IsAttachable: true
   Path: /
   PermissionsBoundaryUsageCount: 0
-  PolicyId: ANPA4LLXXXXH5RKWDGU
+  PolicyId: ANPAXW6HU27EW36RNYMT5
   PolicyName: AWSLoadBalancerControllerIAMPolicy
-  UpdateDate: '2021-05-10T23:28:33+00:00'
+  UpdateDate: '2021-06-02T17:02:26+00:00'
 ```
+
+웹사이트에서 확인
+
+<https://console.aws.amazon.com/iam/home#/policies>
+
+AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된것을 알수 있다.
+
+![](./images/2021-06-02-10-03-39.png)
 
 ### create iam role and annotate kubernetes account named aws-load-balancer-controller in kube-system namespaces
 
-이건 잘 안되는듯 그냥 웹에서 하는게 좋을듯 싶다.
-
 ```bash
+# eksctl create iamserviceaccount \
+#   --cluster=<CLUSTER-NAME> \
+#   --namespace=kube-system \
+#   --name=aws-load-balancer-controller \
+#   --attach-policy-arn=arn:aws:iam::<YOUR-ACCOUNT>:policy/AWSLoadBalancerControllerIAMPolicy \
+#   --override-existing-serviceaccounts \
+#   --approve
+
 eksctl create iamserviceaccount \
   --cluster=cluster01 \
   --namespace=kube-system \
   --name=aws-load-balancer-controller \
-  --attach-policy-arn=arn:aws:iam::YOURACCOUNT:policy/AWSLoadBalancerControllerIAMPolicy \
+  --attach-policy-arn=arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerIAMPolicy \
   --override-existing-serviceaccounts \
   --approve
 ```
 
-![](../../.gitbook/assets/aws-eks-alb-01.png)
+웹사이트에서 생긴것 확인
 
-이 탭을 눌러서 여기에 적힌대로 진행한다.
-
-```yaml
-kubectl apply -f aws-load-balancer-controller-service-account.yaml
-```
-
-웹에서 마지막단계에서 arn을 복사해두자.
-
-```yaml
-arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
-```
-
-{% code title="aws-load-balancer-controller-service-account.yaml" %}
-```yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    app.kubernetes.io/component: controller
-    app.kubernetes.io/name: aws-load-balancer-controller
-  name: aws-load-balancer-controller
-  namespace: kube-system
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::xxxxx:role/AmazonEKSLoadBalancerControllerRole
-```
-{% endcode %}
-
-arn을 복사해둔 내용을 여기에 업데이트
-
-적용하자.
-
-```yaml
-kubectl apply -f aws-load-balancer-controller-service-account.yaml
-```
+![](./images/2021-06-02-10-10-31.png)
 
 ### controller 설치
 
-현재 alb controller가 있는지 확인한다. 없어야 한다.
+현재 alb controller가 있는지 확인한다. 없어야 한다. 있으면 지운다.
 
 ```yaml
 kubectl get deployment -n kube-system alb-ingress-controller
 ```
+
+```bash
+curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy_v1_to_v2_additional.json
+
+aws iam create-policy \
+  --policy-name AWSLoadBalancerControllerAdditionalIAMPolicy \
+  --policy-document file://iam_policy_v1_to_v2_additional.json
+```
+
+arn을 적어둔다.
+
+```text
+Policy:
+  Arn: arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
+  AttachmentCount: 0
+  CreateDate: '2021-06-02T17:18:14+00:00'
+  DefaultVersionId: v1
+  IsAttachable: true
+  Path: /
+  PermissionsBoundaryUsageCount: 0
+  PolicyId: ANPAXW6HU27ETVC5XIILS
+  PolicyName: AWSLoadBalancerControllerAdditionalIAMPolicy
+  UpdateDate: '2021-06-02T17:18:14+00:00'
+```
+
+클라우드포메이션 콘솔에 가서 `eksctl-cluster01-addon-iamserviceaccount-kube-system-aws-load-balancer-controller`
+이름을 찾는다.
+
+> > Resources tab. >> The role name is in the Physical ID column.
+
+```bash
+aws iam attach-role-policy \
+ --role-name eksctl-cluster01-addon-iamserviceaccount-kub-Role1-1J67N6GS5IAXI \
+ --policy-arn arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
+```
+
+### 이제 설치
 
 [https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고 파일을 다운받는다.
 
 cert-manager가 디펜던시가 걸려있다. 같이 설치하자.
 
 ```bash
-mkdir aws-alb-controller
-cd aws-alb-controller
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
+```
 
+```bash
 curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/v2_2_0_full.yaml
 ```
 
-파일을 수정하자. cluster name만 바꿔주면된다.
+파일을 수정하자.
+
+ServiceAccount 삭제
+
+Delete the ServiceAccount section in lines 546-553 of the file.
+
+![](./images/2021-06-02-10-30-39.png)
+
+cluster name변경
+
+Replace your-cluster-name on line 797 in the Deployment spec section of the file with the name of your cluster.
 
 ![](../../.gitbook/assets/2021-06-02-07-18-26.png)
 
 ```bash
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
-
 kubectl apply -f v2_2_0_full.yaml
 ```
 
@@ -177,13 +212,17 @@ kubectl apply -f v2_2_0_full.yaml
 
 ```bash
 kubectl get deployment -n kube-system aws-load-balancer-controller
+kubectl logs deploy/aws-load-balancer-controller -n kube-system
 ```
 
 아웃풋이 나오면 잘 된것이다.
 
+에러가 나오면 권한부분을 다시 해보도록 하자.
+
 ## 기본 ingress 사용법
 
 {% code title="test-deploy.yml" %}
+
 ```yaml
 ---
 apiVersion: apps/v1
@@ -208,6 +247,7 @@ spec:
           image: nginx:latest
           ports:
             - containerPort: 80
+
 ---
 apiVersion: v1
 kind: Service
@@ -224,6 +264,7 @@ spec:
     - name: http
       port: 80
       targetPort: 80
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -236,17 +277,21 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing # 인터넷(public)에서 접속이 되게 한다.
 spec:
   rules:
-    - host: bbb.yourdomain.com
+    - host: bbb.xgridcolo.com
       http:
         paths:
           - path: /*
+            pathType: Prefix
             backend:
-              serviceName: www
-              servicePort: 80
+              service:
+                name: www
+                port:
+                  number: 80
 ```
+
 {% endcode %}
 
-이걸 사용하면 자동으로 aws application load balance도 만들어준다.
+이걸 사용하면 자동으로 aws application load balance도 만들어 준다.
 
 ### 로그 확인
 
@@ -282,7 +327,7 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 
 이러면 http로 접근하면 https로 리다이렉트를 시켜준다.
 
-관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl\_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
+관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
 
 ## ssl backend
 
@@ -347,6 +392,7 @@ pod가 ssl을 기대하고 있으면 healthcheck-protocol도 맞는값을 넣어
 
 {% tabs %}
 {% tab title="service.yaml" %}
+
 ```yaml
 ---
 apiVersion: v1
@@ -365,9 +411,11 @@ spec:
       port: 80
       targetPort: 80
 ```
+
 {% endtab %}
 
 {% tab title="deployment.yaml" %}
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -390,9 +438,11 @@ spec:
         - name: www
           image: nginx
 ```
+
 {% endtab %}
 
 {% tab title="ingress.yaml" %}
+
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -419,13 +469,13 @@ spec:
               serviceName: www
               servicePort: 80
 ```
+
 {% endtab %}
 {% endtabs %}
 
 적용하면 alb가 생기는것을 aws console 에서 볼 수 있다.
 
-* ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
-* ssl redirect 적용 완료
-* `internet-facing` : 필수이다.
-* 포트는 80 443은 둘다 열어주면 좋다.
-
+- ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
+- ssl redirect 적용 완료
+- `internet-facing` : 필수이다.
+- 포트는 80 443은 둘다 열어주면 좋다.
