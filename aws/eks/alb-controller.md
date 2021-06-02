@@ -6,7 +6,7 @@ aws alb controller \(application load balance controller\)
 
 처음 고민이 aws에서 로드발란스를 세팅하는게 번거롭다는 고민이 있엇는데 그걸 aws에서 알고 있엇는지 kubernete 설정파일에 적어만 주면 자동으로 alb가 생성이 된다.
 
-[https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
 
 ALB Controller를 설치를 해두면 쿠버네티스에 설정을 하면 이 컨트롤러가 ALB를 자동으로 등록해주는 것이다.
 
@@ -34,7 +34,7 @@ aws eks describe-cluster --name cluster01 --query "cluster.identity.oidc.issuer"
 aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 ```
 
-아무것도 안나온다. 없다는거다 그러면 생성 해줘야 한다. 있으면 생성부분을 넘어가면 된다.
+아무것도 안나온다. 없다는거다 그러면 생성 해줘야 한다. 있으면 생성 부분을 넘어가면 된다.
 
 없으면 생성
 
@@ -44,7 +44,7 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 
 ```bash
 eksctl utils associate-iam-oidc-provider \
-    --region us-west-2 \
+    --region us-west-1 \
     --cluster cluster01 \
     --approve
 
@@ -68,6 +68,8 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 ### Download IAM policy for the AWS Load Balancer Controller
 
 ```bash
+cd rendercore-argocd/apps/aws
+
 curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/iam_policy.json
 ```
 
@@ -117,6 +119,14 @@ eksctl create iamserviceaccount \
 arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
 ```
 
+이제 oidc설정은 끝났다.  controller를 설치해보자.
+
+현재 alb controller가 있는지 확인한다. 없어야 한다.
+
+```text
+kubectl get deployment -n kube-system alb-ingress-controller
+```
+
 [https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고
 
 git에서 폴더를 하나 만들고
@@ -130,6 +140,12 @@ curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-l
 ```
 
 파일을 수정하자. clustername만 바꿔주면된다.
+
+```text
+kubectl apply -f v2_2_0_full.yaml
+```
+
+
 
 파일 추가
 
@@ -153,6 +169,10 @@ arn을 복사해둔 내용을 여기에 적어넣는다.
 aws-load-balancer-controller-service-account.yaml 도 위에서 복사해둔 내용을 추가해서 저장
 
 적용하자.
+
+```text
+kubectl apply -f aws-load-balancer-controller-service-account.yaml 
+```
 
 ## 확인
 
@@ -287,7 +307,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: www
-  namespace: www-staging
+  namespace: default
   labels:
     app: www
 spec:
@@ -307,7 +327,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: www
-  namespace: www
+  namespace: default
   labels:
     app: www
 spec:
@@ -332,22 +352,22 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: www
-  namespace: www
+  namespace: default
   annotations:
     kubernetes.io/ingress.class: 'alb'
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:YOURACCOUNT:certificate/a2eb12f7-7e36-4d50-811c-8bxxxxx7
+    #alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:YOURACCOUNT:certificate/a2eb12f7-7e36-4d50-811c-8bxxxxx7
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
 spec:
   rules:
-    - host: www.staging.wnwconcept.com
+    - host: www.aaa.com
       http:
         paths:
-          - path: /*
-            backend:
-              serviceName: ssl-redirect
-              servicePort: use-annotation
+          # - path: /*
+          #  backend:
+          #    serviceName: ssl-redirect
+          #    servicePort: use-annotation
           - path: /*
             backend:
               serviceName: www
