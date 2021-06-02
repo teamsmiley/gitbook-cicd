@@ -2,6 +2,10 @@
 
 ## prerequisite
 
+### aws 
+
+account 생성 
+
 ### aws cli 설치
 
 [aws cli](../cli.md)
@@ -42,12 +46,12 @@ eksctl create cluster \
 --managed
 ```
 
-- type
-  - t3.nano
-  - t3.micro
-  - t3.small
-  - t3.medium
-  - t3.large
+* type
+  * t3.nano
+  * t3.micro
+  * t3.small
+  * t3.medium
+  * t3.large
 
 여기서 한참 걸린다. 한 20분..뭐하지 ?
 
@@ -113,7 +117,6 @@ users:
           - name: AWS_PROFILE
             value: Profile_Name
 ```
-
 {% endcode %}
 
 이부분을 주의하자 없으면 넣어줄것. 없어도 되지만 프로파일 매번 설정하기 싫은경우에 넣어주면 된다.
@@ -128,7 +131,6 @@ users:
 config.yml을 미리 만들거나 위에서 만들어진 config를 백업해두면 똑같이 나중에 만들수 있다.
 
 {% code title="config.yml" %}
-
 ```yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -152,7 +154,6 @@ vpc:
       eu-north-1b: { id: subnet-0549cdab573695c03 }
       eu-north-1c: { id: subnet-0426fb4a607393184 }
 ```
-
 {% endcode %}
 
 ```bash
@@ -164,11 +165,9 @@ eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/cluster01
 ### kubectl
 
 {% code title="~/.zshrc" %}
-
 ```bash
 kubectl get node
 ```
-
 {% endcode %}
 
 ![](../../.gitbook/assets/aws-eks-01.png)
@@ -178,17 +177,8 @@ kubectl get node
 ### k9s로 접속 확인
 
 {% code title="~/.zshrc" %}
-
 ```bash
 k9s
 ```
-
 {% endcode %}
 
-## gitops
-
-서버들의 상태관리는 git으로 하는 방법이다.
-
-argocd를 사용한다.
-
-[argocd](../../argocd/install.md)
