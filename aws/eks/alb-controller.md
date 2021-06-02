@@ -6,7 +6,7 @@ aws alb controller \(application load balance controller\)
 
 처음 고민이 aws에서 로드발란스를 세팅하는게 번거롭다는 고민이 있엇는데 그걸 aws에서 알고 있엇는지 kubernete 설정파일에 적어만 주면 자동으로 alb가 생성이 된다.
 
-[https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
 
 ALB Controller를 설치를 해두면 쿠버네티스에 설정을 하면 이 컨트롤러가 ALB를 자동으로 등록해주는 것이다.
 
@@ -34,7 +34,7 @@ aws eks describe-cluster --name cluster01 --query "cluster.identity.oidc.issuer"
 aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 ```
 
-아무것도 안나온다. 없다는거다 그러면 생성 해줘야 한다. 있으면 생성부분을 넘어가면 된다.
+아무것도 안나온다. 없다는거다 그러면 생성 해줘야 한다. 있으면 생성 부분을 넘어가면 된다.
 
 없으면 생성
 
@@ -44,7 +44,7 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 
 ```bash
 eksctl utils associate-iam-oidc-provider \
-    --region us-west-2 \
+    --region us-west-1 \
     --cluster cluster01 \
     --approve
 
@@ -68,6 +68,8 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 ### Download IAM policy for the AWS Load Balancer Controller
 
 ```bash
+cd rendercore-argocd/apps/aws
+
 curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/iam_policy.json
 ```
 
@@ -116,6 +118,8 @@ eksctl create iamserviceaccount \
 ```text
 arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
 ```
+
+이제 oidc설정은 끝났다.  controller를 설치해보자.
 
 [https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고
 
