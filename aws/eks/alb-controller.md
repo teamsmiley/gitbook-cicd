@@ -47,10 +47,6 @@ eksctl utils associate-iam-oidc-provider \
     --region us-west-1 \
     --cluster cluster01 \
     --approve
-
-> 2021-05-04 19:17:23 [ℹ]  eksctl version 0.45.0
-> 2021-05-04 19:17:23 [ℹ]  using region us-west-2
-> 2021-05-04 19:17:23 [ℹ]  IAM Open ID Connect provider is already associated with cluster "ekc-ekc-cluster-1" in "us-west-2"
 ```
 
 내용 확인
@@ -126,7 +122,6 @@ arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
 ```
 
 {% code title="aws-load-balancer-controller-service-account.yaml" %}
-
 ```yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -139,7 +134,6 @@ metadata:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::xxxxx:role/AmazonEKSLoadBalancerControllerRole
 ```
-
 {% endcode %}
 
 arn을 복사해둔 내용을 여기에 업데이트
@@ -171,7 +165,7 @@ curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-l
 
 파일을 수정하자. cluster name만 바꿔주면된다.
 
-![](./images/2021-06-02-07-18-26.png)
+![](../../.gitbook/assets/2021-06-02-07-18-26.png)
 
 ```bash
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
@@ -190,7 +184,6 @@ kubectl get deployment -n kube-system aws-load-balancer-controller
 ## 기본 ingress 사용법
 
 {% code title="test-deploy.yml" %}
-
 ```yaml
 ---
 apiVersion: apps/v1
@@ -251,7 +244,6 @@ spec:
               serviceName: www
               servicePort: 80
 ```
-
 {% endcode %}
 
 이걸 사용하면 자동으로 aws application load balance도 만들어준다.
@@ -265,7 +257,7 @@ kubectl logs  aws-load-balancer-controller-7d7f98596-rg8wf -n kube-system
 > {"level":"error","ts":1622646021.3727376,"logger":"controller","msg":"Reconciler error","controller":"ingress","name":"www","namespace":"default","error":"couldn't auto-discover subnets: UnauthorizedOperation: You are not authorized to perform this operation.\n\tstatus code: 403, request id: 73f7cb4e-c285-4a5a-9068-13e4e6c94f6a"}
 ```
 
-![](./images/2021-06-02-08-09-59.png)
+![](../../.gitbook/assets/2021-06-02-08-09-59.png)
 
 이러면 Oidc가 잘 동작하지 않는 것이다.
 
@@ -290,7 +282,7 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 
 이러면 http로 접근하면 https로 리다이렉트를 시켜준다.
 
-관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
+관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl\_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
 
 ## ssl backend
 
@@ -355,7 +347,6 @@ pod가 ssl을 기대하고 있으면 healthcheck-protocol도 맞는값을 넣어
 
 {% tabs %}
 {% tab title="service.yaml" %}
-
 ```yaml
 ---
 apiVersion: v1
@@ -374,11 +365,9 @@ spec:
       port: 80
       targetPort: 80
 ```
-
 {% endtab %}
 
 {% tab title="deployment.yaml" %}
-
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -401,11 +390,9 @@ spec:
         - name: www
           image: nginx
 ```
-
 {% endtab %}
 
 {% tab title="ingress.yaml" %}
-
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -432,13 +419,13 @@ spec:
               serviceName: www
               servicePort: 80
 ```
-
 {% endtab %}
 {% endtabs %}
 
 적용하면 alb가 생기는것을 aws console 에서 볼 수 있다.
 
-- ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
-- ssl redirect 적용 완료
-- `internet-facing` : 필수이다.
-- 포트는 80 443은 둘다 열어주면 좋다.
+* ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
+* ssl redirect 적용 완료
+* `internet-facing` : 필수이다.
+* 포트는 80 443은 둘다 열어주면 좋다.
+
