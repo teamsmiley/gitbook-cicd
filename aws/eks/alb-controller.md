@@ -141,14 +141,6 @@ eksctl create iamserviceaccount \
 kubectl get deployment -n kube-system alb-ingress-controller
 ```
 
-```bash
-curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy_v1_to_v2_additional.json
-
-aws iam create-policy \
-  --policy-name AWSLoadBalancerControllerAdditionalIAMPolicy \
-  --policy-document file://iam_policy_v1_to_v2_additional.json
-```
-
 arn을 적어둔다.
 
 ```text
@@ -173,7 +165,7 @@ Policy:
 ```bash
 aws iam attach-role-policy \
  --role-name eksctl-cluster01-addon-iamserviceaccount-kub-Role1-1J67N6GS5IAXI \
- --policy-arn arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerAdditionalIAMPolicy
+ --policy-arn arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerIAMPolicy
 ```
 
 ### 이제 설치
