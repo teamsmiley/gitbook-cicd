@@ -4,8 +4,8 @@
 
 {% embed url="https://kubernetes.io/docs/tasks/tools/" %}
 
-```text
-brew install kubectl 
+```bash
+brew install kubectl
 ```
 
 ## k9s
@@ -14,7 +14,6 @@ brew install kubectl
 
 [https://k9scli.io/topics/install/](https://k9scli.io/topics/install/)
 
-```text
+```bash
 brew install derailed/k9s/k9s
 ```
-
