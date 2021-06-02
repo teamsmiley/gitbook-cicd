@@ -1,4 +1,4 @@
-# manage cluster
+# cluster manage
 
 ## delete eks
 
@@ -8,7 +8,7 @@ eksctl delete cluster --name cluster01 --wait
 
 ![](../../.gitbook/assets/2021-06-02-05-47-12.png)
 
-![](./images/2021-06-02-05-53-17.png)
+![](../../.gitbook/assets/2021-06-02-05-53-17.png)
 
 ## check cluster
 
@@ -35,3 +35,4 @@ eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<no
 ```text
 eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<nodegroupName> [ --nodes-min=<minSize> ] [ --nodes-max=<maxSize> ]
 ```
+

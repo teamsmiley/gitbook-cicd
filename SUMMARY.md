@@ -11,7 +11,7 @@
 
 * [AWS CLI](aws/cli.md)
 * [EKS](aws/eks/README.md)
-  * [manage cluster](aws/eks/manage-cluster.md)
+  * [cluster manage](aws/eks/manage-cluster.md)
   * [ALB Controller](aws/eks/alb-controller.md)
 * [ECR](aws/ecr.md)
 * [S3](aws/s3.md)
