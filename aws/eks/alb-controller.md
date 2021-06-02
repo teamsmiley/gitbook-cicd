@@ -189,36 +189,85 @@ kubectl get deployment -n kube-system aws-load-balancer-controller
 
 ## 기본 ingress 사용법
 
+{% code title="test-deploy.yml" %}
+
 ```yaml
-apiVersion: extensions/v1beta1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: www
+  namespace: default
+  labels:
+    app: www
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: www
+  template:
+    metadata:
+      labels:
+        app: www
+    spec:
+      containers:
+        - name: www
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: www
+  namespace: default
+  labels:
+    app: www
+spec:
+  type: NodePort
+  selector:
+    app: www
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: www
   namespace: default
   annotations:
-    kubernetes.io/ingress.class: 'alb' # alb를 사용하겠다
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]' # 포트를 80 443을 로드발란스에서 오픈하겟다.
+    kubernetes.io/ingress.class: 'alb'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
     alb.ingress.kubernetes.io/scheme: internet-facing # 인터넷(public)에서 접속이 되게 한다.
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:xxxxxx:certificate/199b8e95 # load balance에 ssl을 적용
-    alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
 spec:
   rules:
-    - host: www.aaa.com
+    - host: bbb.yourdomain.com
       http:
         paths:
-          - path: /*
-            backend:
-              serviceName: ssl-redirect
-              servicePort: use-annotation
           - path: /*
             backend:
               serviceName: www
               servicePort: 80
 ```
 
-이걸 사용하면 자동으로 aws application load balance도 만들어주고 listen port도 추가해준다. ssl도 적용해준다.
+{% endcode %}
 
-ssl의 경우 aws certificate manager 에서 미리 만들어 둬야한다.
+이걸 사용하면 자동으로 aws application load balance도 만들어준다.
+
+### 로그 확인
+
+잘 안되면 로그를 확인해봐야한다.
+
+```bash
+kubectl logs  aws-load-balancer-controller-7d7f98596-rg8wf -n kube-system
+> {"level":"error","ts":1622646021.3727376,"logger":"controller","msg":"Reconciler error","controller":"ingress","name":"www","namespace":"default","error":"couldn't auto-discover subnets: UnauthorizedOperation: You are not authorized to perform this operation.\n\tstatus code: 403, request id: 73f7cb4e-c285-4a5a-9068-13e4e6c94f6a"}
+```
+
+![](./images/2021-06-02-08-09-59.png)
+
+이러면 Oidc가 잘 동작하지 않는 것이다.
 
 ## http를 https로 redirect
 
