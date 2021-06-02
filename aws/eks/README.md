@@ -70,7 +70,7 @@ eksctl create cluster \
 ```bash
 kubectl get nodes
 ls ~/.kube/
-cat ~/.kube/config
+cat ~/.kube/aws-cluster01
 eksctl get cluster
 ```
 
@@ -78,9 +78,9 @@ eksctl get cluster
 
 ![](../../.gitbook/assets/2021-06-01-05-47-36.png)
 
-생성이 되고 나면 ~/.kube/ 폴더에 config파일이 생성이 된다. 이 정보로 kubernetes와 통신할수 있다.
+생성이 되고 나면 ~/.kube/ 폴더에 aws-cluster01 라는 config파일이 생성이 된다. 이 정보로 kubernetes와 통신할수 있다.
 
-{% code title="~/.kube/config" %}
+{% code title="~/.kube/aws-cluster01" %}
 
 ```yaml
 apiVersion: v1
@@ -166,9 +166,6 @@ eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/cluster01
 {% code title="~/.zshrc" %}
 
 ```bash
-mv ~/.kube/config ~/.kube/cluster01
-export KUBECONFIG=~/.kube/config:~/.kube/cluster01
-
 kubectl get node
 ```
 
