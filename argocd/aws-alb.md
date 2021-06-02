@@ -45,6 +45,7 @@ kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 ## ingress 설정\(with ssl\)
 
 {% code title="argocd/argocd-ssl.yml" %}
+
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -73,6 +74,7 @@ spec:
               serviceName: argocd-server
               servicePort: 80
 ```
+
 {% endcode %}
 
 ssl redirect를 했다.
@@ -94,4 +96,3 @@ route53에 자동으로 생성이 되기는 한다. 없는경우에는 만들어
 이제 http로 접속하면 https로 변경되면서 warning없이 진행된다.
 
 https redirect가 된다.
-

@@ -65,8 +65,6 @@ aws iam list-open-id-connect-providers | grep 55078434365FAxxx21D4C440DD
 
 내용이 있다. oidc는 만들어졌다.
 
-
-
 [https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
 
 ### Download IAM policy for the AWS Load Balancer Controller
@@ -127,37 +125,7 @@ kubectl apply -f aws-load-balancer-controller-service-account.yaml
 arn:aws:iam::YOURACCOUNT:role/AmazonEKSLoadBalancerControllerRole
 ```
 
- controller를 설치해보자.
-
-현재 alb controller가 있는지 확인한다. 없어야 한다.
-
-```text
-kubectl get deployment -n kube-system alb-ingress-controller
-```
-
-[https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고
-
-git에서 폴더를 하나 만들고
-
-mkdir aws-alb-controller
-
-파일을 다운받는다.
-
-```bash
-curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/v2_2_0_full.yaml
-```
-
-파일을 수정하자. clustername만 바꿔주면된다.
-
-```text
-kubectl apply -f v2_2_0_full.yaml
-```
-
-
-
-파일 추가
-
-vi aws-load-balancer-controller-service-account.yaml
+{% code title="aws-load-balancer-controller-service-account.yaml" %}
 
 ```yaml
 apiVersion: v1
@@ -172,14 +140,40 @@ metadata:
     eks.amazonaws.com/role-arn: arn:aws:iam::xxxxx:role/AmazonEKSLoadBalancerControllerRole
 ```
 
-arn을 복사해둔 내용을 여기에 적어넣는다.
+{% endcode %}
 
-aws-load-balancer-controller-service-account.yaml 도 위에서 복사해둔 내용을 추가해서 저장
+arn을 복사해둔 내용을 여기에 업데이트
 
 적용하자.
 
 ```text
-kubectl apply -f aws-load-balancer-controller-service-account.yaml 
+kubectl apply -f aws-load-balancer-controller-service-account.yaml
+```
+
+### controller 설치
+
+현재 alb controller가 있는지 확인한다. 없어야 한다.
+
+```text
+kubectl get deployment -n kube-system alb-ingress-controller
+```
+
+[https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인하고
+
+git에서 폴더를 하나 만들고
+
+파일을 다운받는다.
+
+```bash
+mkdir aws-alb-controller
+cd aws-alb-controller
+curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/v2_2_0_full.yaml
+```
+
+파일을 수정하자. clustername만 바꿔주면된다.
+
+```bash
+kubectl apply -f v2_2_0_full.yaml
 ```
 
 ## 확인
@@ -244,7 +238,7 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 
 이러면 http로 접근하면 https로 리다이렉트를 시켜준다.
 
-관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl\_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
+관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
 
 ## ssl backend
 
@@ -309,6 +303,7 @@ pod가 ssl을 기대하고 있으면 healthcheck-protocol도 맞는값을 넣어
 
 {% tabs %}
 {% tab title="service.yaml" %}
+
 ```yaml
 ---
 apiVersion: v1
@@ -327,9 +322,11 @@ spec:
       port: 80
       targetPort: 80
 ```
+
 {% endtab %}
 
 {% tab title="deployment.yaml" %}
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -352,9 +349,11 @@ spec:
         - name: www
           image: nginx
 ```
+
 {% endtab %}
 
 {% tab title="ingress.yaml" %}
+
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -381,13 +380,13 @@ spec:
               serviceName: www
               servicePort: 80
 ```
+
 {% endtab %}
 {% endtabs %}
 
 적용하면 alb가 생기는것을 aws console 에서 볼 수 있다.
 
-* ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
-* ssl redirect 적용 완료
-* `internet-facing` : 필수이다.
-* 포트는 80 443은 둘다 열어주면 좋다.
-
+- ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
+- ssl redirect 적용 완료
+- `internet-facing` : 필수이다.
+- 포트는 80 443은 둘다 열어주면 좋다.
