@@ -10,7 +10,7 @@ eksctl delete cluster --name cluster01 --wait
 
 ![](../../.gitbook/assets/2021-06-02-05-53-17.png)
 
-## check cluster
+## cluster 리스트보기
 
 ```bash
 eksctl get cluster
