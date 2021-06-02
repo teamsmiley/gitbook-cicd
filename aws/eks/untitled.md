@@ -3,7 +3,7 @@
 ### delete eks
 
 ```bash
-eksctl delete cluster --name ekc-cluster-1 --wait
+eksctl delete cluster --name cluster01 --wait
 ```
 
 ### check cluster
