@@ -35,8 +35,8 @@ eksctl create cluster \
 --region us-west-1 \
 --nodegroup-name cluster01-nodes \
 --node-type t3.small \
---nodes 2
---nodes-min 5 \
+--nodes 3
+--nodes-min 2 \
 --nodes-max 10 \
 --kubeconfig ~/.kube/aws-cluster01 \
 --managed
