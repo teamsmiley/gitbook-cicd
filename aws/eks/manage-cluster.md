@@ -1,20 +1,20 @@
-# eks 관리
+# manage cluster
 
-### delete eks
+## delete eks
 
 ```bash
 eksctl delete cluster --name cluster01 --wait
 ```
 
-![](./images/2021-06-02-05-47-12.png)
+![](../../.gitbook/assets/2021-06-02-05-47-12.png)
 
-### check cluster
+## check cluster
 
 ```bash
 eksctl get cluster
 ```
 
-### 기타 사용법
+## 기타 사용법
 
 ```bash
 eksctl get nodegroup --cluster=ekc-cluster-1
@@ -24,7 +24,7 @@ eksctl scale nodegroup --cluster=ekc-cluster-1  --nodes=3 --nodes-max=3 --name=c
 eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<nodegroupName> [ --nodes-min=<minSize> ] [ --nodes-max=<maxSize> ]
 ```
 
-### manage cluster
+## manage cluster
 
 ```text
 eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<nodegroupName> [ --nodes-min=<minSize> ] [ --nodes-max=<maxSize> ]
