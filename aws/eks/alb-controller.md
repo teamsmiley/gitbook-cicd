@@ -179,7 +179,7 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3
 ```
 
 ```bash
-curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/v2_2_0_full.yaml
+curl -o v2_1_3_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/v2_1_3_full.yaml
 ```
 
 파일을 수정하자.
