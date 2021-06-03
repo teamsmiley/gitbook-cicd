@@ -22,16 +22,14 @@ aws certificate manager에서 소유한 도메인으로 tls\(ssl\)을 발급받�
 
 deploy에서 다음부분을 추가해준다.
 
-{% code title="argocd_install_v2.0.3.yaml" %}
-
-```yml
+{% code title="argocd\_install\_v2.0.3.yaml" %}
+```text
 - command:
     - argocd-server
     - --staticassets
     - /shared/app
     - --insecure
 ```
-
 {% endcode %}
 
 ![](../.gitbook/assets/argocd-aws-alb-01.png)
@@ -43,7 +41,7 @@ spec:
   type: NodePort
 ```
 
-![](./images/2021-06-02-21-49-47.png)
+![](../.gitbook/assets/2021-06-02-21-49-47.png)
 
 `kubectl apply -n argocd -f argocd/argocd_install_v2.0.3.yaml`
 
@@ -54,7 +52,6 @@ spec:
 ## ingress 설정\(with ssl\)
 
 {% code title="argocd/ingress.yml" %}
-
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -88,7 +85,6 @@ spec:
                 port:
                   number: 80
 ```
-
 {% endcode %}
 
 ssl redirect를 했다.
@@ -103,10 +99,11 @@ aws / ec2 / load balancer 가 자동으로 생성이 된다.
 
 ## route53 설정
 
-route53에 자동으로 생성이 되기는 한다. 없는경우에는 만들어주면 된다. cname으로 새로 생긴 load balancer를 추가해주면된다.
+route53에  만들어주면 된다. cname으로 새로 생긴 load balancer를 추가해주면된다.
 
 ![](../.gitbook/assets/argocd-aws-alb-04.png)
 
 이제 http로 접속하면 https로 변경되면서 warning없이 진행된다.
 
 https redirect가 된다.
+
