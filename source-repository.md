@@ -14,7 +14,7 @@ github에서 demo-angular repository를 생성한다.
 
 쿠버네티스 배포 관리용
 
-github에서 demo-argocd repository를 생성한다.
+github에서 argocd repository를 생성한다.
 
 ## local 에서 demo-angular 프로젝트 생성
 
