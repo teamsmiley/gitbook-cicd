@@ -4,7 +4,7 @@
 
 앞 페이지에 repo등록이 되있어야한다.
 
-## ui를 이용하여 앱 추가
+## helm repo를 이용하여 앱 추가
 
 cert-manager 를 앱으로 등록하자.
 
@@ -67,8 +67,8 @@ nginx앱을 하나 만들어서 배포해보자.
 argocd git에 폴더를 하나 만들자
 
 ```bash
-mkdir my-webserver
-cd my-webserver
+mkdir apps/my-webserver
+cd apps/my-webserver
 ```
 
 {% tabs %}
