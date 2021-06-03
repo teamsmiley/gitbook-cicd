@@ -31,7 +31,6 @@
 * [Repository](argocd/repository.md)
 * [Apps](argocd/apps.md)
 * [AWS ALB 사용](argocd/aws-alb.md)
-* [notifications](argocd/notifications.md)
 * [notification-kustomize](argocd/notification-kustomize.md)
 
 ## Linux
