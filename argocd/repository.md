@@ -35,7 +35,9 @@ ssh-keygen
 
 * UI
 
-  private/public 키 argocd에 repo에 등록한다. 또는 커맨드로 추가 가능
+  private키 argocd에 repo에 등록한다. public key는 깃허브에 추가해야할듯 
+
+* cat .ssh/id\_rsaXXXX
 
 ![](../.gitbook/assets/argocd-repo-05.png)
 
