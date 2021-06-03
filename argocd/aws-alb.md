@@ -22,57 +22,73 @@ aws certificate manager에서 소유한 도메인으로 tls\(ssl\)을 발급받�
 
 deploy에서 다음부분을 추가해준다.
 
-```bash
-kubectl edit deployment/argocd-server -n argocd
+{% code title="argocd_install_v2.0.3.yaml" %}
 
-- --insecure
+```yml
+- command:
+    - argocd-server
+    - --staticassets
+    - /shared/app
+    - --insecure
 ```
+
+{% endcode %}
 
 ![](../.gitbook/assets/argocd-aws-alb-01.png)
 
-배포가 잘 됬는지 확인해보자.
+### argocd-server service를 nodeport
 
-## argocd-server service를 nodeport
-
-alb는 ClusterIP를 지원하지 않으므로 노드 포트로 사용해야한다.
-
-```bash
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+```yaml
+spec:
+  type: NodePort
 ```
+
+![](./images/2021-06-02-21-49-47.png)
+
+`kubectl apply -n argocd -f argocd/argocd_install_v2.0.3.yaml`
+
+배포가 잘 됬는지 확인해보자.
 
 ![](../.gitbook/assets/argocd-aws-alb-02.png)
 
 ## ingress 설정\(with ssl\)
 
-{% code title="argocd/argocd-ssl.yml" %}
+{% code title="argocd/ingress.yml" %}
+
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-alb
+  name: argocd-ingress
   namespace: argocd
   annotations:
     kubernetes.io/ingress.class: 'alb'
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-2:xxxxx:certificate/xxxxx-0278-437a-afed-xxxxxf880
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-1:530310289353:certificate/e3a71be4-7628-4758-b674-a45ed23eb4f1
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
-    alb.ingress.kubernetes.io/ssl-passthrough: 'true'
 
 spec:
   rules:
-    - host: argo.wnwconcept.com
+    - host: argocd.rendercore.com
       http:
         paths:
-          - path: /*
+          - path: /
+            pathType: Prefix
             backend:
-              serviceName: ssl-redirect
-              servicePort: use-annotation
-          - path: /*
+              service:
+                name: ssl-redirect
+                port:
+                  name: use-annotation
+          - path: /
+            pathType: Prefix
             backend:
-              serviceName: argocd-server
-              servicePort: 80
+              service:
+                name: argocd-server
+                port:
+                  number: 80
 ```
+
 {% endcode %}
 
 ssl redirect를 했다.
@@ -94,4 +110,3 @@ route53에 자동으로 생성이 되기는 한다. 없는경우에는 만들어
 이제 http로 접속하면 https로 변경되면서 warning없이 진행된다.
 
 https redirect가 된다.
-
