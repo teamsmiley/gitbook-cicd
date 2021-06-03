@@ -53,3 +53,140 @@ argocd 채널을 만든다.
 ![](../.gitbook/assets/argocd-notifications-12.png)
 
 ![](../.gitbook/assets/argocd-notifications-13.png)
+
+## argocd에 설치하기
+
+```bash
+mkdir -p core/argocd-notifications
+cd core/argocd-notifications
+```
+
+{% tabs %}
+
+{% tab title="kustomization.yaml" %}
+
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+kind: Kustomization
+
+resources:
+  - https://raw.githubusercontent.com/argoproj-labs/argocd-notifications/v1.1.1/manifests/install.yaml
+
+patches:
+  - path: https://raw.githubusercontent.com/argoproj-labs/argocd-notifications/v1.1.1/catalog/install.yaml
+    target:
+      kind: ConfigMap
+      name: argocd-notifications-cm
+  - path: slack-secret.yml
+    target:
+      kind: Secret
+      name: argocd-notifications-secret
+
+patchesStrategicMerge:
+  - slack-configmap.yml
+```
+
+{% endtab %}
+{% tab title="slack-configmap.yml" %}
+
+```yaml
+apiVersion: v1
+data:
+  service.slack: |
+    token: $slack-token
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+```
+
+{% endtab %}
+{% tab title="slack-secret.yml" %}
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argocd-notifications-secret
+stringData:
+  slack-token: YourToken
+type: Opaque
+```
+
+{% endtab %}
+
+{% endtabs %}
+
+argocd에서 앱을 추가하자.
+
+{% code title="add-apps/argocd-notifications.yml" %}
+
+```yml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-notifications
+spec:
+  destination:
+    name: ''
+    namespace: argocd
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: apps/core/argocd-notifications
+    repoURL: 'git@github.com:teamsmiley/rendercore-argocd.git'
+    targetRevision: HEAD
+    kustomize:
+      namePrefix: kustomize
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
+```
+
+{% endcode %}
+
+```bash
+kubectl apply -f add-apps/argocd-notifications.yml
+```
+
+## subscribe trigger
+
+### Application
+
+Application에 annotations 을 추가해주면된다.
+
+```yml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: my_channel
+```
+
+이러면 알림을 받을수 있다.
+
+### Project
+
+project단위에 다 보내려면 프로젝트설정에 annotations을 추가해주면 된다.
+
+```yml
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  # 여기만 추가
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: my-channel1;my-channel2
+```
+
+```bash
+kubectl get AppProjects -n argocd
+```
+
+![](./images/2021-06-03-06-03-20.png)
+
+```bash
+kubectl patch AppProjects default -n argocd --patch "$(cat trigger.yaml)"
+```
