@@ -95,11 +95,11 @@ ssl redirect를 했다.
 
 certificate-arn도 기존에 적어놓은 내용을 넣어준다.
 
-이제 커밋/푸시를 하면 argocd 가 적용을 해준다. \(앱을 추가해줘야하 할수도 있다.\)
+```bash
+kubectl apply -f argocd/ingress.yml
+```
 
 aws / ec2 / load balancer 가 자동으로 생성이 된다.
-
-![](../.gitbook/assets/argocd-aws-alb-03.png)
 
 ## route53 설정
 
