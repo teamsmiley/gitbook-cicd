@@ -16,14 +16,6 @@
 * [ECR](aws/ecr.md)
 * [S3](aws/s3.md)
 
-## Docker
-
-* [Registry](docker/registry.md)
-
-## Kubernetes
-
-* [tools](kubernetes/tools.md)
-
 ## Argocd
 
 * [Install](argocd/install.md)
@@ -32,6 +24,14 @@
 * [Apps](argocd/apps.md)
 * [AWS ALB 사용](argocd/aws-alb.md)
 * [notification slack](argocd/notification-slack.md)
+
+## Docker
+
+* [Registry](docker/registry.md)
+
+## Kubernetes
+
+* [tools](kubernetes/tools.md)
 
 ## Linux
 
