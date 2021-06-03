@@ -15,20 +15,12 @@ cd argocd
 
 ```bash
 kubectl create namespace argocd
-mkdir argocd-init
-cd argocd-init
 
 curl -o argocd_install_v2.0.3.yaml https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.3/manifests/install.yaml
-
-# kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.3/manifests/install.yaml
 
 kubectl apply -n argocd -f argocd_install_v2.0.3.yaml
 
 kubectl get all --all-namespaces
-
-git add argocd_install_v2.0.3.yaml
-git commit -am "init"
-git push
 ```
 
 ## 접속 확인
