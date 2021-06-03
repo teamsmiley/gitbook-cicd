@@ -1,62 +1,78 @@
-# notification
+# notification slack
 
 {% embed url="https://argocd-notifications.readthedocs.io/en/stable/" caption="" %}
 
 ## slack 설정
 
-<https://argocd-notifications.readthedocs.io/en/stable/services/slack/>
+[https://argocd-notifications.readthedocs.io/en/stable/services/slack/](https://argocd-notifications.readthedocs.io/en/stable/services/slack/)
 
-slack에서 app 추가 ==> custom app build를 눌러서 해보자.
+slack에서 add apps  ==&gt; app directory ==&gt; build ==&gt; create custom app 
 
-![](./images/2021-05-24-17-37-37.png)
+![](../.gitbook/assets/image%20%285%29.png)
+
+
+
+![](../.gitbook/assets/image%20%289%29.png)
+
+![](../.gitbook/assets/image%20%284%29.png)
+
+![](../.gitbook/assets/image%20%2810%29.png)
+
+create an app from scratch
+
+![](../.gitbook/assets/image%20%287%29.png)
+
+![](../.gitbook/assets/image%20%286%29.png)
+
+create app
+
+
 
 oauth permission
 
-![](./images/2021-05-24-17-38-58.png)
+![](../.gitbook/assets/2021-05-24-17-38-58.png)
 
-bot token scope
+bot token scope ==&gt; add an oauth scope ==&gt; chat:write추
 
-![](./images/2021-05-24-17-41-55.png)
+![](../.gitbook/assets/2021-05-24-17-41-55.png)
 
-![](./images/2021-05-24-17-43-39.png)
+![](../.gitbook/assets/2021-05-24-17-43-39.png)
 
-chat:write:bot
+chat:write:customize는 메세지를 커스터마이즈하려면 추
 
-Scroll back to the top, click 'Install App to Workspace' button and confirm the installation.
+ Install App to Workspace
 
-![](./images/2021-05-24-17-45-39.png)
-
-![](./images/2021-05-24-17-46-05.png)
+![](../.gitbook/assets/image%20%2811%29.png)
 
 allow
 
-![](./images/2021-05-24-17-46-26.png)
+토큰이 생성이 되면 복사해둔다.
 
-xoxb-1479752548402-2099093888259-sl1yj1ypSN2ouGFYraOJZmYH
+![](../.gitbook/assets/2021-05-24-17-46-26.png)
 
-Create a public or private channel, for this example my_channel
+채널을 만든다. argocd 
 
-Add your bot to this channel otherwise it won't work
+채널에서 Add apps &gt;&gt; argocd-notifications
 
-채널에서 Add app
+![](../.gitbook/assets/image%20%282%29.png)
 
-![](./images/2021-05-24-17-51-00.png)
+![](../.gitbook/assets/image%20%283%29.png)
 
-argo-notify
 
-Store token in argocd_notifications-secret Secret
 
-token을 복사해둔다.
-create folder
+
+
+
 
 core/argocd/
 
-{% embed url="https://ingress.yml" %}
+{% embed url="https://ingress.yml" caption="" %}
 
 slack-notification/
 
-{% embed url="https://kustomization.yaml" %}
+{% embed url="https://kustomization.yaml" caption="" %}
 
-{% embed url="https://slack-configmap.yml" %}
+{% embed url="https://slack-configmap.yml" caption="" %}
 
-{% embed url="https://slack-secret.yml" %}
+{% embed url="https://slack-secret.yml" caption="" %}
+
