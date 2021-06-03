@@ -1,4 +1,4 @@
-# notification-kustomize
+# notification slack
 
 create folder
 
