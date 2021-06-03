@@ -4,9 +4,9 @@
 
 ## slack 설정
 
-slack에서 app 추가 ==> custom app build를 눌러서 해보자.
+<https://argocd-notifications.readthedocs.io/en/stable/services/slack/>
 
-https://argocd-notifications.readthedocs.io/en/stable/services/slack/
+slack에서 app 추가 ==> custom app build를 눌러서 해보자.
 
 ![](./images/2021-05-24-17-37-37.png)
 
