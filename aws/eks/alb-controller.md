@@ -61,7 +61,7 @@ aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
 > - Arn: arn:aws:iam::530310289353:oidc-provider/oidc.eks.us-west-1.amazonaws.com/id/295F23831974F59E6DF049E7284078A6
 ```
 
-내용이 있다. oidc는 만들어졌다.
+내용이 있다. oidc provider는 만들어졌다.
 
 웹사이트에서도 생성 확인 가능
 
@@ -76,7 +76,7 @@ aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
 ### Download IAM policy
 
 ```bash
-curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/iam_policy.json
+curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json
 ```
 
 ### Create an IAM policy
@@ -111,7 +111,7 @@ AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 �
 
 ![](./images/2021-06-02-10-03-39.png)
 
-### create iam role and annotate kubernetes account named aws-load-balancer-controller in kube-system namespaces
+### create Role
 
 - Open the IAM console at <https://console.aws.amazon.com/iam/>
 
@@ -131,7 +131,7 @@ AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 �
 - 다음 부분을 수정
   ![](./images/2021-06-02-15-39-19.png)
 - 다음 코드로 변경
-  `:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"`
+  `sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"`
 - Update Trust Policy
 - role arn을 복사해둔다.
   `arn:aws:iam::530310289353:role/AmazonEKSLoadBalancerControllerRole`
@@ -168,8 +168,6 @@ kubectl get deployment -n kube-system alb-ingress-controller
 > Error from server (NotFound): deployments.apps "alb-ingress-controller" not found
 ```
 
-### 이제 설치
-
 [https://github.com/kubernetes-sigs/aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) 에서 최신 릴리즈를 확인한수 버전등은 수정해라.
 
 cert-manager가 디펜던시가 걸려있다. 같이 설치하자.
@@ -179,7 +177,7 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3
 ```
 
 ```bash
-curl -o v2_1_3_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.1.3/docs/install/v2_1_3_full.yaml
+curl -o v2_2_0_full.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/v2_2_0_full.yaml
 ```
 
 파일을 수정하자.
@@ -196,7 +194,7 @@ cluster name변경
 kubectl apply -f v2_2_0_full.yaml
 ```
 
-## 확인
+### 확인
 
 ```bash
 kubectl get deployment -n kube-system aws-load-balancer-controller
@@ -206,6 +204,35 @@ kubectl logs deploy/aws-load-balancer-controller -n kube-system
 아웃풋이 나오면 잘 된것이다.
 
 에러가 나오면 권한부분을 다시 해보도록 하자.
+
+### 로그 확인
+
+잘 안되면 로그를 확인해봐야한다.
+
+```bash
+kubectl logs  aws-load-balancer-controller-7d7f98596-rg8wf -n kube-system
+> {"level":"error","ts":1622646021.3727376,"logger":"controller","msg":"Reconciler error","controller":"ingress","name":"www","namespace":"default","error":"couldn't auto-discover subnets: UnauthorizedOperation: You are not authorized to perform this operation.\n\tstatus code: 403, request id: 73f7cb4e-c285-4a5a-9068-13e4e6c94f6a"}
+```
+
+![](../../.gitbook/assets/2021-06-02-08-09-59.png)
+
+이러면 Oidc가 잘 동작하지 않는 것이다.
+
+version이 안맞았다. policy는 2.1.3 controller는 2.2.2 로 되버렸다.
+
+2.1.3으로 하면 잘된다.
+
+### alb controller 삭제
+
+```bash
+kubectl delete -f test-deploy.yml
+kubectl delete -f aws-load-balancer-controller-service-account.yaml
+kubectl delete -f v2_2_0_full.yaml
+```
+
+delete role : AmazonEKSLoadBalancerControllerRole
+
+delete policy : AWSLoadBalancerControllerIAMPolicy
 
 ## 기본 ingress 사용법
 
@@ -285,18 +312,9 @@ spec:
 kubectl apply -f test-deploy.yml
 ```
 
-### 로그 확인
+![](./images/2021-06-02-19-25-18.png)
 
-잘 안되면 로그를 확인해봐야한다.
-
-```bash
-kubectl logs  aws-load-balancer-controller-7d7f98596-rg8wf -n kube-system
-> {"level":"error","ts":1622646021.3727376,"logger":"controller","msg":"Reconciler error","controller":"ingress","name":"www","namespace":"default","error":"couldn't auto-discover subnets: UnauthorizedOperation: You are not authorized to perform this operation.\n\tstatus code: 403, request id: 73f7cb4e-c285-4a5a-9068-13e4e6c94f6a"}
-```
-
-![](../../.gitbook/assets/2021-06-02-08-09-59.png)
-
-이러면 Oidc가 잘 동작하지 않는 것이다.
+ec2 > load balance
 
 ## http를 https로 redirect
 
