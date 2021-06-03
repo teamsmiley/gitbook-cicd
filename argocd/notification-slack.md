@@ -22,8 +22,6 @@ create an app from scratch
 
 ![create app](../.gitbook/assets/argocd-notifications-06.png)
 
-
-
 oauth & permission
 
 ![](../.gitbook/assets/argocd-notifications-07.png)
@@ -63,6 +61,7 @@ cd core/argocd-notifications
 
 {% tabs %}
 {% tab title="kustomization.yaml" %}
+
 ```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 
@@ -84,9 +83,11 @@ patches:
 patchesStrategicMerge:
   - slack-configmap.yml
 ```
+
 {% endtab %}
 
 {% tab title="slack-configmap.yml" %}
+
 ```yaml
 apiVersion: v1
 data:
@@ -96,9 +97,11 @@ kind: ConfigMap
 metadata:
   name: argocd-notifications-cm
 ```
+
 {% endtab %}
 
 {% tab title="slack-secret.yml" %}
+
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -108,12 +111,14 @@ stringData:
   slack-token: YOUR-TOKEN
 type: Opaque
 ```
+
 {% endtab %}
 {% endtabs %}
 
 argocd에서 앱을 추가하자.
 
 {% code title="add-apps/argocd-notifications.yml" %}
+
 ```text
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -136,6 +141,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ```
+
 {% endcode %}
 
 ```bash
@@ -148,11 +154,11 @@ kubectl apply -f add-apps/argocd-notifications.yml
 
 Application에 annotations 을 추가해주면된다.
 
-```text
+```bash
 kubectl edit application AAA -n argocd
 ```
 
-```text
+```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -167,11 +173,17 @@ metadata:
 
 Project 단위에 다 보내려면 프로젝트설정에 annotations 을 추가해주면 된다.
 
-```text
+```bash
+kubectl get AppProjects -n argocd
+```
+
+![](../.gitbook/assets/2021-06-03-06-03-20.png)
+
+```bash
 kubectl edit appProject default -n argocd
 ```
 
-```text
+```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
@@ -180,13 +192,18 @@ metadata:
     notifications.argoproj.io/subscribe.on-sync-succeeded.slack: my-channel1;my-channel2
 ```
 
-```bash
-kubectl get AppProjects -n argocd
+### command line으로
+
+{% code title="trigger.yaml" %}
+
+```yaml
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argocd
 ```
 
-![](../.gitbook/assets/2021-06-03-06-03-20.png)
+{% endcode %}
 
 ```bash
 kubectl patch AppProjects default -n argocd --patch "$(cat trigger.yaml)" --type=merge
 ```
-
