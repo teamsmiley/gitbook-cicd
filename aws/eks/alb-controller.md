@@ -16,7 +16,11 @@ ALB는 nodeport 나 loadbalance만 지원을 한다.\(중요\)
 
 링크에 있는 내용을 해주면 된다. 간단하게 요약해보면
 
+## Create an IAM OIDC provider for your cluster <a id="enable-iam-roles-for-service-accounts"></a>
+
 ## OIDC
+
+[https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
 
 {% embed url="https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html" caption="" %}
 
@@ -41,6 +45,8 @@ aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
 아무것도 안나온다. 없다는거다 그러면 생성 해줘야 한다. 있으면 생성 부분을 넘어가면 된다.
 
 없으면 생성
+
+## Create an IAM OIDC provider for your cluster <a id="enable-iam-roles-for-service-accounts"></a>
 
 ### Create IAM OIDC provider
 
