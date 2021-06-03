@@ -16,11 +16,11 @@ ALB는 nodeport 나 loadbalance만 지원을 한다.\(중요\)
 
 링크에 있는 내용을 해주면 된다. 간단하게 요약해보면
 
-## Oidc를 이용하여 인증을 체크
+## OIDC
 
 {% embed url="https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html" caption="" %}
 
-### OIDC Issuer 체크
+### OIDC Issuer
 
 기본적으로 eksctl로 생성하면 이건 기본값이 같이 생김
 
@@ -32,7 +32,7 @@ aws eks describe-cluster --name cluster01 --query "cluster.identity.oidc.issuer"
 > https://oidc.eks.us-west-1.amazonaws.com/id/295F23831974F59E6DF049E7284078A6
 ```
 
-### OIDC Provider 체크
+### OIDC Provider
 
 ```bash
 aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
@@ -73,15 +73,12 @@ aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
 
 {% embed url="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html" caption="" %}
 
-### Download IAM policy
-
-```bash
-curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json
-```
-
 ### Create an IAM policy
 
 ```bash
+# download
+curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json
+
 aws iam create-policy \
   --policy-name AWSLoadBalancerControllerIAMPolicy \
   --policy-document file://iam_policy.json
