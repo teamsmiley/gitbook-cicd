@@ -312,9 +312,17 @@ spec:
 kubectl apply -f test-deploy.yml
 ```
 
+ec2 > load balance
+
 ![](./images/2021-06-02-19-25-18.png)
 
-ec2 > load balance
+## dns에 추가
+
+route53
+
+![](./images/2021-06-02-19-34-24.png)
+
+![](./images/2021-06-02-19-35-29.png)
 
 ## http를 https로 redirect
 
