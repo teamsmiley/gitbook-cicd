@@ -188,5 +188,5 @@ kubectl get AppProjects -n argocd
 ![](./images/2021-06-03-06-03-20.png)
 
 ```bash
-kubectl patch AppProjects default -n argocd --patch "$(cat trigger.yaml)"
+kubectl patch AppProjects default -n argocd --patch "$(cat trigger.yaml)" --type=merge
 ```
