@@ -324,8 +324,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           npm run build:production
-          pwd
-          ls
 
       - uses: actions/upload-artifact@v2
         with:
