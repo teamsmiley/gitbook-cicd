@@ -30,7 +30,7 @@ bot token scope ==&gt; add an oauth scope ==&gt; chat:write추가
 
 ![add an oauth scope](../.gitbook/assets/argocd-notifications-08.png)
 
-![chat:write](../.gitbook/assets/2021-05-24-17-43-37%20%283%29%20%284%29%20%284%29.png)
+![chat:write](../.gitbook/assets/2021-05-24-17-43-37.png)
 
 chat:write:customize는 메세지를 커스터마이즈하려면 추가
 
