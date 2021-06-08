@@ -19,6 +19,7 @@ touch .github/workflows/build.yml
 ```
 
 {% code title=".github/workflows/build.yml" %}
+
 ```yaml
 name: CI
 
@@ -40,6 +41,7 @@ jobs:
           ls -alF
           pwd
 ```
+
 {% endcode %}
 
 이제 커밋 푸시해보자.
@@ -68,7 +70,7 @@ on:
     branches: [main, dev]
 ```
 
-push나 Pull\_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
+push나 Pull_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
 
 이미지는 ubuntu-latest 를 가지고 빌드를 시작한다.
 
@@ -284,3 +286,59 @@ developer setting이 잇는데 그걸 누르면 access token을 만들수 있다
     git push
 ```
 
+## 전체 앵귤러 빌드 파일
+
+```yaml
+name: Build
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Node 12.x
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: '12.x'
+
+      - name: install @angular/cli && npm install
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          npm install -g @angular/cli
+          npm install
+
+      - name: npm run build:staging
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          npm run build:staging
+          cd dist
+          pwd
+          ls
+
+      - name: npm run build:production
+        if: github.ref == 'refs/heads/main'
+        run: |
+          npm run build:production
+          pwd
+          ls
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: github-action
+          path: dist/
+
+      - uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: pickeatup-admin
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          AWS_REGION: 'us-west-1'
+          SOURCE_DIR: 'dist/' # optional: defaults to entire repository
+```
