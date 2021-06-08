@@ -1,24 +1,26 @@
 # Repository
 
-# Source Repository
+## Repository
 
-## Create GitHub or GitLab Account
+## Source Repository
+
+### Create GitHub or GitLab Account
 
 여기서는 github를 샘플로 사용하겟다.
 
-## create source code repo
+### create source code repo
 
 프로그램 소스관리
 
 github에서 demo-angular repository를 생성한다.
 
-## create argocd repo
+### create argocd repo
 
 쿠버네티스 배포 관리용
 
 github에서 argocd repository를 생성한다.
 
-## local 에서 demo-angular 프로젝트 생성
+### local 에서 demo-angular 프로젝트 생성
 
 angular default project로 사용한다.
 
@@ -38,7 +40,7 @@ git remote add origin git@github.com:teamsmiley/demo-angular.git
 git push -u origin main
 ```
 
-## demo-argocd 프로젝트 생성
+### demo-argocd 프로젝트 생성
 
 ```bash
 cd ~/Desktop/devops
@@ -54,3 +56,4 @@ git branch -M main
 git remote add origin git@github.com:teamsmiley/demo-argocd.git
 git push -u origin main
 ```
+
