@@ -1,7 +1,5 @@
 # Repository
 
-## Repository
-
 ## Source Repository
 
 ### Create GitHub or GitLab Account
@@ -56,4 +54,3 @@ git branch -M main
 git remote add origin git@github.com:teamsmiley/demo-argocd.git
 git push -u origin main
 ```
-
