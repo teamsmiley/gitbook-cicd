@@ -23,6 +23,7 @@ aws certificate manager에서 소유한 도메인으로 tls\(ssl\)을 발급받�
 deploy에서 다음부분을 추가해준다.
 
 {% code title="argocd\_install\_v2.0.3.yaml" %}
+
 ```text
 - command:
     - argocd-server
@@ -30,6 +31,7 @@ deploy에서 다음부분을 추가해준다.
     - /shared/app
     - --insecure
 ```
+
 {% endcode %}
 
 ![](../.gitbook/assets/argocd-aws-alb-01.png)
@@ -52,6 +54,7 @@ spec:
 ## ingress 설정\(with ssl\)
 
 {% code title="argocd/ingress.yml" %}
+
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -62,7 +65,7 @@ metadata:
     kubernetes.io/ingress.class: 'alb'
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-1:530310289353:certificate/e3a71be4-7628-4758-b674-a45ed23eb4f1
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-west-1:530310000353:certificate/e3a71be4-7628-4758-b674-a45ed23eb4f1
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
 
 spec:
@@ -85,6 +88,7 @@ spec:
                 port:
                   number: 80
 ```
+
 {% endcode %}
 
 ssl redirect를 했다.
@@ -108,4 +112,3 @@ cname으로 새로 생긴 load balancer를 추가해주면된다.
 이제 http로 접속하면 https로 변경되면서 warning없이 진행된다.
 
 https redirect가 된다.
-
