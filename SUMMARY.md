@@ -13,6 +13,7 @@
 * [EKS](aws/eks/README.md)
   * [cluster manage](aws/eks/manage-cluster.md)
   * [ALB Controller](aws/eks/alb-controller.md)
+  * [external-dns](aws/eks/external-dns.md)
 * [ECR](aws/ecr.md)
 * [S3](aws/s3.md)
 * [Certificate Manager](aws/certificate-manager.md)
