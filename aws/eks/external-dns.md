@@ -87,5 +87,7 @@ uptodate가 된다. 이러면 성공
 
 이제 ingress에서 host name을 변경하면 route53에 생성되는것을 볼수 있다.
 
-policy는 따로 보기바람. 기본값은 sync, upsert는 새로운건 넣고 기존건 업데이트 delete는 안됨.
+policy는 따로 보기바람. 기본값은 sync, 
+
+upsert는 새로운건 넣고 기존건 업데이트 delete는 안됨.
 
