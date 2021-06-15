@@ -7,8 +7,7 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
 ## create policy
 
 {% code title="AllowExternalDNSUpdates" %}
-
-```json
+```javascript
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -25,7 +24,6 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
   ]
 }
 ```
-
 {% endcode %}
 
 ## Create IAM Role, k8s Service Account & Associate IAM Policy
@@ -65,11 +63,11 @@ kubectl get sa
 wget https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.0.0/docs/examples/external-dns.yaml
 ```
 
-ServiceAccount 부분은 지우고 (벌써 만들엇기때문)
+ServiceAccount 부분은 지우고 \(벌써 만들엇기때문\)
 
 ```bash
 - --domain-filter=external-dns-test.my-org.com #주석
-석
+
 - --txt-owner-id=my-identifier #주석
 ```
 
@@ -83,10 +81,11 @@ my-identifier는 route53에서 hostid를 가져다 넣으면 된다.
 
 pod의 로그를 보자.
 
-![](./images/2021-06-15-12-10-11.png)
+![](../../.gitbook/assets/2021-06-15-12-10-11.png)
 
 uptodate가 된다. 이러면 성공
 
 이제 ingress에서 host name을 변경하면 route53에 생성되는것을 볼수 있다.
 
 policy는 따로 보기바람. 기본값은 sync, upsert는 새로운건 넣고 기존건 업데이트 delete는 안됨.
+
