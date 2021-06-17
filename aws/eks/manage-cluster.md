@@ -36,3 +36,27 @@ eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<no
 eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<nodegroupName> [ --nodes-min=<minSize> ] [ --nodes-max=<maxSize> ]
 ```
 
+Kubectl
+
+kubectl get pod --all-namespaces  
+
+kubectl get pod --all-namespaces -o wide
+
+전체 pod 갯수 :  kubectl get pod --all-namespaces  \| wc -l
+
+노드당 갯수 
+
+\`kubectl get node\` 를 해서 노드 이름을 확인후 노드별로 체크 
+
+```bash
+kubectl get pod --all-namespaces -o wide | grep ip-192-168-10-183 | wc -l
+kubectl get pod --all-namespaces -o wide | grep ip-192-168-28-3 | wc -l
+kubectl get pod --all-namespaces -o wide | grep ip-192-168-4-220 | wc -l
+kubectl get pod --all-namespaces -o wide | grep ip-192-168-65-172 | wc -l
+kubectl get pod --all-namespaces -o wide | grep ip-192-168-69-253 | wc -l
+kubectl get pod --all-namespaces -o wide | grep ip-192-168-78-242 | wc -l
+kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
+```
+
+
+
