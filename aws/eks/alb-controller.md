@@ -384,14 +384,18 @@ spec:
     - host: www.aaa.com
       http:
         paths:
-          - path: /*
+          - path: /
             backend:
-              serviceName: ssl-redirect
-              servicePort: use-annotation
-          - path: /*
+              service:
+                name: ssl-redirect
+                port:
+                  name: use-annotation
+          - path: /
             backend:
-              serviceName: auth
-              servicePort: 443
+              service:
+                name: auth
+                port:
+                number: 80
 ```
 
 anotation에 다음 추가를 볼수 있다.
