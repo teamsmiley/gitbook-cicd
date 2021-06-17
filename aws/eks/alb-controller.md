@@ -71,7 +71,7 @@ aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
 
 웹사이트에서도 생성 확인 가능
 
-[https://console.aws.amazon.com/iamv2/home\#/identity\_providers](https://console.aws.amazon.com/iamv2/home#/identity_providers)
+[https://console.aws.amazon.com/iamv2/home\#/identity_providers](https://console.aws.amazon.com/iamv2/home#/identity_providers)
 
 ![](../../.gitbook/assets/2021-06-02-09-59-41.png)
 
@@ -116,41 +116,42 @@ AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 �
 
 ### create Role
 
-* Open the IAM console at [https://console.aws.amazon.com/iam/](https://console.aws.amazon.com/iam/)
-* role &gt; create role
-* trusted entity &gt; Web identity
+- Open the IAM console at [https://console.aws.amazon.com/iam/](https://console.aws.amazon.com/iam/)
+- role &gt; create role
+- trusted entity &gt; Web identity
 
   ![](../../.gitbook/assets/2021-06-02-15-31-46.png)
 
-* permissions
-* Attach Policy section &gt; AWSLoadBalancerControllerIAMPolicy
+- permissions
+- Attach Policy section &gt; AWSLoadBalancerControllerIAMPolicy
 
   ![](../../.gitbook/assets/2021-06-02-15-32-50.png)
 
-* tags &gt; review &gt;
-* Role Name : AmazonEKSLoadBalancerControllerRole &gt; create role
+- tags &gt; review &gt;
+- Role Name : AmazonEKSLoadBalancerControllerRole &gt; create role
 
   생성된거 확인
 
   ![](../../.gitbook/assets/2021-06-02-15-35-48.png)
 
-* After the role is created, choose the role in the console to open it for editing
-* Trust relationships &gt; Edit trust relationship
+- After the role is created, choose the role in the console to open it for editing
+- Trust relationships &gt; Edit trust relationship
 
   ![](../../.gitbook/assets/2021-06-02-15-37-26.png)
 
-* 다음 부분을 수정
+- 다음 부분을 수정
 
   ![](../../.gitbook/assets/2021-06-02-15-39-19.png)
 
-* 다음 코드로 변경
+- 다음 코드로 변경
 
   `sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"`
 
-* Update Trust Policy
-* role arn을 복사해둔다. `arn:aws:iam::530310289353:role/AmazonEKSLoadBalancerControllerRole` ![](../../.gitbook/assets/2021-06-02-15-42-29.png)
+- Update Trust Policy
+- role arn을 복사해둔다. `arn:aws:iam::530310289353:role/AmazonEKSLoadBalancerControllerRole` ![](../../.gitbook/assets/2021-06-02-15-42-29.png)
 
   {% code title="aws-load-balancer-controller-service-account.yaml" %}
+
   ```yaml
   apiVersion: v1
   kind: ServiceAccount
@@ -163,11 +164,12 @@ AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 �
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::530310289353:role/AmazonEKSLoadBalancerControllerRole
   ```
+
   {% endcode %}
 
   role-arn 을 복사해둔걸로 덮어쓴다.
 
-* create service account `kubectl apply -f aws-load-balancer-controller-service-account.yaml`
+- create service account `kubectl apply -f aws-load-balancer-controller-service-account.yaml`
 
 ### controller 설치
 
@@ -247,6 +249,7 @@ delete policy : AWSLoadBalancerControllerIAMPolicy
 ## 기본 ingress 사용법
 
 {% code title="test-deploy.yml" %}
+
 ```yaml
 ---
 apiVersion: apps/v1
@@ -311,6 +314,7 @@ spec:
                 port:
                   number: 80
 ```
+
 {% endcode %}
 
 이걸 사용하면 자동으로 aws application load balance도 만들어 준다.
@@ -346,15 +350,17 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 그리고 path에 다음 추가
 
 ```yaml
-- path: /*
+- path: /
   backend:
-    serviceName: ssl-redirect
-    servicePort: use-annotation
+    service:
+      name: ssl-redirect
+      port:
+        name: use-annotation
 ```
 
-이러면 http로 접근하면 https로 리다이렉트를 시켜준다.
+이러면 http로 접근하면 https로 리다이렉트를 시켜준다. 꼭 이설정이 맨위에 와야한다.
 
-관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl\_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
+관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
 
 ## ssl backend
 
@@ -419,6 +425,7 @@ pod가 ssl을 기대하고 있으면 healthcheck-protocol도 맞는값을 넣어
 
 {% tabs %}
 {% tab title="service.yaml" %}
+
 ```yaml
 ---
 apiVersion: v1
@@ -437,9 +444,11 @@ spec:
       port: 80
       targetPort: 80
 ```
+
 {% endtab %}
 
 {% tab title="deployment.yaml" %}
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -462,9 +471,11 @@ spec:
         - name: www
           image: nginx
 ```
+
 {% endtab %}
 
 {% tab title="ingress.yaml" %}
+
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -491,13 +502,13 @@ spec:
               serviceName: www
               servicePort: 80
 ```
+
 {% endtab %}
 {% endtabs %}
 
 적용하면 alb가 생기는것을 aws console 에서 볼 수 있다.
 
-* ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
-* ssl redirect 적용 완료
-* `internet-facing` : 필수이다.
-* 포트는 80 443은 둘다 열어주면 좋다.
-
+- ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
+- ssl redirect 적용 완료
+- `internet-facing` : 필수이다.
+- 포트는 80 443은 둘다 열어주면 좋다.
