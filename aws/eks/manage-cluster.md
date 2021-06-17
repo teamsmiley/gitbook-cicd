@@ -36,13 +36,18 @@ eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<no
 eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<nodegroupName> [ --nodes-min=<minSize> ] [ --nodes-max=<maxSize> ]
 ```
 
-Kubectl
+Kubectl 사용
 
+```bash
 kubectl get pod --all-namespaces  
-
 kubectl get pod --all-namespaces -o wide
+```
 
-전체 pod 갯수 :  kubectl get pod --all-namespaces  \| wc -l
+전체 pod 갯수 :  
+
+```bash
+kubectl get pod --all-namespaces  | wc -l
+```
 
 노드당 갯수 
 
