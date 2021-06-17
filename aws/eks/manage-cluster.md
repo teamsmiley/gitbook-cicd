@@ -82,6 +82,10 @@ t3.small 를 사용하면
 
 노드당 11개의 pod를 사용할수 있다.
 
+누군가가 정리를 해서 적어둔게 있다.
+
+<https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt>
+
 아래 표에서 가격을 구할수 있다.
 
 <https://aws.amazon.com/ec2/pricing/on-demand>
