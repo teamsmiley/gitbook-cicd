@@ -49,7 +49,7 @@ kubectl get pod --all-namespaces -o wide
 kubectl get pod --all-namespaces  | wc -l
 ```
 
-노드당 갯수 (노드 이름을 확인후 노드별로 체크)
+노드당 갯수 \(노드 이름을 확인후 노드별로 체크\)
 
 ```bash
 kubectl get node
@@ -70,9 +70,9 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ENI * (# of IPv4 per ENI - 1)  + 2
 ```
 
-https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html
+[https://docs.aws.amazon.com/ko\_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
 
-여기에서 eni(최대 네트워크 인터페이스 수) 하고 인터페이스당 프라이밋 주소 알수 있다.
+여기에서 eni\(최대 네트워크 인터페이스 수\) 하고 인터페이스당 프라이밋 주소 알수 있다.
 
 t3.small 를 사용하면
 
@@ -84,12 +84,13 @@ t3.small 를 사용하면
 
 누군가가 정리를 해서 적어둔게 있다.
 
-<https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt>
+[https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt](https://github.com/awslabs/amazon-eks-ami/blob/master/files/eni-max-pods.txt)
 
 아래 표에서 가격을 구할수 있다.
 
-<https://aws.amazon.com/ec2/pricing/on-demand>
+[https://aws.amazon.com/ec2/pricing/on-demand](https://aws.amazon.com/ec2/pricing/on-demand)
 
-![](./images/2021-06-16-22-37-01.png)
+![](../../.gitbook/assets/2021-06-16-22-37-01.png)
 
 pod 갯수를 잘 확인해서 어느 타입이 편한건지 고려야할듯하다.
+
