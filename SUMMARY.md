@@ -33,7 +33,7 @@
 
 ## Kubernetes
 
-* [Kubernetes는 무엇인가](kubernetes/untitled.md)
+* [Kubernetes는 무엇인가](kubernetes/kube-basic.md)
 * [tools](kubernetes/tools.md)
 
 ## Linux
