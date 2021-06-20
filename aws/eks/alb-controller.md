@@ -60,7 +60,7 @@ eksctl utils associate-iam-oidc-provider \
 내용 확인
 
 ```bash
-aws iam list-open-id-connect-providers | grep 295F23831974F59E6DF049E7284078A6
+aws iam list-open-id-connect-providers | grep 295F231974F59E6DF049E7284078A6
 ```
 
 ```bash
