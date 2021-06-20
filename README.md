@@ -23,6 +23,12 @@
    1. gitops
    2. notification-slack
 7. kubernetes 모니터링
+
    1. Prometheus
    2. Grafana
+
+   관련 소스코드 
+
+8. [https://github.com/teamsmiley/devops-senima-argocd](https://github.com/teamsmiley/devops-senima-argocd)
+9. [https://github.com/teamsmiley/devops-semina-sourcecode](https://github.com/teamsmiley/devops-semina-sourcecode)
 
