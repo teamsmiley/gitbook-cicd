@@ -26,6 +26,7 @@
 * [Apps](argocd/apps.md)
 * [AWS ALB 사용](argocd/aws-alb.md)
 * [notification slack](argocd/notification-slack.md)
+* [Backup / DR](argocd/backup-dr.md)
 
 ## Docker
 
