@@ -70,7 +70,7 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ENI * (# of IPv4 per ENI - 1)  + 2
 ```
 
-[https://docs.aws.amazon.com/ko\_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
+[https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
 
 여기에서 eni\(최대 네트워크 인터페이스 수\) 하고 인터페이스당 프라이밋 주소 알수 있다.
 
@@ -94,3 +94,49 @@ t3.small 를 사용하면
 
 pod 갯수를 잘 확인해서 어느 타입이 편한건지 고려야할듯하다.
 
+## node not ready status
+
+node가 갑자기 not ready 상태이다.
+
+k9s로 노드 선택후 cordon ==> drain ==> delete를 순서대로 해주었다. 그러니 새로운 노드를 만들어 준다.
+
+## 노드그룹 변경
+
+### 노드 그룹 추가
+
+{% code title="nodegroup.yml" %}
+
+```yml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: cluster01
+  region: us-west-1
+
+managedNodeGroups:
+  - name: nodegroup-2
+    instanceType: t3.medium
+    desiredCapacity: 4
+    volumeSize: 80
+    minSize: 3
+    maxSize: 10
+    ssh:
+      allow: true
+```
+
+{% endcode %}
+
+```bash
+eksctl create nodegroup --config-file nodegroup.yaml
+```
+
+eksctl get nodegroup --cluster=cluster01
+
+![](./images/2021-06-22-10-24-55.png)
+
+### 기존 노드그룹 삭제
+
+```
+eksctl delete nodegroup cluster01-nodes --cluster=cluster01
+```
