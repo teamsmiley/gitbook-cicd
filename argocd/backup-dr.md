@@ -1,6 +1,6 @@
 # Backup / DR
 
-https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/
+[https://argoproj.github.io/argo-cd/operator-manual/disaster\_recovery/](https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/)
 
 ```bash
 argocd login argocd.rendercore.com
@@ -17,3 +17,4 @@ docker run -v ~/.kube/aws-rendercore:/home/argocd/.kube/config --rm argoproj/arg
 #Import from a backup:
 docker run -i -v ~/.kube:/home/argocd/.kube --rm argoproj/argocd:$VERSION argocd-util import - < backup.yaml
 ```
+
