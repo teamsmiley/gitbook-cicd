@@ -1,20 +1,64 @@
 # Backup / DR
 
-[https://argoproj.github.io/argo-cd/operator-manual/disaster\_recovery/](https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/)
+[https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/](https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/)
 
-```bash
-argocd login argocd.rendercore.com
+## EKS용 선작업
 
-argocd version | grep server
+매뉴얼대로 하면 aws인증때문에 실패한다. 도커를 가지고와서 추가 내용을 더 해줘야한다.
 
-> v2.0.3+8d2b13d
+일단 도커를 만들어보자.
 
-export VERSION=v2.0.3
+가급적이면 사용하는 버전과 같은 버전을 사용한다.
 
-#Export to a backup:
-docker run -v ~/.kube/aws-rendercore:/home/argocd/.kube/config --rm argoproj/argocd:$VERSION argocd-util export > backup.yaml
+{% code title="Dockerfile" %}
 
-#Import from a backup:
-docker run -i -v ~/.kube:/home/argocd/.kube --rm argoproj/argocd:$VERSION argocd-util import - < backup.yaml
+```docker
+FROM argoproj/argocd:v2.0.3
+
+USER root
+
+RUN apt-get update
+RUN apt install sudo -y
+RUN apt install curl -y
+RUN apt install unzip -y
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+
+RUN curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator
+RUN chmod +x aws-iam-authenticator
+RUN mv aws-iam-authenticator /usr/local/sbin/
+
+USER argocd
+
+ENV AWS_PROFILE=xxxx #사용하는 프로파일명
 ```
 
+{% endcode %}
+
+이제 도커를 빌드해보자.
+
+```bash
+docker build -t my-argocd .
+```
+
+이제 여기에 kube 설정과 aws설정을 마운트해주고 export 커맨들르 실행하면된다.
+
+```bash
+#Export to a backup:
+docker run -v ~/.kube:/home/argocd/.kube \
+-v ~/.aws:/home/argocd/.aws \
+--rm \
+my-argocd argocd-util export \
+--kubeconfig /home/argocd/.kube/aws-rendercore \
+--namespace argocd > backup.yaml
+
+#Import from a backup:
+docker run -v ~/.kube:/home/argocd/.kube \
+-v ~/.aws:/home/argocd/.aws \
+--rm \
+my-argocd argocd-util import \
+--kubeconfig /home/argocd/.kube/aws-rendercore \
+--namespace argocd - < backup.yaml
+```
