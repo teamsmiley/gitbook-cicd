@@ -46,16 +46,20 @@ docker build -t eks-argocd .
 
 이제 여기에 kube 설정과 aws설정을 마운트해주고 export 커맨들르 실행하면된다.
 
+## backup
+
 ```bash
-#Export to a backup:
 docker run -v ~/.kube:/home/argocd/.kube \
 -v ~/.aws:/home/argocd/.aws \
 --rm \
 eks-argocd argocd-util export \
 --kubeconfig /home/argocd/.kube/aws-rendercore \
 --namespace argocd > backup.yaml
+```
 
-#Import from a backup:
+## restore
+
+```bash
 docker run -v ~/.kube:/home/argocd/.kube \
 -v ~/.aws:/home/argocd/.aws \
 --rm \
