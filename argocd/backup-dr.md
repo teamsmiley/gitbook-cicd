@@ -2,13 +2,13 @@
 
 [https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/](https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/)
 
-## EKS용 선작업
+## EKS용 argocd 도커 작성
 
-매뉴얼대로 하면 aws인증때문에 실패한다. 도커를 가지고와서 추가 내용을 더 해줘야한다.
+매뉴얼대로 하면 aws인증때문에 실패한다. 도커를 가지고 와서 추가 프로그램을 설치 해줘야한다.
 
 일단 도커를 만들어보자.
 
-가급적이면 사용하는 버전과 같은 버전을 사용한다.
+가급적이면 본인이 사용하는 버전과 같은 버전을 사용한다.
 
 {% code title="Dockerfile" %}
 
@@ -40,7 +40,8 @@ ENV AWS_PROFILE=xxxx #사용하는 프로파일명
 이제 도커를 빌드해보자.
 
 ```bash
-docker build -t my-argocd .
+cd eks-argocd
+docker build -t eks-argocd .
 ```
 
 이제 여기에 kube 설정과 aws설정을 마운트해주고 export 커맨들르 실행하면된다.
@@ -50,7 +51,7 @@ docker build -t my-argocd .
 docker run -v ~/.kube:/home/argocd/.kube \
 -v ~/.aws:/home/argocd/.aws \
 --rm \
-my-argocd argocd-util export \
+eks-argocd argocd-util export \
 --kubeconfig /home/argocd/.kube/aws-rendercore \
 --namespace argocd > backup.yaml
 
@@ -58,7 +59,7 @@ my-argocd argocd-util export \
 docker run -v ~/.kube:/home/argocd/.kube \
 -v ~/.aws:/home/argocd/.aws \
 --rm \
-my-argocd argocd-util import \
+eks-argocd argocd-util import \
 --kubeconfig /home/argocd/.kube/aws-rendercore \
 --namespace argocd - < backup.yaml
 ```
