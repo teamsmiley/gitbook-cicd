@@ -12,7 +12,7 @@ argocd version | grep server
 export VERSION=v2.0.3
 
 #Export to a backup:
-docker run -v ~/.kube:/home/argocd/.kube --rm argoproj/argocd:$VERSION argocd-util export > backup.yaml
+docker run -v ~/.kube/aws-rendercore:/home/argocd/.kube/config --rm argoproj/argocd:$VERSION argocd-util export > backup.yaml
 
 #Import from a backup:
 docker run -i -v ~/.kube:/home/argocd/.kube --rm argoproj/argocd:$VERSION argocd-util import - < backup.yaml
