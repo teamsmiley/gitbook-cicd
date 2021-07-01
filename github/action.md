@@ -19,6 +19,7 @@ touch .github/workflows/build.yml
 ```
 
 {% code title=".github/workflows/build.yml" %}
+
 ```yaml
 name: CI
 
@@ -40,6 +41,7 @@ jobs:
           ls -alF
           pwd
 ```
+
 {% endcode %}
 
 이제 커밋 푸시해보자.
@@ -68,7 +70,7 @@ on:
     branches: [main, dev]
 ```
 
-push나 Pull\_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
+push나 Pull_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
 
 이미지는 ubuntu-latest 를 가지고 빌드를 시작한다.
 
@@ -221,6 +223,10 @@ dev시에 트리거가 될수있게 추가해준다.
     cd apps/w2ps-staging
 ```
 
+## [ci skip]
+
+commit 에 [ci skip]을 보내면 ci를 스킵할수 있다.
+
 ## s3 업로드
 
 일단 마켓 플레이스에서 s3관련 플러그인을 찾는다.
@@ -338,4 +344,3 @@ jobs:
           AWS_REGION: 'us-west-1'
           SOURCE_DIR: 'dist/' # optional: defaults to entire repository
 ```
-
