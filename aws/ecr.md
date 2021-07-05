@@ -1,8 +1,6 @@
 # ECR
 
-## ECR
-
-## ecr
+## ECR이란?
 
 aws docker registry
 
@@ -67,7 +65,7 @@ aws_access_key_id = AKIA2RRDKDNJV4DLSAFM
 aws_secret_access_key = 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
 ```
 
-#### ecr에 로그인
+### ecr에 로그인
 
 ```bash
 aws ecr get-login-password --region us-west-2 --profile perseption-ecr
@@ -79,7 +77,7 @@ eyJwYXlsb2FkIjoiK2x6MzA2SUtJaGtVRnQ2MFNMamVkeS9QM0h0dUYwL3kzZnFKM3ZsN3pybnNienB0
 
 이 비번을 사용해서 도커 로그인을 하면된다.
 
-편하게 하기 위해서는 registry=724849793875.dkr.ecr.us-west-2.amazonaws.com
+편하게 하기 위해서는 registry=72484979875.dkr.ecr.us-west-2.amazonaws.com
 
 ```bash
 aws ecr get-login-password \
@@ -111,3 +109,7 @@ docker push ${registry}/www:latest
 푸시가 잘 올라가면 된다.
 
 ### 이미지들 자동으로 지우기
+
+설정을 해두자.
+
+이미지 갯수로도 된다. 확인해두자.
