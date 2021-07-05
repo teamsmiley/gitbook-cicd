@@ -33,10 +33,10 @@ ssh-keygen
 
 ### repo 등록
 
-- UI
-  - private키 argocd에 repo에 등록한다.
-  - public key는 깃허브에 추가해야할듯
-- cat .ssh/id_rsaXXXX
+* UI
+  * private키 argocd에 repo에 등록한다.
+  * public key는 깃허브에 추가해야할듯
+* cat .ssh/id\_rsaXXXX
 
 ![](../.gitbook/assets/argocd-repo-05.png)
 
@@ -44,9 +44,10 @@ ssh-keygen
 
 만들어진 키의 내용을 복사해다 붙여넣는다.
 
-- Command
+* Command
 
 ```bash
 argocd repo add git@github.com:YOURS/argocd.git \
 --ssh-private-key-path ~/.ssh/argocd
 ```
+

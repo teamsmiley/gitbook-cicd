@@ -19,7 +19,6 @@ touch .github/workflows/build.yml
 ```
 
 {% code title=".github/workflows/build.yml" %}
-
 ```yaml
 name: CI
 
@@ -41,20 +40,19 @@ jobs:
           ls -alF
           pwd
 ```
-
 {% endcode %}
 
 이제 커밋 푸시해보자.
 
 github웹사이트에 action페이지에 가보자.
 
-![](../.gitbook/assets/github-action-01.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-01.png)
 
 안보이던게 생기고 성공햇다고 보여준다.
 
 확인해보자. create build.yml을 클릭
 
-![](../.gitbook/assets/github-action-02.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-02.png)
 
 화면을 보면 `ls -alF`를 했고 `pwd`를 해서 현재 폴더를 프린트 햇다.
 
@@ -70,7 +68,7 @@ on:
     branches: [main, dev]
 ```
 
-push나 Pull_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
+push나 Pull\_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
 
 이미지는 ubuntu-latest 를 가지고 빌드를 시작한다.
 
@@ -100,11 +98,11 @@ nb build --prod
 
 추가하고 커밋/푸시 해보자.
 
-![](../.gitbook/assets/github-action-03.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-03.png)
 
 runner가 `git checkout` 을 하고 ls -alF를 해서 내용이 확인된다.
 
-![](../.gitbook/assets/github-action-04.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-04.png)
 
 ## build
 
@@ -139,23 +137,23 @@ github action은 마켓 플레이스에 사람들이 만들어서 특정 액션�
 
 위 커맨드는 nodejs환경을 구축해주는 액션인데 가져다 쓰면 된다.
 
-![](../.gitbook/assets/github-action-05.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-05.png)
 
-![](../.gitbook/assets/github-action-06.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-06.png)
 
 마지막 @ 다음에는 버전을 쓰면되는데 최신 내용을 보고싶으면 깃헙 페이지를 확인해보면 된다.
 
-![](../.gitbook/assets/github-action-07.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-07.png)
 
 버전을 골라서 사용하면된다.
 
 빌드가 완료됬으니 확인해보자.
 
-![](../.gitbook/assets/github-action-08.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-08.png)
 
 node 12.x가 잘 설치가 되었으며 커맨드들도 잘 실행이 된것을 볼수 있다.
 
-![](../.gitbook/assets/github-action-09.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-09.png)
 
 ## artifact \(결과물\)을 받아보자
 
@@ -180,17 +178,17 @@ node 12.x가 잘 설치가 되었으며 커맨드들도 잘 실행이 된것을 
 
 해보자.
 
-![](../.gitbook/assets/github-action-10.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-10.png)
 
 현재 폴더를 `/home/runner/work/github-action/github-action` 이고 dist가 빌드되서 생성된것을 확인할수 있다.
 
-![](../.gitbook/assets/github-action-11.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-11.png)
 
 Artifact가 업로드 된것을 알수 있다.
 
 클릭해서 다운로드 받아서 내용을 확인해보자.
 
-![](../.gitbook/assets/github-action-12.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-12.png)
 
 정확히 빌드된것을 알수 있다.
 
@@ -202,7 +200,7 @@ Artifact가 업로드 된것을 알수 있다.
 
 일단 프로젝트에 dev 브랜치를 만든다.
 
-![](../.gitbook/assets/github-action-13.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-13.png)
 
 ```yaml
 on:
@@ -223,9 +221,9 @@ dev시에 트리거가 될수있게 추가해준다.
     cd apps/w2ps-staging
 ```
 
-## [ci skip]
+## \[ci skip\]
 
-commit 에 [ci skip]을 보내면 ci를 스킵할수 있다.
+commit 에 \[ci skip\]을 보내면 ci를 스킵할수 있다.
 
 ## s3 업로드
 
@@ -235,7 +233,7 @@ commit 에 [ci skip]을 보내면 ci를 스킵할수 있다.
 
 이게 좋을거같다.
 
-![](../.gitbook/assets/github-action-14.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/24c04d64243c14b91fb16ac0b082ed526154ae1e/.gitbook/assets/github-action-14.png)
 
 해보자.
 
@@ -344,3 +342,4 @@ jobs:
           AWS_REGION: 'us-west-1'
           SOURCE_DIR: 'dist/' # optional: defaults to entire repository
 ```
+

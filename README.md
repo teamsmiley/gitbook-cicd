@@ -15,16 +15,17 @@
    2. private registry docker
    3. gitalb container registry
    4. github package
-   5. ECR (aws)
+   5. ECR \(aws\)
 5. kubernetes 에서 도커이미지들 배포
    1. bearmetal
-   2. EKS (aws)
+   2. EKS \(aws\)
 6. argocd kubernetes 관리
    1. gitops
    2. notification-slack
 7. kubernetes 모니터링
    1. Prometheus
-   1. Grafana
+   2. Grafana
 8. 관련 소스코드
-   - [https://github.com/teamsmiley/devops-senima-argocd](https://github.com/teamsmiley/devops-senima-argocd)
-   - [https://github.com/teamsmiley/devops-semina-sourcecode](https://github.com/teamsmiley/devops-semina-sourcecode)
+   * [https://github.com/teamsmiley/devops-senima-argocd](https://github.com/teamsmiley/devops-senima-argocd)
+   * [https://github.com/teamsmiley/devops-semina-sourcecode](https://github.com/teamsmiley/devops-semina-sourcecode)
+

@@ -54,3 +54,4 @@ git branch -M main
 git remote add origin git@github.com:teamsmiley/demo-argocd.git
 git push -u origin main
 ```
+

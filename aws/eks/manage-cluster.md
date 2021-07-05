@@ -62,7 +62,7 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-78-242 | wc -l
 kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ```
 
-![노드당 Pod갯수](../../.gitbook/assets/manage-cluster-04.png)
+![&#xB178;&#xB4DC;&#xB2F9; Pod&#xAC2F;&#xC218;](../../.gitbook/assets/manage-cluster-04.png)
 
 ## max pod 갯수
 
@@ -72,7 +72,7 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ENI * (# of IPv4 per ENI - 1)  + 2
 ```
 
-[https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
+[https://docs.aws.amazon.com/ko\_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
 
 여기에서 eni\(최대 네트워크 인터페이스 수\) 하고 인터페이스당 프라이밋 주소 알수 있다.
 
@@ -100,15 +100,14 @@ pod 갯수를 잘 확인해서 어느 타입이 편한건지 고려야할듯하�
 
 node가 갑자기 not ready 상태이다.
 
-k9s로 노드 선택후 cordon ==> drain ==> delete를 순서대로 해주었다. 그러니 새로운 노드를 만들어 준다.
+k9s로 노드 선택후 cordon ==&gt; drain ==&gt; delete를 순서대로 해주었다. 그러니 새로운 노드를 만들어 준다.
 
 ## 노드그룹 변경
 
 ### 노드 그룹 추가
 
 {% code title="nodegroup.yml" %}
-
-```yml
+```text
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
@@ -126,7 +125,6 @@ managedNodeGroups:
     ssh:
       allow: true
 ```
-
 {% endcode %}
 
 ```bash
@@ -135,10 +133,11 @@ eksctl create nodegroup --config-file nodegroup.yaml
 
 eksctl get nodegroup --cluster=cluster01
 
-![](./images/2021-06-22-10-24-55.png)
+![](../../.gitbook/assets/2021-06-22-10-24-55.png)
 
 ### 기존 노드그룹 삭제
 
 ```bash
 eksctl delete nodegroup cluster01-nodes --cluster=cluster01
 ```
+

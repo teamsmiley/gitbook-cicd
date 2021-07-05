@@ -27,3 +27,4 @@ dns에서 cname을 만들어 주면 인증완료
 cloudflare를 사용할경우 인증이 되지 않는다. cloudflare에서 dns only로 해야한다.
 
 ![](../.gitbook/assets/aws-cert-07.png)
+
