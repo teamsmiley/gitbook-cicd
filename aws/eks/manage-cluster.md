@@ -62,7 +62,7 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-78-242 | wc -l
 kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ```
 
-![노드당 Pod갯수](../../.gitbook/assets/image%20%284%29.png)
+![노드당 Pod갯수](../../.gitbook/assets/manage-cluster-04.png)
 
 ## max pod 갯수
 
@@ -139,6 +139,6 @@ eksctl get nodegroup --cluster=cluster01
 
 ### 기존 노드그룹 삭제
 
-```
+```bash
 eksctl delete nodegroup cluster01-nodes --cluster=cluster01
 ```
