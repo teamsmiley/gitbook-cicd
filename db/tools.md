@@ -1,7 +1,5 @@
 # tools
 
-
-
 ## DB Tool
 
 ### windows
@@ -10,12 +8,11 @@
 
 #### mysql
 
-* sequel pro
-* sqlectron
-* DBAVER
-* workbench : 별로 안좋음.
+- sequel pro
+- sqlectron
+- DBAVER
+- workbench : 별로 안좋음.
 
 #### oracle
 
-* sqldeveloper
-
+- sqldeveloper

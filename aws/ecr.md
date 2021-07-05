@@ -6,14 +6,14 @@
 
 aws docker registry
 
-* 기본 프라이빗 레지스트리의 URL은 입니다
-  * [https://aws\_account\_id.dkr.ecr.region.amazonaws.com](https://aws_account_id.dkr.ecr.region.amazonaws.com)
+- 기본 프라이빗 레지스트리의 URL은 입니다
+  - [https://aws_account_id.dkr.ecr.region.amazonaws.com](https://aws_account_id.dkr.ecr.region.amazonaws.com)
 
 ### registry vs repository
 
-* aws\_account\_id.dkr.ecr.region.amazonaws.com/AAA
-  * aws\_account\_id.dkr.ecr.region.amazonaws.com 이것이 registry
-  * AAA가 repository
+- aws_account_id.dkr.ecr.region.amazonaws.com/AAA
+  - aws_account_id.dkr.ecr.region.amazonaws.com 이것이 registry
+  - AAA가 repository
 
 ### iam
 
@@ -21,9 +21,9 @@ aws console에서 사용하려다 보면 permission이 막힌다.
 
 iam 에서 ecr-user를 생성 다음 롤을 준다.
 
-* Programmatic access : on
-* direct attach role
-  * AmazonEC2ContainerRegistryFullAccess
+- Programmatic access : on
+- direct attach role
+  - AmazonEC2ContainerRegistryFullAccess
 
 키를 다운받아둔다 나중에 쓴다.
 
@@ -35,11 +35,11 @@ private
 
 name
 
-![](https://github.com/teamsmiley/gitbook-cicd/tree/d13b62050274754b336e01125676d90b97eb2e10/aws/images/2021-04-27-09-17-25.png)
+![](../../.gitbook/assets/2021-04-27-09-17-25.png)
 
 create
 
-![](https://github.com/teamsmiley/gitbook-cicd/tree/d13b62050274754b336e01125676d90b97eb2e10/aws/images/2021-04-27-09-17-48.png)
+![](../../.gitbook/assets/2021-04-27-09-17-48.png)
 
 ### 이게 도커이미지를 push 하자
 
@@ -92,7 +92,7 @@ aws ecr get-login-password \
 
 user는 AWS 이다. 대문자.
 
-![](https://github.com/teamsmiley/gitbook-cicd/tree/d13b62050274754b336e01125676d90b97eb2e10/aws/images/2021-04-27-09-38-19.png)
+![](../../.gitbook/assets/2021-04-27-09-38-19.png)
 
 ### docker build
 
@@ -111,4 +111,3 @@ docker push ${registry}/www:latest
 푸시가 잘 올라가면 된다.
 
 ### 이미지들 자동으로 지우기
-

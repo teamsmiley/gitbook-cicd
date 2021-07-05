@@ -53,4 +53,3 @@ aws ec2 describe-instances help
 
 aws ec2 describe-instances  --region us-west-2 --query "Reservations[].Instances[].InstanceId"
 ```
-

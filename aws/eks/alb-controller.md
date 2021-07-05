@@ -331,7 +331,7 @@ ec2 -&gt; load balance
 
 route53
 
-![](https://github.com/teamsmiley/gitbook-cicd/tree/bcba66289c81130dac428736ca348d7b36ff38d8/aws/eks/images/2021-06-02-19-34-24.png)
+![](../../.gitbook/assets/aws/eks/images/2021-06-02-19-34-24.png)
 
 ![](../../.gitbook/assets/2021-06-02-19-35-29.png)
 
@@ -561,5 +561,3 @@ alb.ingress.kubernetes.io/group.name: shared-ingress
 Ingress가 다 각각의 name space에 생기는것은 맞다.
 
 그리고 그것들이 하나의 로드발란스를 사용한다.
-
-

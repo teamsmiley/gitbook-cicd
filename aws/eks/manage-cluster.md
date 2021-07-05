@@ -62,7 +62,7 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-78-242 | wc -l
 kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ```
 
-![&#xB178;&#xB4DC;&#xB2F9; Pod&#xAC2F;&#xC218;](../../.gitbook/assets/image%20%284%29.png)
+![노드당 Pod갯수](../../.gitbook/assets/image%20%284%29.png)
 
 ## max pod 갯수
 

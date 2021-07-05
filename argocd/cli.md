@@ -2,7 +2,7 @@
 
 ## install argocd cli
 
-[https://argo-cd.readthedocs.io/en/stable/cli\_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+[https://argo-cd.readthedocs.io/en/stable/cli_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
 
 ```bash
 brew install argocd
@@ -64,4 +64,3 @@ argocd app create kustomize-guestbook \
 ```bash
 argocd app get APPNAME
 ```
-

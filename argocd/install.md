@@ -41,4 +41,3 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 ```
 
 admin으로 접속하면 된다.
-

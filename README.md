@@ -12,13 +12,13 @@
    1. cicd로 docker image 생성
 4. docker image registry 에 저장
    1. docker hub
-   2. private registry\(docker\)
+   2. private registry docker
    3. gitalb container registry
    4. github package
-   5. ECR \(aws\)
+   5. ECR (aws)
 5. kubernetes 에서 도커이미지들 배포
    1. bearmetal
-   2. EKS \(aws\)
+   2. EKS (aws)
 6. argocd kubernetes 관리
    1. gitops
    2. notification-slack
@@ -27,8 +27,7 @@
    1. Prometheus
    2. Grafana
 
-   관련 소스코드 
+   관련 소스코드
 
 8. [https://github.com/teamsmiley/devops-senima-argocd](https://github.com/teamsmiley/devops-senima-argocd)
 9. [https://github.com/teamsmiley/devops-semina-sourcecode](https://github.com/teamsmiley/devops-semina-sourcecode)
-
