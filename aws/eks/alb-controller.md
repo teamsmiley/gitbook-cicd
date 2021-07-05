@@ -551,3 +551,15 @@ spec:
 ```
 
 {% endcode %}
+
+## 여러개의 인그레스에서 alb하나를 공유하기
+
+```yaml
+alb.ingress.kubernetes.io/group.name: shared-ingress
+```
+
+Ingress가 다 각각의 name space에 생기는것은 맞다.
+
+그리고 그것들이 하나의 로드발란스를 사용한다.
+
+
