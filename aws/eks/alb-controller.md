@@ -412,11 +412,13 @@ alb가 기본적으로 http로 통신을 시도하므로 포트는 443을 쓰면
 
 ```yaml
 alb.ingress.kubernetes.io/healthcheck-protocol: HTTPS #기본값 http
-alb.ingress.kubernetes.io/healthcheck-path: /api/values
+alb.ingress.kubernetes.io/healthcheck-path: /health
 alb.ingress.kubernetes.io/healthcheck-interval-seconds: '60'
 ```
 
 pod가 ssl을 기대하고 있으면 healthcheck-protocol도 맞는값을 넣어줘야한다.
+
+ELB target group에 가면 위 내용을 안넣더라도 기본으로 healthcheck가 생성이 된다.  기본값이 있기 때문이다. 
 
 ## nginx app을 alb에 오픈
 
