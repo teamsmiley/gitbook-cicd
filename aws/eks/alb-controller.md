@@ -62,14 +62,14 @@ aws iam list-open-id-connect-providers | grep 295F231974F59E6DF049E7284078A6
 ```
 
 ```bash
-> - Arn: arn:aws:iam::530310289353:oidc-provider/oidc.eks.us-west-1.amazonaws.com/id/295F23831974F59E6DF049E7284078A6
+> - Arn: arn:aws:iam::530310009353:oidc-provider/oidc.eks.us-west-1.amazonaws.com/id/295F23831974F59E6DF049E7284078A6
 ```
 
 내용이 있다. oidc provider는 만들어졌다.
 
 웹사이트에서도 생성 확인 가능
 
-[https://console.aws.amazon.com/iamv2/home\#/identity\_providers](https://console.aws.amazon.com/iamv2/home#/identity_providers)
+[https://console.aws.amazon.com/iamv2/home\#/identity_providers](https://console.aws.amazon.com/iamv2/home#/identity_providers)
 
 ![](../../.gitbook/assets/2021-06-02-09-59-41.png)
 
@@ -92,7 +92,7 @@ arn을 복사해서 보관해둔다.
 
 ```yaml
 Policy:
-  Arn: arn:aws:iam::530310289353:policy/AWSLoadBalancerControllerIAMPolicy
+  Arn: arn:aws:iam::530310009353:policy/AWSLoadBalancerControllerIAMPolicy
   AttachmentCount: 0
   CreateDate: '2021-06-02T22:27:30+00:00'
   DefaultVersionId: v1
@@ -114,41 +114,42 @@ AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 �
 
 ### create Role
 
-* Open the IAM console at [https://console.aws.amazon.com/iam/](https://console.aws.amazon.com/iam/)
-* role &gt; create role
-* trusted entity &gt; Web identity
+- Open the IAM console at [https://console.aws.amazon.com/iam/](https://console.aws.amazon.com/iam/)
+- role &gt; create role
+- trusted entity &gt; Web identity
 
   ![](../../.gitbook/assets/2021-06-02-15-31-46.png)
 
-* permissions
-* Attach Policy section &gt; AWSLoadBalancerControllerIAMPolicy
+- permissions
+- Attach Policy section &gt; AWSLoadBalancerControllerIAMPolicy
 
   ![](../../.gitbook/assets/2021-06-02-15-32-50.png)
 
-* tags &gt; review &gt;
-* Role Name : AmazonEKSLoadBalancerControllerRole &gt; create role
+- tags &gt; review &gt;
+- Role Name : AmazonEKSLoadBalancerControllerRole &gt; create role
 
   생성된거 확인
 
   ![](../../.gitbook/assets/2021-06-02-15-35-48.png)
 
-* After the role is created, choose the role in the console to open it for editing
-* Trust relationships &gt; Edit trust relationship
+- After the role is created, choose the role in the console to open it for editing
+- Trust relationships &gt; Edit trust relationship
 
   ![](../../.gitbook/assets/2021-06-02-15-37-26.png)
 
-* 다음 부분을 수정
+- 다음 부분을 수정
 
   ![](../../.gitbook/assets/2021-06-02-15-39-19.png)
 
-* 다음 코드로 변경
+- 다음 코드로 변경
 
   `sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"`
 
-* Update Trust Policy
-* role arn을 복사해둔다. `arn:aws:iam::530310289353:role/AmazonEKSLoadBalancerControllerRole` ![](../../.gitbook/assets/2021-06-02-15-42-29.png)
+- Update Trust Policy
+- role arn을 복사해둔다. `arn:aws:iam::530310009353:role/AmazonEKSLoadBalancerControllerRole` ![](../../.gitbook/assets/2021-06-02-15-42-29.png)
 
   {% code title="aws-load-balancer-controller-service-account.yaml" %}
+
   ```yaml
   apiVersion: v1
   kind: ServiceAccount
@@ -159,13 +160,14 @@ AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 �
     name: aws-load-balancer-controller
     namespace: kube-system
     annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::530310289353:role/AmazonEKSLoadBalancerControllerRole
+      eks.amazonaws.com/role-arn: arn:aws:iam::530310009353:role/AmazonEKSLoadBalancerControllerRole
   ```
+
   {% endcode %}
 
   role-arn 을 복사해둔걸로 덮어쓴다.
 
-* create service account `kubectl apply -f aws-load-balancer-controller-service-account.yaml`
+- create service account `kubectl apply -f aws-load-balancer-controller-service-account.yaml`
 
 ### controller 설치
 
@@ -245,6 +247,7 @@ delete policy : AWSLoadBalancerControllerIAMPolicy
 ## 기본 ingress 사용법
 
 {% code title="test-deploy.yml" %}
+
 ```yaml
 ---
 apiVersion: apps/v1
@@ -309,6 +312,7 @@ spec:
                 port:
                   number: 80
 ```
+
 {% endcode %}
 
 이걸 사용하면 자동으로 aws application load balance도 만들어 준다.
@@ -354,7 +358,7 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 
 이러면 http로 접근하면 https로 리다이렉트를 시켜준다. 꼭 이설정이 맨위에 와야한다.
 
-관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl\_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
+관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
 
 ## ssl backend
 
@@ -418,7 +422,7 @@ alb.ingress.kubernetes.io/healthcheck-interval-seconds: '60'
 
 pod가 ssl을 기대하고 있으면 healthcheck-protocol도 맞는값을 넣어줘야한다.
 
-ELB target group에 가면 위 내용을 안넣더라도 기본으로 healthcheck가 생성이 된다.  기본값이 있기 때문이다. 
+ELB target group에 가면 위 내용을 안넣더라도 기본으로 healthcheck가 생성이 된다. 기본값이 있기 때문이다.
 
 ## nginx app을 alb에 오픈
 
@@ -426,6 +430,7 @@ ELB target group에 가면 위 내용을 안넣더라도 기본으로 healthchec
 
 {% tabs %}
 {% tab title="service.yaml" %}
+
 ```yaml
 ---
 apiVersion: v1
@@ -444,9 +449,11 @@ spec:
       port: 80
       targetPort: 80
 ```
+
 {% endtab %}
 
 {% tab title="deployment.yaml" %}
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -469,9 +476,11 @@ spec:
         - name: www
           image: nginx
 ```
+
 {% endtab %}
 
 {% tab title="ingress.yaml" %}
+
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -498,21 +507,23 @@ spec:
               serviceName: www
               servicePort: 80
 ```
+
 {% endtab %}
 {% endtabs %}
 
 적용하면 alb가 생기는것을 aws console 에서 볼 수 있다.
 
-* ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
-* ssl redirect 적용 완료
-* `internet-facing` : 필수이다.
-* 포트는 80 443은 둘다 열어주면 좋다.
+- ssl도 적용햇다. cert-arn은 certificate-manager에 가서 만들면 생긴다. 그걸 사용
+- ssl redirect 적용 완료
+- `internet-facing` : 필수이다.
+- 포트는 80 443은 둘다 열어주면 좋다.
 
 ## multiple domain and ssl 적용
 
 rules에 여러개의 도메인을 추가한다. 그리고 ssl을 컴마로 연결한다.
 
 {% code title="multi-ssl" %}
+
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -539,6 +550,7 @@ spec:
               serviceName: bbb
               servicePort: 80
 ```
+
 {% endcode %}
 
 ## 여러개의 인그레스에서 alb하나를 공유하기
@@ -550,4 +562,3 @@ alb.ingress.kubernetes.io/group.name: shared-ingress
 Ingress가 다 각각의 name space에 생기는것은 맞다.
 
 그리고 그것들이 하나의 로드발란스를 사용한다.
-

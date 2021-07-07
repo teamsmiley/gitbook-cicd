@@ -7,6 +7,7 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
 ## create policy
 
 {% code title="AllowExternalDNSUpdates" %}
+
 ```javascript
 {
   "Version": "2012-10-17",
@@ -24,6 +25,7 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
   ]
 }
 ```
+
 {% endcode %}
 
 ## Create IAM Role, k8s Service Account & Associate IAM Policy
@@ -47,7 +49,7 @@ eksctl create iamserviceaccount \
 --name external-dns \
 --namespace default \
 --cluster cluster01 \
---attach-policy-arn arn:aws:iam::530310289353:policy/AllowExternalDNSUpdates \
+--attach-policy-arn arn:aws:iam::530310009353:policy/AllowExternalDNSUpdates \
 --approve
 
 # 확인
@@ -157,4 +159,3 @@ uptodate가 된다. 이러면 성공
 policy는 따로 보기바람. 기본값은 sync,
 
 upsert는 새로운건 넣고 기존건 업데이트 delete는 안됨.
-
