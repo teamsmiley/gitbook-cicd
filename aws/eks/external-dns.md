@@ -7,7 +7,6 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
 ## create policy
 
 {% code title="AllowExternalDNSUpdates" %}
-
 ```javascript
 {
   "Version": "2012-10-17",
@@ -25,7 +24,6 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
   ]
 }
 ```
-
 {% endcode %}
 
 ## Create IAM Role, k8s Service Account & Associate IAM Policy
@@ -159,3 +157,4 @@ uptodate가 된다. 이러면 성공
 policy는 따로 보기바람. 기본값은 sync,
 
 upsert는 새로운건 넣고 기존건 업데이트 delete는 안됨.
+
