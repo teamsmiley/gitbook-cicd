@@ -41,6 +41,7 @@
 * [install with kubespray](kubernetes/install-with-kubespray.md)
 * [Cert-Manager](kubernetes/cert-manager.md)
 * [ingress-nginx](kubernetes/ingress-nginx.md)
+* [external-dns](kubernetes/external-dns.md)
 
 ## Linux
 
