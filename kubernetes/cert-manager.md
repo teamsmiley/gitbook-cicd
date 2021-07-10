@@ -49,7 +49,5 @@ spec:
                   
 ```
 
-{% embed url="https://cert-manager.io/docs/usage/ingress/" %}
-
 
 
