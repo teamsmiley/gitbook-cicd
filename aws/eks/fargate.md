@@ -6,10 +6,10 @@ export AWS_PROFILE=rendercore
 echo $AWS_PROFILE
 
 eksctl create cluster \
---name cluster02 \
+--name fargate01 \
 --version 1.20 \
 --region us-west-1 \
---kubeconfig ~/.kube/aws-cluster02 \
+--kubeconfig ~/.kube/aws-fargate01 \
 --fargate
 ```
 
