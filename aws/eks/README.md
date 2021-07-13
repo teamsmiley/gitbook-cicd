@@ -35,7 +35,7 @@ echo $AWS_PROFILE
 
 eksctl create cluster \
 --name cluster01 \
---version 1.19 \
+--version 1.20 \
 --region us-west-1 \
 --nodegroup-name cluster01-nodes \
 --node-type t3.small \
