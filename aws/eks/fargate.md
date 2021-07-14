@@ -4,6 +4,10 @@ pod를 ec2에서 실행하지 않고 fargate 에서 실행하고 싶으면 farga
 
 그 조건에 맞는 pod는 fargate에서 만들어준다.  
 
+1vm -&gt; 1 pod 
+
+vm과 pod가 아이피가 같다. 
+
 fargate가 항상 싼건 아니니 테스트를 해서 결정을 해야할듯  
 
 ```text
