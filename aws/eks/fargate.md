@@ -10,6 +10,8 @@ vm과 pod가 아이피가 같다.
 
 fargate가 항상 싼건 아니니 테스트를 해서 결정을 해야할듯  
 
+### fargate 용 cluster만들기
+
 ```text
 export AWS_PROFILE=rendercore
 
@@ -23,6 +25,8 @@ eksctl create cluster \
 --fargate
 ```
 
+Fargate profile 만들기
+
 ```text
 eksctl create fargateprofile \
 --name rendercore-prod \
@@ -31,7 +35,7 @@ eksctl create fargateprofile \
 --cluster cluster01
 ```
 
-
+또는 아래처럼 설정으로 만든다. 설정을 사용하면 여러개의 셀렉터를 선택할수 있다.
 
 {% code title="fargateProfile.yml" %}
 ```text
@@ -51,7 +55,11 @@ fargateProfiles:
 ```
 {% endcode %}
 
+selector가 5개 이상이면 에러나더라. namespace로만 하지말고  tag 로 처리를 해야할듯
+
 ```text
 eksctl create fargateprofile -f fargateProfile.yml
 ```
+
+ㅜ
 
