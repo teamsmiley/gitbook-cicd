@@ -35,3 +35,6 @@ maas $PROFILE --help
 maas $PROFILE tag --help
 maas $PROFILE tags --help
 ```
+
+![](./images/2021-07-15-16-51-21.png)
+
