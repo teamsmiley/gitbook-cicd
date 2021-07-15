@@ -16,7 +16,7 @@ sudo maas createadmin --username=$PROFILE --email=$EMAIL_ADDRESS
 ## api key 찾기
 
 1. 웹사이트로 로그인후 user를 클릭한다. apikey를 복사한다.
-1. `sudo maas apikey --username=$PROFILE > $API_KEY_FILE`
+2. `sudo maas apikey --username=$PROFILE > $API_KEY_FILE`
 
 ## login
 
@@ -35,6 +35,4 @@ maas $PROFILE --help
 maas $PROFILE tag --help
 maas $PROFILE tags --help
 ```
-
-![](./images/2021-07-15-16-51-21.png)
 

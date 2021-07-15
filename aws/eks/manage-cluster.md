@@ -62,7 +62,7 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-78-242 | wc -l
 kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ```
 
-![노드당 Pod갯수](../../.gitbook/assets/manage-cluster-04.png)
+![&#xB178;&#xB4DC;&#xB2F9; Pod&#xAC2F;&#xC218;](../../.gitbook/assets/manage-cluster-04.png)
 
 ## max pod 갯수
 
@@ -72,7 +72,7 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ENI * (# of IPv4 per ENI - 1)  + 2
 ```
 
-[https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
+[https://docs.aws.amazon.com/ko\_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
 
 여기에서 eni\(최대 네트워크 인터페이스 수\) 하고 인터페이스당 프라이밋 주소 알수 있다.
 
@@ -107,7 +107,6 @@ k9s로 노드 선택후 cordon ==&gt; drain ==&gt; delete를 순서대로 해주
 ### 노드 그룹 추가
 
 {% code title="nodegroup.yml" %}
-
 ```text
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -126,7 +125,6 @@ managedNodeGroups:
     ssh:
       allow: true
 ```
-
 {% endcode %}
 
 ```bash
@@ -142,3 +140,4 @@ eksctl get nodegroup --cluster=cluster01
 ```bash
 eksctl delete nodegroup cluster01-nodes --cluster=cluster01
 ```
+
