@@ -32,8 +32,6 @@ api key를 복사해둔 것을 붙여넣기 한다.
 
 ```bash
 maas $PROFILE --help
-
 maas $PROFILE tag --help
-
 maas $PROFILE tags --help
 ```
