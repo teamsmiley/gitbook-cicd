@@ -33,3 +33,21 @@ chmod 700 build.sh
 
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
+
+grafana/prometheus/alertmanager svc가 현재는 clusterip 인데 node port로 변경해보자.
+
+`kube-prometheus/addons/node-ports.libsonnet` 이부분만 주석해제 해주면된다.
+
+```jsonnet
+local kp =
+  (import 'kube-prometheus/main.libsonnet') +
+  (import 'kube-prometheus/addons/node-ports.libsonnet')
+  {
+
+```
+
+다시 빌드하고 커밋하면된다.
+
+```sh
+docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
+```
