@@ -63,4 +63,5 @@
 ## Prometheus
 
 * [Prometheus](prometheus/prometheus.md)
+* [Customize kube-prometheus](prometheus/customize-kube-prometheus.md)
 
