@@ -44,7 +44,7 @@ rm -rf .git/modules/${submodule_path}
 ```bash
 submodule_path=kube-prometheus
 
-git submodule deinit ${submodule_path}
+git submodule deinit -f ${submodule_path}
 git rm ${submodule_path}
 # Note: submodule_path (no trailing slash)
 git rm --cached ${submodule_path}
