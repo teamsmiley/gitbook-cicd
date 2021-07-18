@@ -18,7 +18,7 @@ git checkout tags/v0.8.0
 git submodule update --init --recursive
 ```
 
-checkout을 tag로 해두었다. 어디서 클론을 하던 이 버전이 유지된다.
+checkout을 tag로 해두었다. 어디서 클론을 하던 이 버전이 유지된다. * 중요
 
 ## submodule 삭제
 
