@@ -27,15 +27,9 @@ wget https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/relea
 chmod 700 build.sh
 
 #jb update
+#go get github.com/google/go-jsonnet/cmd/jsonnet
+#go get github.com/brancz/gojsontoyaml
+#./build.sh
 
-go get github.com/google/go-jsonnet/cmd/jsonnet
-go get github.com/brancz/gojsontoyaml
-
-./build.sh
-```
-
-## docker
-
-```sh
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
