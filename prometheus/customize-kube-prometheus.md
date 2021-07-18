@@ -13,17 +13,25 @@ export GOPATH=$(go env GOPATH)
 # get jb compile tool
 go get -u github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
 
-cd core/kube-prometheus
+mkdir core/prometheus
+cd core/prometheus
 
-jb update
+jb init
+
+jb install github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus@release-0.8
+
+wget https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/release-0.8/example.jsonnet -O example.jsonnet
+
+wget https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/release-0.8/build.sh -O build.sh
+
+chmod 700 build.sh
+
+#jb update
 
 go get github.com/google/go-jsonnet/cmd/jsonnet
 go get github.com/brancz/gojsontoyaml
 
-chmod 700 build.sh
-
 ./build.sh
-
 ```
 
 ## docker
@@ -31,4 +39,3 @@ chmod 700 build.sh
 ```sh
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
-
