@@ -20,3 +20,4 @@ git add --all && git commit -m "kube-prometheus: v0.8.0" && git push
 k apply -f add-apps/core/kube-prometheus.yaml #app추가해서 사용하면된다.
 ```
 
+metrics-server가 있으면 에러가 나서 기존 metrics-server지워주었다.
