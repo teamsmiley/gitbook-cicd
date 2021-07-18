@@ -47,4 +47,3 @@ kubectl -n monitoring port-forward svc/grafana 3000
 [http://localhost:3000/login](http://localhost:3000/login) admin/admin
 
 로그인후 dashboard &gt; manage &gt; default 에 가면 미리 설치된 대시보드를 볼수 있다.
-
