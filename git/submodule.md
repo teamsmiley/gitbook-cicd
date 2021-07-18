@@ -12,13 +12,15 @@ cd kube-prometheus
 git checkout tags/v0.8.0
 ```
 
+## checkout
+
 새로 체크아웃 받는경우 submodule은 다운로드 되지 않는다. 따로 관리해야한다.
 
 ```bash
 git submodule update --init --recursive
 ```
 
-checkout을 tag로 해두었다. 어디서 클론을 하던 이 버전이 유지된다. * 중요
+checkout을 tag로 해두었다. 어디서 클론을 하던 이 버전이 유지된다. \* 중요
 
 ## submodule 삭제
 
