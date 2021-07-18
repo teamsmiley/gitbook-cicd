@@ -2,7 +2,7 @@
 
 ## submodule 등록
 
-git에서 다른 git을 하위폴더에 가져오는 것
+git에서 다른 git을 하위폴더에 가져와서 같이 사용하는것
 
 ```bash
 git clone main_repo_url
