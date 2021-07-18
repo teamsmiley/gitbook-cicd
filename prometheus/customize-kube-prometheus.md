@@ -16,4 +16,8 @@ go get -u github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
 cd core/kube-prometheus
 
 jb update
+
+go get github.com/google/go-jsonnet/cmd/jsonnet
+go get github.com/brancz/gojsontoyaml
+
 ```
