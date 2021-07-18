@@ -29,6 +29,7 @@
 * [notification slack](argocd/notification-slack.md)
 * [Backup / DR](argocd/backup-dr.md)
 * [ingress](argocd/ingress.md)
+* [git submodule](argocd/git-submodule.md)
 
 ## Docker
 
