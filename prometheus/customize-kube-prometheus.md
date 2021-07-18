@@ -31,3 +31,4 @@ chmod 700 build.sh
 ```sh
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
+
