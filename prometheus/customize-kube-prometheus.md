@@ -20,4 +20,14 @@ jb update
 go get github.com/google/go-jsonnet/cmd/jsonnet
 go get github.com/brancz/gojsontoyaml
 
+chmod 700 build.sh
+
+./build.sh
+
+```
+
+## docker
+
+```sh
+docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
