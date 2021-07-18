@@ -24,5 +24,13 @@ git commit -m "kube-prometheus: v0.8.0"
 git push
 ```
 
+app등록하면 디플로이가 되는것을 볼수 있다.
+
+```text
+kubectl -n monitoring port-forward svc/prometheus-k8s 9090
+kubectl -n monitoring port-forward svc/alertmanager-main 9093
+kubectl -n monitoring port-forward svc/grafana 3000
+```
+
 
 
