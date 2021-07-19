@@ -82,6 +82,38 @@ auth라는 파일이 생겼다. 내용을 복사하여 example.jsonnet파일과 
 
 하고보면 grafana는 id/password를 두번 넣어야하는 문제가 생기는데?
 
+grafana는 기본인증에서 빼도 될듯 보인다. grafana를 수정햇다. ingress라는 함수를 안쓰고 직접 넣어준다.
+
+```jsonnet
+grafana: {
+          apiVersion: 'networking.k8s.io/v1',
+          kind: 'Ingress',
+          metadata: {
+            name: 'grafana',
+            namespace: $.values.common.namespace,
+          },
+          spec: {
+            rules: [{
+              host: 'grafana.c3',
+              http: {
+                paths: [{
+                  path: '/',
+                  pathType: 'Prefix',
+                  backend: {
+                    service: {
+                      name: 'grafana',
+                      port: {
+                        name: 'http',
+                      },
+                    },
+                  },
+                }],
+              },
+            }],
+          },
+      },
+```
+
 ## etcd 모니터링
 
 ```sh
@@ -147,3 +179,70 @@ etcd+: {
 ```
 
 빌드하고 커밋 푸시해보자.
+
+prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확인된다.
+
+## instance가 하나의 노드에 2개뜨는걸 방지
+
+현재 alertmanager-main이 node05에 두개가 떠 있다.
+이걸 다른노드에서 띄워보자.
+
+<https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/anti-affinity.jsonnet>
+
+참고해서 주석만 한줄 풀어줬다.
+
+서로 다른 노드에 배포되는것을 확인했다.
+
+## alert
+
+슬랙으로 alert를 받고 싶다.
+
+일단 슬랙채널을 만들어보자.
+
+![](./images/2021-07-19-07-32-51.png)
+
+웹 후크 관련 설정을 한다. <https://api.slack.com/messaging/webhooks>
+
+실제 메세지가 가는지 테스트 한다.
+
+https://prometheus.io/docs/alerting/latest/notification_examples/
+
+```yml
+global:
+  resolve_timeout: 1m
+  slack_api_url: 'https://hooks.slack.com/services/T/B01P/hp0IAsK'
+route:
+  receiver: 'slack-notifications'
+receivers:
+  - name: 'slack-notifications'
+    slack_configs:
+      - channel: '#kube'
+        send_resolved: true
+        icon_url: 'https://avatars3.githubusercontent.com/u/3380462'
+        title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] Monitoring Event Notification'
+        text: |-
+          {{ range .Alerts }}
+            *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+            *Description:* {{ .Annotations.description }}
+            *Graph:* <{{ .GeneratorURL }}|:chart_with_upwards_trend:>
+            *Details:*
+            {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+            {{ end }}
+          {{ end }}
+```
+
+웹 후크 url을 적어주고 나머지는 잘 수정해서 보내준다.
+
+jsonnet 파일을 수정한다.
+
+```jsonnet
+values+:: {
+     ...
+
+      // Change Alertmanager configuration
+      alertmanager+: {
+        config: importstr 'alertmanager/config.yaml',
+      },
+```
+
+컴파일 하고 올려보자.
