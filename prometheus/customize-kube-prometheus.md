@@ -51,3 +51,7 @@ local kp =
 ```sh
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
+
+커밋후 svc를 확인해보면 서비스 타입이 노드포트로 변경되는걸 알수 있다.
+
+이제 다시 지워고 다시 빌드 커밋 푸시 하면 원래대로 돌아오는것을 알수 있다.
