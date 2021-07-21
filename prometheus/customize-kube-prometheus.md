@@ -246,3 +246,104 @@ values+:: {
 ```
 
 컴파일 하고 올려보자.
+
+문제가 생기면 슬랙으로 알림이 잘 온다.
+
+## alert
+
+KubeSchedulerDown 알림이 계속온다.
+
+v0.8에서 조금 이상해진거같음.
+
+```jsonnet
+values+:: {
+
+      kubePrometheus+: {
+        platform: 'kubeadm',
+      },
+```
+
+이걸 추가하면 에러가 없어진다고 하는데 ..해보자.
+
+없어진다.
+
+## CPUThrottlingHigh
+
+CPUThrottlingHigh가 계속 알림으로 온다.
+node-exporter가 cpu가 높다는것이다.
+
+내용을 확인해보자.
+manifest파일을 확인해보니 다음과 같다.
+
+```yml
+- alert: CPUThrottlingHigh
+      annotations:
+        description: '{{ $value | humanizePercentage }} throttling of CPU in namespace {{ $labels.namespace }} for container {{ $labels.container }} in pod {{ $labels.pod }}.'
+        runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/cputhrottlinghigh
+        summary: Processes experience elevated CPU throttling.
+      expr: |
+        sum(increase(container_cpu_cfs_throttled_periods_total{container!="", }[5m])) by (container, pod, namespace)
+          /
+        sum(increase(container_cpu_cfs_periods_total{}[5m])) by (container, pod, namespace)
+          > ( 25 / 100 )
+      for: 15m
+      labels:
+        severity: info
+```
+
+값이 25이상이면 보내게 되있다. 해결방안을 고민해보자.
+
+1. 25이상이 무리가 없다고 판단되면 예를들어 50%까지는 알림을 보고싶지 않다고 하면 25를 50으로 바꾸면 되지 낳을가?
+2. 해당 pod의 resource를 추가해 줘야 하지 않을가?
+
+node-exporter-daemonset.yaml 에서 다음 부분을 수정해야 한다.
+
+```yml
+resources:
+  limits:
+    cpu: 250m
+    memory: 180Mi
+  requests:
+    cpu: 102m
+    memory: 180Mi
+```
+
+일단 request를 cpu 250m으로 해보고 알림이 오는지 확인해보자.
+
+일단 기존보다는 %가 내려간것을 알수 있다.
+
+![](./images/2021-07-20-10-06-13.png)
+
+여전히 25가 넘어가면 알림이 발생 50으로 변경해서 테스트
+
+알림이 줄어들었다.
+
+이제 컴파일시 저 숫자들을 변경해줘야하는데..
+
+```jsonnet
+values+:: {
+  ...
+  kubernetesControlPlane+: {
+    mixin+: {
+      _config+: {
+        cpuThrottlingPercent: 60,
+      },
+    },
+  },
+
+}
+```
+
+이렇게 하고 컴파일 푸시하면 된다.
+
+<https://github.com/prometheus-operator/kube-prometheus/issues/1165>
+
+## api error burn rate
+
+이 에러가나서 확인해봣더니 노드에서 다음 에러가 나온다.
+
+```text
+Search Line limits were exceeded, some search paths have been omitted, the applied search line
+```
+
+`/etc/resolve.conf`에 보면 여러개의 search에 항목이 있엇다. 전부 지워주니 에러도 없어졌고 알람도 없어졋다.
