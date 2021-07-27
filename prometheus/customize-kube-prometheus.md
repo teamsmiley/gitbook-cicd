@@ -38,17 +38,16 @@ grafana/prometheus/alertmanager svc가 현재는 clusterip 인데 node port로 �
 
 `kube-prometheus/addons/node-ports.libsonnet` 이부분만 주석해제 해주면된다.
 
-```jsonnet
+```text
 local kp =
   (import 'kube-prometheus/main.libsonnet') +
   (import 'kube-prometheus/addons/node-ports.libsonnet')
   {
-
 ```
 
 다시 빌드하고 커밋하면된다.
 
-```sh
+```bash
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
 
@@ -58,11 +57,11 @@ docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./bu
 
 ## ingress에 서비스를 오픈
 
-<https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/exposing-prometheus-alertmanager-grafana-ingress.md>
+[https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/exposing-prometheus-alertmanager-grafana-ingress.md](https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/exposing-prometheus-alertmanager-grafana-ingress.md)
 
 참고해서 봐도 되고 다음 코드도 같이 보면 좋다.
 
-<https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/ingress.jsonnet>
+[https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/ingress.jsonnet](https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/ingress.jsonnet)
 
 example.jsonnet을 위 파일처럼 수정후 domain을 변경해주면된다.
 
@@ -84,7 +83,7 @@ auth라는 파일이 생겼다. 내용을 복사하여 example.jsonnet파일과 
 
 grafana는 기본인증에서 빼도 될듯 보인다. grafana를 수정햇다. ingress라는 함수를 안쓰고 직접 넣어준다.
 
-```jsonnet
+```text
 grafana: {
           apiVersion: 'networking.k8s.io/v1',
           kind: 'Ingress',
@@ -116,21 +115,23 @@ grafana: {
 
 ## etcd 모니터링
 
-```sh
+```bash
 ssh master01
 
 # Copy etcd CA cert from etcd server "/etc/ssl/etcd/ssl/ca.pem"
 sudo cp /etc/ssl/etcd/ssl/ca.pem /home/ubuntu/
+
 # Copy etcd CA cert from etcd server "/etc/ssl/etcd/ssl/ca-key.pem"
 sudo cp /etc/ssl/etcd/ssl/ca-key.pem /home/ubuntu/
+
 cd /home/ubuntu/
 
-apt install golang-cfssl
+sudo apt install golang-cfssl
 
 cat client.json
 ```
 
-```json
+```javascript
 {
   "CN": "etcd-ca",
   "hosts": [""],
@@ -142,11 +143,11 @@ cat client.json
 }
 ```
 
-```sh
+```bash
+sudo chmod 755 *.pem
+
 # Generate client certificate
 cfssl gencert -ca ca.pem -ca-key ca-key.pem client.json | cfssljson -bare etcd-client
-
-chmod 755 *.pem
 ```
 
 관련 파일이 만들어진다. 전부 로컬로 가져온다.
@@ -159,13 +160,13 @@ scp master01.c3:~/etcd-client.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etc
 
 jsonnet 설정
 
-<https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/etcd.jsonnet>
+[https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/etcd.jsonnet](https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/etcd.jsonnet)
 
 여기 참고하면된다.
 
 아이피는 사용하는 아이피 전부 넣어주면되고 서버이름은 빈칸으로 해도 된다. insecureSkipVerify 는 false로
 
-```jsonnet
+```text
 etcd+: {
         ips: ['172.16.3.11', '172.16.3.12', '172.16.3.13'],
         clientCA: importstr 'etcd/ca.pem',
@@ -180,14 +181,13 @@ etcd+: {
 
 빌드하고 커밋 푸시해보자.
 
-prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확인된다.
+prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 확인된다.
 
 ## instance가 하나의 노드에 2개뜨는걸 방지
 
-현재 alertmanager-main이 node05에 두개가 떠 있다.
-이걸 다른노드에서 띄워보자.
+현재 alertmanager-main이 node05에 두개가 떠 있다. 이걸 다른노드에서 띄워보자.
 
-<https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/anti-affinity.jsonnet>
+[https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/anti-affinity.jsonnet](https://github.com/prometheus-operator/kube-prometheus/blob/main/examples/anti-affinity.jsonnet)
 
 참고해서 주석만 한줄 풀어줬다.
 
@@ -199,15 +199,15 @@ prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확�
 
 일단 슬랙채널을 만들어보자.
 
-![](./images/2021-07-19-07-32-51.png)
+![](../.gitbook/assets/2021-07-19-07-32-51.png)
 
-웹 후크 관련 설정을 한다. <https://api.slack.com/messaging/webhooks>
+웹 후크 관련 설정을 한다. [https://api.slack.com/messaging/webhooks](https://api.slack.com/messaging/webhooks)
 
 실제 메세지가 가는지 테스트 한다.
 
-https://prometheus.io/docs/alerting/latest/notification_examples/
+[https://prometheus.io/docs/alerting/latest/notification\_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
 
-```yml
+```text
 global:
   resolve_timeout: 1m
   slack_api_url: 'https://hooks.slack.com/services/T/B01P/hp0IAsK'
@@ -235,7 +235,7 @@ receivers:
 
 jsonnet 파일을 수정한다.
 
-```jsonnet
+```text
 values+:: {
      ...
 
@@ -255,7 +255,7 @@ KubeSchedulerDown 알림이 계속온다.
 
 v0.8에서 조금 이상해진거같음.
 
-```jsonnet
+```text
 values+:: {
 
       kubePrometheus+: {
@@ -269,13 +269,11 @@ values+:: {
 
 ## CPUThrottlingHigh
 
-CPUThrottlingHigh가 계속 알림으로 온다.
-node-exporter가 cpu가 높다는것이다.
+CPUThrottlingHigh가 계속 알림으로 온다. node-exporter가 cpu가 높다는것이다.
 
-내용을 확인해보자.
-manifest파일을 확인해보니 다음과 같다.
+내용을 확인해보자. manifest파일을 확인해보니 다음과 같다.
 
-```yml
+```text
 - alert: CPUThrottlingHigh
       annotations:
         description: '{{ $value | humanizePercentage }} throttling of CPU in namespace {{ $labels.namespace }} for container {{ $labels.container }} in pod {{ $labels.pod }}.'
@@ -298,7 +296,7 @@ manifest파일을 확인해보니 다음과 같다.
 
 node-exporter-daemonset.yaml 에서 다음 부분을 수정해야 한다.
 
-```yml
+```text
 resources:
   limits:
     cpu: 250m
@@ -312,7 +310,7 @@ resources:
 
 일단 기존보다는 %가 내려간것을 알수 있다.
 
-![](./images/2021-07-20-10-06-13.png)
+![](../.gitbook/assets/2021-07-20-10-06-13.png)
 
 여전히 25가 넘어가면 알림이 발생 50으로 변경해서 테스트
 
@@ -320,7 +318,7 @@ resources:
 
 이제 컴파일시 저 숫자들을 변경해줘야하는데..
 
-```jsonnet
+```text
 values+:: {
   ...
   kubernetesControlPlane+: {
@@ -336,7 +334,7 @@ values+:: {
 
 이렇게 하고 컴파일 푸시하면 된다.
 
-<https://github.com/prometheus-operator/kube-prometheus/issues/1165>
+[https://github.com/prometheus-operator/kube-prometheus/issues/1165](https://github.com/prometheus-operator/kube-prometheus/issues/1165)
 
 ## api error burn rate
 
@@ -347,3 +345,4 @@ Search Line limits were exceeded, some search paths have been omitted, the appli
 ```
 
 `/etc/resolve.conf`에 보면 여러개의 search에 항목이 있엇다. 전부 지워주니 에러도 없어졌고 알람도 없어졋다.
+
