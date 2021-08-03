@@ -1,16 +1,18 @@
 # fargate
 
-pod를 ec2에서 실행하지 않고 fargate 에서 실행하고 싶으면 fargate profile을 만들어주면서 조건을 준다. 
+pod를 ec2에서 실행하지 않고 fargate 에서 실행하고 싶으면 fargate profile을 만들어주면서 조건을 준다.
 
-그 조건에 맞는 pod는 fargate에서 만들어준다.  
+그 조건에 맞는 pod는 fargate에서 만들어준다.
 
-1vm -&gt; 1 pod 
+```txt
+1vm -> 1 pod
+```
 
-vm과 pod가 아이피가 같다. 
+vm과 pod가 아이피가 같다.
 
-fargate가 항상 싼건 아니니 테스트를 해서 결정을 해야할듯  
+fargate가 항상 싼건 아니니 테스트를 해서 결정을 해야할듯
 
-### fargate 용 cluster만들기
+## fargate 용 cluster만들기
 
 ```text
 export AWS_PROFILE=rendercore
@@ -38,6 +40,7 @@ eksctl create fargateprofile \
 또는 아래처럼 설정으로 만든다. 설정을 사용하면 여러개의 셀렉터를 선택할수 있다.
 
 {% code title="fargateProfile.yml" %}
+
 ```text
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -53,13 +56,11 @@ fargateProfiles:
       - namespace: kube-system
       - namespace: argocd
 ```
+
 {% endcode %}
 
-selector가 5개 이상이면 에러나더라. namespace로만 하지말고  tag 로 처리를 해야할듯
+selector가 5개 이상이면 에러나더라. namespace로만 하지말고 tag 로 처리를 해야할듯
 
-```text
+```sh
 eksctl create fargateprofile -f fargateProfile.yml
 ```
-
-ㅜ
-
