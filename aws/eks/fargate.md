@@ -52,7 +52,6 @@ metadata:
 fargateProfiles:
   - name: fp-all-namespace
     selectors:
-      - namespace: default
       - namespace: kube-system
       - namespace: argocd
 ```
@@ -63,4 +62,6 @@ selector가 5개 이상이면 에러나더라. namespace로만 하지말고 tag 
 
 ```sh
 eksctl create fargateprofile -f fargateProfile.yml
+
+eksctl delete fargateprofile --name fp-all-namespace --cluster cluster01
 ```
