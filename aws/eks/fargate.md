@@ -75,3 +75,7 @@ kube-system을 fargate 로 넣으면 잘 안된다.
 이거만 계속 나온다.
 
 원래 있던 노드에서 pod를 지워버리면 fargate로 넘어간다.
+
+```text
+Now we have to delete and re-create any existing pods so that they are scheduled on Fargate nodes. Otherwise, pods including the "coredns" pods, will be stuck in "Pending" state.
+```
