@@ -65,3 +65,13 @@ eksctl create fargateprofile -f fargateProfile.yml
 
 eksctl delete fargateprofile --name fp-all-namespace --cluster cluster01
 ```
+
+## tip
+
+kube-system을 fargate 로 넣으면 잘 안된다.
+
+`2021-08-03 10:42:33 [ℹ] "coredns" is now scheduled onto Fargate`
+
+이거만 계속 나온다.
+
+원래 있던 노드에서 pod를 지워버리면 fargate로 넘어간다.
