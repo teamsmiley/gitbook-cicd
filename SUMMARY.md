@@ -45,6 +45,7 @@
 * [ingress-nginx](kubernetes/ingress-nginx.md)
 * [external-dns](kubernetes/external-dns.md)
 * [longhorn - pv](kubernetes/longhorn-pv.md)
+* [percona extra db  cluster operator](kubernetes/percona-extra-db-cluster-operator.md)
 
 ## Linux
 
