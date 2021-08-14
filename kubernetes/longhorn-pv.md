@@ -200,6 +200,84 @@ pod도 5번에 있는것을 확인할수 있다.
 
 ![](./images/2021-08-13-17-25-54.png)
 
+## snapshot
+
+![](./images/2021-08-13-17-32-30.png)
+
+![](./images/2021-08-13-17-32-42.png)
+
+간단히 snapshot이 됬다. 메인으로 사용되지 않는 replica에서 스냅샷이 이루어지는지는 확인하지 못햇다.
+
+![](./images/2021-08-13-17-34-00.png)
+
+스냅샷 리스트가 보인다.
+
+복구를 해보자.
+
+스냅샷을 고르면 다음처럼 나온다.
+
+![](./images/2021-08-13-17-35-08.png)
+
+revert가 회색인것을 알수있다. pod가 attached되어 있어서 생기는 문제 일단 pod를 내리고 다시 확인해보자.
+
+```bash
+kubectl delete pod mypod
+```
+
+![](./images/2021-08-13-17-36-58.png)
+
+detached로 바뀐 볼륨
+
+detached된 볼륨을 선택하고 attach를 누르자.
+
+![](./images/2021-08-13-17-40-30.png)
+
+mainterance mode로 들어가서 작업하자. mainterance 를 꼭 체크해준다.
+
+![](./images/2021-08-13-17-39-47.png)
+
+health로 바뀐다.
+
+![](./images/2021-08-13-17-42-02.png)
+
+이름을 클릭하고 내부로 들어가보면 snapshot이 보인다. 클릭하면 revert가 활성화 된다. 누르자.
+
+![](./images/2021-08-13-17-43-04.png)
+
+revert가 다된후에 다시 volume을 detach한다.
+
+![](./images/2021-08-13-17-44-44.png)
+
+detached된 볼륨
+
+![](./images/2021-08-13-17-45-14.png)
+
+이제 pod를 다시 생성해보자.
+
+```sh
+k apply -f mypod.yml
+```
+
+![](./images/2021-08-13-17-47-51.png)
+
+다시 pod에 attched됫다.
+
+스냅샷 버전으로 돌아온것을 확인할수 있다.
+
+근데 왜 같은 volume으로 붙지? 아 pvc가 지워지지 않고 유지되고 있어서 그렇지.
+
+## recurring snapshot and backup
+
+![](./images/2021-08-13-17-50-21.png)
+
+여기서 처리하면된다.
+
+![](./images/2021-08-13-17-50-42.png)
+
+![](./images/2021-08-13-17-51-19.png)
+
+스냅샷과 백업 둘다 할수 있다.
+
 ## 기본 옵션 변경
 
 메뉴중 setting이라는곳에 모든 기본 옵션이 들어가 있다.
@@ -211,3 +289,54 @@ helm설치시 설정해주어도 된다.
 ## backup
 
 리플리카가 있기는 하지만 클러스터 내부에 있으므로 외부로 백업을 하는것도 가능하다.
+
+s3에 백업을 하자. s3권한문제와 secret key부분은 각자 알아서 처리해두고 진행
+
+bucket을 만든다.
+
+![](./images/2021-08-13-18-06-35.png)
+
+aws 접속정보가 있는 secret를 만들고 적용한다.
+
+```yml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backup-s3
+  namespace: longhorn-system
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: AAAA=
+  AWS_SECRET_ACCESS_KEY: AAAA==
+```
+
+```sh
+k apply -f backup-s3.yml
+k get secret -n longhorn-system
+```
+
+![](./images/2021-08-13-18-01-50.png)
+
+longhorn 세팅 페이지에서 설정을 하자.
+
+![](./images/2021-08-13-18-03-35.png)
+
+`s3://bucket-name@region/path/`
+
+save하자.
+
+volume에 들어가서 백업 버튼을 눌러보자.
+
+![](./images/2021-08-13-18-12-42.png)
+
+조금 기다리면 백업이 됬다고 표시된다.
+
+s3에서 확인해보면 다음과 같이 업로드된것이 보인다.
+
+![](./images/2021-08-13-18-13-45.png)
+
+매일 스케줄을 걸어두면 편할듯 보인다.
+
+![](./images/2021-08-13-18-18-16.png)
+
+특정 갯수 이상은 s3에서 지워준다.
