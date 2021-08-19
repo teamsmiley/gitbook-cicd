@@ -176,9 +176,57 @@ k get svc # loadbalance ip확인
 
 디비에 접속해보면 된다.
 
-## s3에 백업
+## 백업
 
-백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다. 확인해보자.
+- 자동 백업
+  백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
+
+- 수동 백업
+  수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
+
+```sh
+cat backup/backup.yaml
+```
+
+```yml
+apiVersion: pxc.percona.com/v1
+kind: PerconaXtraDBClusterBackup
+metadata:
+  #  finalizers:
+  #    - delete-s3-backup #지울때 s3 backup까지 같이지우고 싶은경우는 사용하자.
+  name: backup1 # 이름을 잘 설정하자.
+spec:
+  pxcCluster: cluster01
+  storageName: s3-us-west
+```
+
+```sh
+kubectl apply -f backup/backup.yaml
+```
+
+s3에 업로드 된것을 확인할수 잇다.
+
+https://www.percona.com/doc/kubernetes-operator-for-pxc/backups.html#making-on-demand-backup
+
+## 복구
+
+`vi backup/restore.yaml`
+
+```yml
+apiVersion: pxc.percona.com/v1
+kind: PerconaXtraDBClusterRestore
+metadata:
+  name: restore1
+spec:
+  pxcCluster: cluster01
+  backupName: backup1
+```
+
+```sh
+kubectl apply -f backup/restore.yaml
+```
+
+클러스터를 하나씩 없애고 복구하고 다시 올려준다.
 
 ## pmm 확인
 
@@ -191,6 +239,18 @@ k get svc # loadbalance ip확인
 ![](./images/2021-08-19-06-38-25.png)
 
 alert manager를 설정하면 슬랙으로 에러를 받을수 있다.
+
+## DR
+
+일단 노드 1개가 고장나면 자동으로 다른노드에 올려주고 이 노드에서는 자동으로 master에서 파일을 가져와서 복구를 시간한후 자동으로 붙여준다.
+
+만약 3개 노드가 동시에 꺼저버리면 문제가 될듯 보인다. 그래서 찾아봣더니 3개 노드중 마지막 데이터가 잇는곳을 찾아서 그곳을 마스터로 지정하고 난후 나머지 2개 노드를 다시 자동으로 올려준다고하니 큰 문제는 없어 보인다.
+
+![](./images/2021-08-19-07-03-12.png)
+
+<https://youtu.be/V3ko5NpTMPA?t=895>
+
+longhorn에서 스토리지에 리플리카를 지원을 하므로 3개 정도 해두거나 전체 노드 댓수에 해두면 전체 노드에 같은 데이터가 잇는것이므로 어느 노드에서 실행이 되더라도 자동으로 붙여서 올라올것으로 보인다. 다만 이경우에 처음부터 싱크를 다시 하는지는 아직 알지 못한다.
 
 ## 결론
 
