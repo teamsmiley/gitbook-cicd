@@ -269,6 +269,36 @@ pitr:
 
 복구를 해보자.
 
+`vi reststore.yaml`
+
+```yml
+apiVersion: pxc.percona.com/v1
+kind: PerconaXtraDBClusterRestore
+metadata:
+  name: restore1
+spec:
+  pxcCluster: cluster1
+  backupName: backup1
+  pitr:
+    type: date
+    date: '2021-08-01 09:37:13'
+    backupSource:
+      storageName: 's3-us-west'
+```
+
+이렇게 날짜 시간까지 복구할수 있다.
+
+`k apply -f backup/restore.yaml`
+
+- type
+  - date - roll back to specific date,
+  - transaction - roll back to specific transaction,
+  - latest - recover to the latest possible transaction,
+
+이러게 사용할수 있다.
+
+특정 트렌젝션만 빼려면 transaction을 써서 그 앞까지 복구하고 특정 트렌젠션은 빼고 그 다음부터 쭉 넣어줘야하는데 이건 어떻게 하는지 모르겟다. //todo
+
 ## 결론
 
 총 3대의 mysql 클러스터가 구성이 되었고 longhorn을 사용하여 데이터가 쿠베 클러스터에 저장이 된다. 백업은 s3로 자동으로 업로드가 된다. pmm으로 모니터링이 가능하다.
