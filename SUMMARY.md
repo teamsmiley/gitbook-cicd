@@ -51,6 +51,7 @@
 ## Linux
 
 * [export and variable](linux/export-and-variable.md)
+* [grep 사용법](linux/grep.md)
 
 ## maas
 
