@@ -46,6 +46,7 @@
 * [external-dns](kubernetes/external-dns.md)
 * [longhorn - pv](kubernetes/longhorn-pv.md)
 * [percona extra db  cluster operator](kubernetes/percona-extra-db-cluster-operator.md)
+* [TIP](kubernetes/tip.md)
 
 ## Linux
 

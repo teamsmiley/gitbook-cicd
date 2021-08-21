@@ -1,4 +1,4 @@
-# percona extra db cluster operator
+# percona extra db  cluster operator
 
 mysql을 설치해주고 복제해주고 모든걸 자동으로 해주는것이 목표
 
@@ -10,7 +10,7 @@ pv/pvc가 없이 tempdir 이나 hostpath로도 테스트는 가능하나 백업/
 
 install
 
-```sh
+```bash
 helm repo add percona https://percona-charts.storage.googleapis.com
 helm repo update
 
@@ -23,7 +23,7 @@ cert-manager가 설정이 미리 되있어서 ssl까지 만들면서 진행
 
 백앤드에 ssl로 통신하는것 중요
 
-```yml
+```text
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -57,7 +57,7 @@ spec:
 
 ## percona-xtradb-cluster-operator
 
-```sh
+```bash
 git clone -b v1.8.0 https://github.com/percona/percona-xtradb-cluster-operator
 
 cd percona-xtradb-cluster-operator/deploy
@@ -70,7 +70,6 @@ k apply -f crd.yaml
 k apply -f rbac.yaml
 k apply -f operator.yaml
 # 또는 합쳐져있는 k apply -f bundle
-
 ```
 
 ## password setting
@@ -79,7 +78,7 @@ k apply -f operator.yaml
 
 `cat secrets.yaml`
 
-```yml
+```text
 apiVersion: v1
 kind: Secret
 metadata:
@@ -98,7 +97,7 @@ stringData:
 
 적용하자.
 
-```sh
+```bash
 k apply -f secrets.yaml
 ```
 
@@ -106,7 +105,7 @@ aws에 백업을 하기 위한 비번도 필요하다.
 
 `cat backup-s3.yaml`
 
-```yml
+```text
 apiVersion: v1
 kind: Secret
 metadata:
@@ -118,7 +117,7 @@ data:
   AWS_SECRET_ACCESS_KEY: VktqdzZWTjRDMjxxxY5MUQ5OQ==
 ```
 
-```sh
+```bash
 k apply -f backup-s3.yaml
 ```
 
@@ -126,7 +125,7 @@ k apply -f backup-s3.yaml
 
 `vi cr.yaml`
 
-```yml
+```text
 secretsName: my-cluster-secrets # secret.yml에 있는 이름을 넣어줘야함.
 allowUnsafeConfigurations: true # tls 통신안쓰는것으로 처리
 haproxy:
@@ -169,7 +168,7 @@ pmm client로 사용
 
 적용
 
-```sh
+```bash
 k apply -f cr.yaml
 k get svc # loadbalance ip확인
 ```
@@ -178,17 +177,14 @@ k get svc # loadbalance ip확인
 
 ## 백업
 
-- 자동 백업
-  백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
+* 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
+* 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
 
-- 수동 백업
-  수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
-
-```sh
+```bash
 cat backup/backup.yaml
 ```
 
-```yml
+```text
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterBackup
 metadata:
@@ -200,19 +196,19 @@ spec:
   storageName: s3-us-west
 ```
 
-```sh
+```bash
 kubectl apply -f backup/backup.yaml
 ```
 
 s3에 업로드 된것을 확인할수 잇다.
 
-https://www.percona.com/doc/kubernetes-operator-for-pxc/backups.html#making-on-demand-backup
+[https://www.percona.com/doc/kubernetes-operator-for-pxc/backups.html\#making-on-demand-backup](https://www.percona.com/doc/kubernetes-operator-for-pxc/backups.html#making-on-demand-backup)
 
 ## 복구
 
 `vi backup/restore.yaml`
 
-```yml
+```text
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterRestore
 metadata:
@@ -222,7 +218,7 @@ spec:
   backupName: backup1
 ```
 
-```sh
+```bash
 kubectl apply -f backup/restore.yaml
 ```
 
@@ -232,11 +228,11 @@ kubectl apply -f backup/restore.yaml
 
 다 구성되고 나면 pmm 에 접속해보면 클러스터 상태가 보인다.
 
-![](./images/2021-08-19-06-22-40.png)
+![](../.gitbook/assets/2021-08-19-06-22-40.png)
 
-![](./images/2021-08-19-06-27-22.png)
+![](../.gitbook/assets/2021-08-19-06-27-22.png)
 
-![](./images/2021-08-19-06-38-25.png)
+![](../.gitbook/assets/2021-08-19-06-38-25.png)
 
 alert manager를 설정하면 슬랙으로 에러를 받을수 있다.
 
@@ -246,9 +242,9 @@ alert manager를 설정하면 슬랙으로 에러를 받을수 있다.
 
 만약 3개 노드가 동시에 꺼저버리면 문제가 될듯 보인다. 그래서 찾아봣더니 3개 노드중 마지막 데이터가 잇는곳을 찾아서 그곳을 마스터로 지정하고 난후 나머지 2개 노드를 다시 자동으로 올려준다고하니 큰 문제는 없어 보인다.
 
-![](./images/2021-08-19-07-03-12.png)
+![](../.gitbook/assets/2021-08-19-07-03-12.png)
 
-<https://youtu.be/V3ko5NpTMPA?t=895>
+[https://youtu.be/V3ko5NpTMPA?t=895](https://youtu.be/V3ko5NpTMPA?t=895)
 
 longhorn에서 스토리지에 리플리카를 지원을 하므로 3개 정도 해두거나 전체 노드 댓수에 해두면 전체 노드에 같은 데이터가 잇는것이므로 어느 노드에서 실행이 되더라도 자동으로 붙여서 올라올것으로 보인다. 다만 이경우에 처음부터 싱크를 다시 하는지는 아직 알지 못한다.
 
@@ -258,7 +254,7 @@ longhorn에서 스토리지에 리플리카를 지원을 하므로 3개 정도 �
 
 vi cr.yml
 
-```yml
+```text
 pitr:
   enabled: true
   storageName: s3-us-west
@@ -271,7 +267,7 @@ pitr:
 
 `vi reststore.yaml`
 
-```yml
+```text
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterRestore
 metadata:
@@ -290,10 +286,10 @@ spec:
 
 `k apply -f backup/restore.yaml`
 
-- type
-  - date - roll back to specific date,
-  - transaction - roll back to specific transaction,
-  - latest - recover to the latest possible transaction,
+* type
+  * date - roll back to specific date,
+  * transaction - roll back to specific transaction,
+  * latest - recover to the latest possible transaction,
 
 이러게 사용할수 있다.
 
@@ -310,3 +306,4 @@ spec:
 pxc-backups로 검색해서 edit 해서 finalize를 지워줘야 한다.
 
 외부 스토리지를 지우지 못해서 행이 걸리는건데 이 부분을 무시하고 지날수 있다.
+
