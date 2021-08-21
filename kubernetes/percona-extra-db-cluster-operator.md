@@ -69,7 +69,7 @@ k get pod
 k apply -f crd.yaml
 k apply -f rbac.yaml
 k apply -f operator.yaml
-# 또는 합쳐져있는 k apply -f bundle
+# k apply -f bundle.yaml 또는 합쳐져있는
 
 ```
 
@@ -83,7 +83,7 @@ k apply -f operator.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: my-cluster-secrets # 중요
+  name: my-cluster-secrets # 이름 중요
 type: Opaque
 stringData:
   root: your-password
@@ -174,7 +174,62 @@ k apply -f cr.yaml
 k get svc # loadbalance ip확인
 ```
 
-디비에 접속해보면 된다.
+proxysql 로드 발란스 아이피로 디비에 접속해보면 된다. ( 172.16.4.157 )
+
+아니면 다음 커맨드를 사용한다.
+
+```sh
+kubectl run -i --tty --rm percona-client --image=percona --restart=Never \
+  -- mysql -h cluster02-pxc.pxc-mysql.svc.cluster.local -uroot -p
+#type your password
+```
+
+cluster02-pxc.pxc-mysql.svc.cluster.local => $service-name.$namespace.svc.cluster.local
+
+디비에 테스트 데이터를 넣어보자.
+
+```sql
+create database test;
+use test;
+create table movies(id int auto_increment primary key, name varchar(20) not null);
+show tables;
+insert into movies(name) values('hello1');
+select * from movies;
+```
+
+이제 각각의 pod에서 잘 작동하는지 확인해보자.
+
+`k get pod`에서 아이피를 찾아서 아이피로 접속해본다.
+
+- 10.233.111.105
+- 10.233.118.212
+- 10.233.108.255
+
+```sh
+kubectl run -i --tty --rm percona-client0 --image=percona --restart=Never \
+ -- mysql -h 10-233-111-105.pxc-mysql.pod.cluster.local -uroot -p
+#type your password
+
+kubectl run -i --tty --rm percona-client1 --image=percona --restart=Never \
+ -- mysql -h 10-233-118-212.pxc-mysql.pod.cluster.local -uroot -p
+#type your password
+
+kubectl run -i --tty --rm percona-client2 --image=percona --restart=Never \
+ -- mysql -h 10-233-108-255.pxc-mysql.pod.cluster.local -uroot -p
+#type your password
+```
+
+모두 접속하여
+
+```sh
+select * from movies
+```
+
+를 실행해서 넣은 데이터가 들어가 있는지 확인 한다.
+
+![](./images/2021-08-20-17-47-41.png)
+
+잘 복제되고 있는것을 확인하였다.
 
 ## 백업
 
@@ -185,10 +240,7 @@ k get svc # loadbalance ip확인
   수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
 
 ```sh
-cat backup/backup.yaml
-```
-
-```yml
+cat > backup.yaml <<EOF
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterBackup
 metadata:
@@ -198,6 +250,7 @@ metadata:
 spec:
   pxcCluster: cluster01
   storageName: s3-us-west
+EOF
 ```
 
 ```sh
@@ -210,9 +263,8 @@ https://www.percona.com/doc/kubernetes-operator-for-pxc/backups.html#making-on-d
 
 ## 복구
 
-`vi backup/restore.yaml`
-
-```yml
+```sh
+cat > restore.yaml <<EOF
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterRestore
 metadata:
@@ -220,9 +272,8 @@ metadata:
 spec:
   pxcCluster: cluster01
   backupName: backup1
-```
+EOF
 
-```sh
 kubectl apply -f backup/restore.yaml
 ```
 
@@ -310,3 +361,7 @@ spec:
 pxc-backups로 검색해서 edit 해서 finalize를 지워줘야 한다.
 
 외부 스토리지를 지우지 못해서 행이 걸리는건데 이 부분을 무시하고 지날수 있다.
+
+```
+
+```
