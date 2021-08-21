@@ -1,4 +1,4 @@
-# percona extra db cluster operator
+# percona extra db  cluster operator
 
 mysql을 설치해주고 복제해주고 모든걸 자동으로 해주는것이 목표
 
@@ -178,17 +178,17 @@ k apply -f cr.yaml
 k get svc # loadbalance ip확인
 ```
 
-proxysql 로드 발란스 아이피로 디비에 접속해보면 된다. ( 172.16.4.157 )
+proxysql 로드 발란스 아이피로 디비에 접속해보면 된다. \( 172.16.4.157 \)
 
 아니면 다음 커맨드를 사용한다.
 
-```sh
+```bash
 kubectl run -i --tty --rm percona-client --image=percona --restart=Never \
   -- mysql -h cluster02-pxc.pxc-mysql.svc.cluster.local -uroot -p
 #type your password
 ```
 
-cluster02-pxc.pxc-mysql.svc.cluster.local => $service-name.$namespace.svc.cluster.local
+cluster02-pxc.pxc-mysql.svc.cluster.local =&gt; $service-name.$namespace.svc.cluster.local
 
 디비에 테스트 데이터를 넣어보자.
 
@@ -205,11 +205,11 @@ select * from movies;
 
 `k get pod`에서 아이피를 찾아서 아이피로 접속해본다.
 
-- 10.233.111.105
-- 10.233.118.212
-- 10.233.108.255
+* 10.233.111.105
+* 10.233.118.212
+* 10.233.108.255
 
-```sh
+```bash
 kubectl run -i --tty --rm percona-client0 --image=percona --restart=Never \
  -- mysql -h 10-233-111-105.pxc-mysql.pod.cluster.local -uroot -p
 #type your password
@@ -225,29 +225,29 @@ kubectl run -i --tty --rm percona-client2 --image=percona --restart=Never \
 
 모두 접속하여
 
-```sh
+```bash
 select * from movies
 ```
 
 를 실행해서 넣은 데이터가 들어가 있는지 확인 한다.
 
-![](./images/2021-08-20-17-47-41.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/9e57cc8f93be4c8fc7ab41c983b1aa72270e859a/kubernetes/images/2021-08-20-17-47-41.png)
 
 잘 복제되고 있는것을 확인하였다.
 
 ## 백업
 
-- 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
-- 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
+* 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
+* 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
 
-<<<<<<< HEAD
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
-````sh
+```bash
 cat > backup.yaml <<EOF
 =======
 ```bash
 cat backup/backup.yaml
-````
+```
 
 ```text
 >>>>>>> 0914dd79d8525bc0e26230440712a291b156b559
@@ -273,7 +273,7 @@ s3에 업로드 된것을 확인할수 잇다.
 
 ## 복구
 
-````sh
+```bash
 cat > restore.yaml <<EOF
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterRestore
@@ -289,7 +289,7 @@ EOF
 ```bash
 >>>>>>> 0914dd79d8525bc0e26230440712a291b156b559
 kubectl apply -f backup/restore.yaml
-````
+```
 
 클러스터를 하나씩 없애고 복구하고 다시 올려준다.
 
@@ -355,10 +355,10 @@ spec:
 
 `k apply -f backup/restore.yaml`
 
-- type
-  - date - roll back to specific date,
-  - transaction - roll back to specific transaction,
-  - latest - recover to the latest possible transaction,
+* type
+  * date - roll back to specific date,
+  * transaction - roll back to specific transaction,
+  * latest - recover to the latest possible transaction,
 
 이러게 사용할수 있다.
 
@@ -376,12 +376,13 @@ pxc-backups로 검색해서 edit 해서 finalize를 지워줘야 한다.
 
 외부 스토리지를 지우지 못해서 행이 걸리는건데 이 부분을 무시하고 지날수 있다.
 
-<<<<<<< HEAD
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
-```
+```text
 
 ```
 
 =======
 
 > > > > > > > 0914dd79d8525bc0e26230440712a291b156b559
+

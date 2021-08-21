@@ -13,15 +13,11 @@ cat aaa.txt | grep -i -B 4 -A 2 bbb
 
 grep  옵션 
 
-
-
 ```text
 grep "([A-Za-z ]*)" - (blah Blah Blah) 
 ```
 
-asdf
 
-asdf
 
 
 
