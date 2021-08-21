@@ -46,10 +46,12 @@
 * [external-dns](kubernetes/external-dns.md)
 * [longhorn - pv](kubernetes/longhorn-pv.md)
 * [percona extra db  cluster operator](kubernetes/percona-extra-db-cluster-operator.md)
+* [TIP](kubernetes/tip.md)
 
 ## Linux
 
 * [export and variable](linux/export-and-variable.md)
+* [grep 사용법](linux/grep.md)
 
 ## maas
 
