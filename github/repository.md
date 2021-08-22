@@ -4,7 +4,7 @@
 
 ### Create GitHub or GitLab Account
 
-여기서는 github를 샘플로 사용하겟다.
+여기서는 github를 샘플로 사용하겠다.
 
 ### create source code repo
 
@@ -54,4 +54,3 @@ git branch -M main
 git remote add origin git@github.com:teamsmiley/demo-argocd.git
 git push -u origin main
 ```
-

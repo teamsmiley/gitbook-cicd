@@ -1,4 +1,4 @@
-# percona extra db  cluster operator
+# percona extra db cluster operator
 
 mysql을 설치해주고 복제해주고 모든걸 자동으로 해주는것이 목표
 
@@ -205,9 +205,9 @@ select * from movies;
 
 `k get pod`에서 아이피를 찾아서 아이피로 접속해본다.
 
-* 10.233.111.105
-* 10.233.118.212
-* 10.233.108.255
+- 10.233.111.105
+- 10.233.118.212
+- 10.233.108.255
 
 ```bash
 kubectl run -i --tty --rm percona-client0 --image=percona --restart=Never \
@@ -237,17 +237,17 @@ select * from movies
 
 ## 백업
 
-* 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
-* 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
+- 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
+- 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
 
 &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 
-```bash
+````bash
 cat > backup.yaml <<EOF
 =======
 ```bash
 cat backup/backup.yaml
-```
+````
 
 ```text
 >>>>>>> 0914dd79d8525bc0e26230440712a291b156b559
@@ -351,14 +351,14 @@ spec:
 
 `k apply -f backup/restore.yaml`
 
-* type
-  * date - roll back to specific date,
-  * transaction - roll back to specific transaction,
-  * latest - recover to the latest possible transaction,
+- type
+  - date - roll back to specific date,
+  - transaction - roll back to specific transaction,
+  - latest - recover to the latest possible transaction,
 
 이러게 사용할수 있다.
 
-특정 트렌젝션만 빼려면 transaction을 써서 그 앞까지 복구하고 특정 트렌젠션은 빼고 그 다음부터 쭉 넣어줘야하는데 이건 어떻게 하는지 모르겟다. //todo
+특정 트렌젝션만 빼려면 transaction을 써서 그 앞까지 복구하고 특정 트렌젠션은 빼고 그 다음부터 쭉 넣어줘야하는데 이건 어떻게 하는지 모르겠다. //todo
 
 ## 결론
 
@@ -381,4 +381,3 @@ pxc-backups로 검색해서 edit 해서 finalize를 지워줘야 한다.
 =======
 
 > > > > > > > 0914dd79d8525bc0e26230440712a291b156b559
-

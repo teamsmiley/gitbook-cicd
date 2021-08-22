@@ -14,7 +14,7 @@ kubectl delete jobs --field-selector status.successful=0
 
 ## TTLAfterFinished
 
-이 기능이 1.21 버전부터는 기본으로 포함이 되었다.
+이 기능이 1.21 버전부터는 기본으로 포함이 되었다. 현재까지는 job에만 적용이 되나 나중에 확장될 예정 1.21에서 beta
 
 <https://kubernetes.io/ko/docs/reference/command-line-tools-reference/feature-gates/>
 

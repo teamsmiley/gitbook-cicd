@@ -35,4 +35,5 @@ kubectl logs -f deployment/mobile-php --all-containers=true --since=5m
 
 이러면 이제 mobile-php 로 생성된 모든 pod의 로그를 한꺼번에 보여준다.
 
-- grep 으로 필터도 가능하겟다.
+- grep 으로 필터도 가능하겠다.
+- k9s에서는 deployment를 리스트한후 l을 눌러서 로그를 보면 전체 pod의 로그를 볼수 있다.
