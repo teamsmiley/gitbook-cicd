@@ -6,10 +6,11 @@
 
 ## feature-gates
 
-<https://kubernetes.io/ko/docs/reference/command-line-tools-reference/feature-gates/>
+[https://kubernetes.io/ko/docs/reference/command-line-tools-reference/feature-gates/](https://kubernetes.io/ko/docs/reference/command-line-tools-reference/feature-gates/)
 
 기능 게이트는 쿠버네티스 기능을 설명하는 일련의 키=값 쌍이다. 각 쿠버네티스 컴포넌트에서 --feature-gates 커맨드 라인 플래그를 사용하여 이러한 기능을 켜거나 끌 수 있다.
 
 ## 완료된 리소스를 위한 TTL 컨트롤러
 
-<https://kubernetes.io/ko/docs/concepts/workloads/controllers/ttlafterfinished/>
+[https://kubernetes.io/ko/docs/concepts/workloads/controllers/ttlafterfinished/](https://kubernetes.io/ko/docs/concepts/workloads/controllers/ttlafterfinished/)
+

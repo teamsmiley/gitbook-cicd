@@ -1,4 +1,4 @@
-# percona extra db cluster operator
+# percona extra db  cluster operator
 
 mysql을 설치해주고 복제해주고 모든걸 자동으로 해주는것이 목표
 
@@ -70,7 +70,6 @@ k apply -f crd.yaml
 k apply -f rbac.yaml
 k apply -f operator.yaml
 # 또는 합쳐져있는 k apply -f bundle.yaml
-
 ```
 
 ## password setting
@@ -201,9 +200,9 @@ select * from movies;
 
 `k get pod`에서 아이피를 찾아서 아이피로 접속해본다.
 
-- 10.233.111.105
-- 10.233.118.212
-- 10.233.108.255
+* 10.233.111.105
+* 10.233.118.212
+* 10.233.108.255
 
 ```bash
 kubectl run -i --tty --rm percona-client0 --image=percona --restart=Never \
@@ -233,8 +232,8 @@ select * from movies
 
 ## 백업
 
-- 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
-- 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
+* 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
+* 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
 
 ```bash
 cat > backup.yaml <<EOF
@@ -338,10 +337,10 @@ spec:
 
 `k apply -f backup/restore.yaml`
 
-- type
-  - date - roll back to specific date,
-  - transaction - roll back to specific transaction,
-  - latest - recover to the latest possible transaction,
+* type
+  * date - roll back to specific date,
+  * transaction - roll back to specific transaction,
+  * latest - recover to the latest possible transaction,
 
 이러게 사용할수 있다.
 
@@ -359,6 +358,7 @@ pxc-backups로 검색해서 edit 해서 finalize를 지워줘야 한다.
 
 외부 스토리지를 지우지 못해서 행이 걸리는건데 이 부분을 무시하고 지날수 있다.
 
-```
+```text
 
 ```
+
