@@ -69,12 +69,8 @@ k get pod
 k apply -f crd.yaml
 k apply -f rbac.yaml
 k apply -f operator.yaml
-<<<<<<< HEAD
-# k apply -f bundle.yaml 또는 합쳐져있는
+# 또는 합쳐져있는 k apply -f bundle.yaml
 
-=======
-# 또는 합쳐져있는 k apply -f bundle
->>>>>>> 0914dd79d8525bc0e26230440712a291b156b559
 ```
 
 ## password setting
@@ -240,17 +236,8 @@ select * from movies
 - 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
 - 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-
-````bash
-cat > backup.yaml <<EOF
-=======
 ```bash
-cat backup/backup.yaml
-````
-
-```text
->>>>>>> 0914dd79d8525bc0e26230440712a291b156b559
+cat > backup.yaml <<EOF
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterBackup
 metadata:
@@ -372,12 +359,6 @@ pxc-backups로 검색해서 edit 해서 finalize를 지워줘야 한다.
 
 외부 스토리지를 지우지 못해서 행이 걸리는건데 이 부분을 무시하고 지날수 있다.
 
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-
-```text
-
 ```
 
-=======
-
-> > > > > > > 0914dd79d8525bc0e26230440712a291b156b559
+```
