@@ -1,20 +1,3 @@
 # TIP
 
-## delete completed pod
-
-```bash
-kubectl delete pod --field-selector=status.phase==Succeeded
-```
-
-## delete completed job
-
-```bash
-kubectl delete jobs --field-selector status.successful=1
-```
-
-## delete fail job or long running job
-
-```bash
-kubectl delete jobs --field-selector status.successful=0
-```
-
+쿠버네티스를 사용중에 나오는 tip들을 정리해보려고 한다.
