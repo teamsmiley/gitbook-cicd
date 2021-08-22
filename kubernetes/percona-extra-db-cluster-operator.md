@@ -267,7 +267,7 @@ EOF
 kubectl apply -f backup/backup.yaml
 ```
 
-s3에 업로드 된것을 확인할수 잇다.
+s3에 업로드 된것을 확인할수 있다.
 
 [https://www.percona.com/doc/kubernetes-operator-for-pxc/backups.html\#making-on-demand-backup](https://www.percona.com/doc/kubernetes-operator-for-pxc/backups.html#making-on-demand-backup)
 
