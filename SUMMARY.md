@@ -41,12 +41,16 @@
 * [tools](kubernetes/tools.md)
 * [prepare install - maas](kubernetes/prepare-install-maas.md)
 * [install with kubespray](kubernetes/install-with-kubespray.md)
-* [Cert-Manager](kubernetes/cert-manager.md)
-* [ingress-nginx](kubernetes/ingress-nginx.md)
-* [external-dns](kubernetes/external-dns.md)
-* [longhorn - pv](kubernetes/longhorn-pv.md)
+* [Extension](kubernetes/extension/README.md)
+  * [longhorn - pv](kubernetes/extension/longhorn-pv.md)
+  * [external-dns](kubernetes/extension/external-dns.md)
+  * [ingress-nginx](kubernetes/extension/ingress-nginx.md)
+  * [Cert-Manager](kubernetes/extension/cert-manager.md)
+* [app](kubernetes/app.md)
 * [percona extra db  cluster operator](kubernetes/percona-extra-db-cluster-operator.md)
-* [TIP](kubernetes/tip.md)
+* [TIP](kubernetes/tip/README.md)
+  * [job](kubernetes/tip/job.md)
+  * [pod](kubernetes/tip/pod.md)
 
 ## Linux
 

@@ -2,18 +2,19 @@
 
 ## delete completed pod
 
-```sh
+```bash
 kubectl delete pod --field-selector=status.phase==Succeeded
 ```
 
 ## delete completed job
 
-```sh
+```bash
 kubectl delete jobs --field-selector status.successful=1
 ```
 
 ## delete fail job or long running job
 
-```sh
+```bash
 kubectl delete jobs --field-selector status.successful=0
 ```
+
