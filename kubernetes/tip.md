@@ -15,5 +15,5 @@ kubectl delete jobs --field-selector status.successful=1
 ## delete fail job or long running job
 
 ```sh
-ubectl delete jobs --field-selector status.successful=0
+kubectl delete jobs --field-selector status.successful=0
 ```
