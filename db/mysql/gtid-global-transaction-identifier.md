@@ -106,6 +106,11 @@ spec:
 kubectl apply -f deploy/backup/restore.yaml
 ```
 
+- type
+  - date - roll back to specific date,
+  - transaction - roll back to specific transaction,
+  - latest - recover to the latest possible transaction,
+
 date를 사용해서 특정 날짜로 복구가 가능하다.
 
 gtid를 이용해서 특정 시퀀스넘버 까지 복구가 가능하다. 예를들면 '20' 마지막 번호 바로 앞까지만 복구된다. 19까지 복구된다.
@@ -115,7 +120,6 @@ gtid set를 이용해서 '1-10,11-20' 으로 그룹화하여 복구가 가능하
 gtid값만 찾으면 복구가 이제 가능하다.
 
 ```sql
-
 create table movies(id int auto_increment primary key, name varchar(20) not null);
 show tables;
 insert into movies(name) values('hello1');
@@ -158,3 +162,13 @@ gtid: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee:1-717,718-720'
 ```
 
 이렇게 복구하면된다.
+
+## point-in-time restore
+
+이걸 위해서는 bin log 파일을 백업을 받아야한다.
+
+이부분 주석 해제 스토리지 이름을 적어주면 bin logfile 를 업로드한다.
+
+복구를 해보자.
+
+`vi reststore.yaml`
