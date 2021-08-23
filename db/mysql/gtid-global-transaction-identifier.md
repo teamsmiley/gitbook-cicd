@@ -62,6 +62,23 @@ s3 현재
 
 새로운 파일이 올라온것을 확인할수 있다.
 
+다운받아서 확인해보자.
+
+```bash
+mkdir log
+#download s3
+cd log
+docker run --rm -v $(pwd):/binlog mysql:8 mysqlbinlog -v /binlog/binlog_1629743530_397451a8b1770fbc4ec2a983dfff161d
+
+```
+
+- Binary Log Format
+  <https://dev.mysql.com/doc/refman/5.7/en/binary-log-setting.html>
+  - STATEMENT
+  - ROW
+  - MIXED
+
+이렇게 잇는데 pxc에서 row를 사용한다. 로그를 보려면 -v 옵션을 줘서 봐야한다.
 
 ## 복구하기
 
@@ -94,3 +111,50 @@ date를 사용해서 특정 날짜로 복구가 가능하다.
 gtid를 이용해서 '20' 거기까지 복구가 가능하다. 마지막 번호 바로 앞까지만 복구된다. 19까지 복구된다.
 
 gtid set를 이용해서 '1-10,11-20' 으로 그룹화하여 복구가 가능하다. 9번까지 복구하고 10번은 건너뛰고 11-20번까지 복구된다.
+
+gtid값만 찾으면 복구가 이제 가능하다.
+
+```sql
+
+create table movies(id int auto_increment primary key, name varchar(20) not null);
+show tables;
+insert into movies(name) values('hello1');
+insert into movies(name) values('hello2');
+insert into movies(name) values('hello3');
+insert into movies(name) values('hello4');
+insert into movies(name) values('hello5');
+select * from movies;
+delete from movies;
+select * from movies;
+insert into movies(name) values('new1');
+insert into movies(name) values('new2');
+insert into movies(name) values('new3');
+insert into movies(name) values('new4');
+insert into movies(name) values('new5');
+select * from movies;
+```
+
+중간에 날린 delete만 빼고 싶다.
+
+```bash
+mkdir log
+#download s3
+cd log
+docker run --rm -v $(pwd):/binlog -it mysql:8 mysqlbinlog -v /binlog/binlog_1629743530_397451a8b1770fbc4ec2a983dfff161d | grep -i -e GTID_NEXT -e delete
+```
+
+![](./images/2021-08-23-12-43-09.png)
+
+delete 앞쪽에 나오는 값 717을 알아낼수 있다.
+
+```sql
+select @@global.gtid_executed; -- 현재 GTID 확인 720
+```
+
+이제 이렇게 처리할수 있다.
+
+```yml
+gtid: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee:1-717,718-720'
+```
+
+이렇게 복구하면된다.
