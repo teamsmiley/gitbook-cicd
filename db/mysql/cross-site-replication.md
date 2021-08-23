@@ -1,4 +1,4 @@
-# Cross-site replication
+# Cross Site replication
 
 cross site
 

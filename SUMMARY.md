@@ -77,6 +77,6 @@
 
 * [Mysql](db/mysql/README.md)
   * [GTID \(Global Transaction Identifier\)](db/mysql/gtid-global-transaction-identifier.md)
-  * [Cross-site replication](db/mysql/cross-site-replication.md)
+  * [Cross Site replication](db/mysql/cross-site-replication.md)
 * [Mssql](db/mssql.md)
 
