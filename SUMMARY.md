@@ -78,5 +78,6 @@
 * [Mysql](db/mysql/README.md)
   * [GTID](db/mysql/gtid-global-transaction-identifier.md)
   * [Cross Site Replication](db/mysql/cross-site-replication.md)
+  * [PXC 삭제](db/mysql/pxc.md)
 * [Mssql](db/mssql.md)
 
