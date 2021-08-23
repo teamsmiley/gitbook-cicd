@@ -14,7 +14,7 @@ https://www.percona.com/doc/kubernetes-operator-for-pxc/replication.html
 
 ## source cluster 구성
 
-cr.yaml
+`vi cr.yaml`
 
 ```yaml
 spec:
