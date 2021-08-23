@@ -1,4 +1,4 @@
-# Cross Site replication
+# Cross Site Replication
 
 두개의 쿠버네티스에서 디비를 리플리케이션 할수 있다.
 
