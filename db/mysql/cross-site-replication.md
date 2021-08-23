@@ -37,7 +37,9 @@ load balance를 이용하여 svc를 통해 외부에 오픈한다.
 
 복제를 받을 클러스터에서 설정하자.
 
-cr.yaml
+위에서 로드발란스로 오픈한 아이피를 사용한다.
+
+`vi cr.yaml`
 
 ```yaml
 pxc:
