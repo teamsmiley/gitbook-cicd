@@ -19,8 +19,12 @@ cat aaa.txt | grep -i -B 4 -A 2 -e "([A-Za-z]*)" bbb
 - -v : keywords to be excluded
 - -e --regexp: regexp 사용
 
-여러개의 단어를 동시에 필터하고 싶은경우
+- 여러개의 단어를 동시에 필터하고 싶은경우
 
 `grep -e gtid -e delete`
 
 gtid나 delete가 있는줄을 보여준다.
+
+- 파일명을 같이 보여주고 싶은 경우
+
+`--with-filename`

@@ -226,7 +226,7 @@ select * from movies
 
 를 실행해서 넣은 데이터가 들어가 있는지 확인 한다.
 
-![](https://github.com/teamsmiley/gitbook-cicd/tree/9e57cc8f93be4c8fc7ab41c983b1aa72270e859a/kubernetes/images/2021-08-20-17-47-41.png)
+![](images/2021-08-20-17-47-41.png)
 
 잘 복제되고 있는것을 확인하였다.
 

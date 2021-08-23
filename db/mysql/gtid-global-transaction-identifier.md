@@ -140,7 +140,7 @@ select * from movies;
 mkdir log
 #download s3
 cd log
-docker run --rm -v $(pwd):/binlog -it mysql:8 mysqlbinlog -v /binlog/binlog_1629743530_397451a8b1770fbc4ec2a983dfff161d | grep -i -e GTID_NEXT -e delete
+docker run --rm -v $(pwd):/binlog -it mysql:8 mysqlbinlog -v /binlog/binlog_* | grep -i -e gtid_next -e delete
 ```
 
 ![](./images/2021-08-23-12-43-09.png)
