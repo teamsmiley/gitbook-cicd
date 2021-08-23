@@ -2,15 +2,15 @@
 
 두개의 쿠버네티스에서 디비를 리플리케이션 할수 있다.
 
-https://www.percona.com/doc/kubernetes-operator-for-pxc/replication.html
+[https://www.percona.com/doc/kubernetes-operator-for-pxc/replication.html](https://www.percona.com/doc/kubernetes-operator-for-pxc/replication.html)
 
-![](./images/2021-08-22-23-54-23.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/3ab8992dd8cf9d807f28c18e33148b6458f18afa/db/mysql/images/2021-08-22-23-54-23.png)
 
 ## 주의
 
-- Percona XtraDB Cluster 8.0.22+ 이상을 설치해야 한다.
-- haproxy를 사용하면 잘되는데 proxy sql을 사용하면 안된다.
-- 복제시 사용할 비번이 같아야한다. secret.yml에 같은 비번으로 설정해주면 된다.
+* Percona XtraDB Cluster 8.0.22+ 이상을 설치해야 한다.
+* haproxy를 사용하면 잘되는데 proxy sql을 사용하면 안된다.
+* 복제시 사용할 비번이 같아야한다. secret.yml에 같은 비번으로 설정해주면 된다.
 
 ## source cluster 구성
 
@@ -61,3 +61,4 @@ pxc:
 설정 추가하고 적용하면 클러스터가 뜨면서 복제를 시작한다.
 
 새로 올라온 디비를 확인해보면 복제가 되는것을 알수 있다.
+

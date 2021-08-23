@@ -1,4 +1,4 @@
-# GTID \(Global Transaction Identifier\)
+# GTID
 
-a
+Global Transaction Identifier
 

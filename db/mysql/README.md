@@ -11,3 +11,4 @@ mysql관련해서는 Percona Xtradb Cluster를 추천하며 줄여서 pxc라고 
 그렇게 되면 pod가 뜬 곳에서 로컬하드를 이용하므로 빠른 io가 보장된다.
 
 mysql과 호환된다.
+
