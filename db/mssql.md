@@ -2,13 +2,258 @@
 
 ## storage 설정
 
+```yml
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mssql-primary
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mssql-secondary1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mssql-secondary2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+```
+
 ## secret 설정
+
+```yml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mssql-secret
+type: Opaque
+data:
+  SA_PASSWORD: S2ltY2XXXSkpNw==
+```
 
 ## primary deploy
 
+```sql
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: primary-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql-primary
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mssql-primary
+    spec:
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        fsGroup: 1000
+      hostname: mssql-primary
+      containers:
+        - name: mssql-primary
+          image: mcr.microsoft.com/mssql/rhel/server:2019-latest
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: MSSQL_PID
+              value: "Developer"
+            - name: MSSQL_ENABLE_HADR
+              value: "1"
+            - name: MSSQL_AGENT_ENABLED
+              value: "true"
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mssql-secret
+                  key: SA_PASSWORD
+          resources:
+            limits:
+              memory: 4G
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-primary
+---
+# Create the load balancing service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-primary
+spec:
+  selector:
+    app: mssql-primary
+  ports:
+    - name: sqlserver
+      port: 1433
+      targetPort: 1433
+    - name: endpoint
+      port: 5022
+      targetPort: 5022
+  type: LoadBalancer
+```
+
 ## secondary1 deploy
 
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secondary1-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql-secondary1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mssql-secondary1
+    spec:
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        fsGroup: 1000
+      hostname: mssql-secondary1
+      containers:
+        - name: mssql-secondary1
+          image: mcr.microsoft.com/mssql/rhel/server:2019-latest
+          env:
+            - name: ACCEPT_EULA
+              value: 'Y'
+            - name: MSSQL_PID
+              value: 'Developer'
+            - name: MSSQL_ENABLE_HADR
+              value: '1'
+            - name: MSSQL_AGENT_ENABLED
+              value: 'true'
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mssql-secret
+                  key: SA_PASSWORD
+          resources:
+            limits:
+              memory: 4G
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-secondary1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-secondary1
+spec:
+  selector:
+    app: mssql-secondary1
+  ports:
+    - name: sqlserver
+      port: 1433
+      targetPort: 1433
+    - name: endpoint
+      port: 5022
+      targetPort: 5022
+  type: LoadBalancer
+```
+
 ## secondary2 deploy
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secondary2-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql-secondary2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mssql-secondary2
+    spec:
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        fsGroup: 1000
+      hostname: mssql-secondary2
+      containers:
+        - name: mssql-secondary2
+          image: mcr.microsoft.com/mssql/rhel/server:2019-latest
+          env:
+            - name: ACCEPT_EULA
+              value: 'Y'
+            - name: MSSQL_PID
+              value: 'Developer'
+            - name: MSSQL_ENABLE_HADR
+              value: '1'
+            - name: MSSQL_AGENT_ENABLED
+              value: 'true'
+            - name: MSSQL_SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mssql-secret
+                  key: SA_PASSWORD
+          resources:
+            limits:
+              memory: 4G
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: mssqldb
+          persistentVolumeClaim:
+            claimName: mssql-secondary2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-secondary2
+spec:
+  selector:
+    app: mssql-secondary2
+  ports:
+    - name: sqlserver
+      port: 1433
+      targetPort: 1433
+    - name: endpoint
+      port: 5022
+      targetPort: 5022
+  type: LoadBalancer
+```
 
 ## 접속테스트
 
