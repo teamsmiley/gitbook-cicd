@@ -398,6 +398,10 @@ openssl x509 -inform der -in ag_certificate.cert -text -noout
 
 ![](./images/2021-08-23-20-48-38.png)
 
+1년짜리 인증서임
+
+인증서를 나중에는 연장해야겟다.
+
 ## secondary1 설정
 
 ```sql
