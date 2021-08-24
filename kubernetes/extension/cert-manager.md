@@ -10,8 +10,8 @@ Issuer : namespace마다 하나의 issuer를 생성해서 사용하게
 
 {% embed url="https://cert-manager.io/docs/usage/ingress/" caption="" %}
 
-* `cert-manager.io/issuer`: the name of an `Issuer` to acquire the certificate required for this `Ingress`. The Issuer _must_ be in the same namespace as the `Ingress` resource.
-* `cert-manager.io/cluster-issuer`: the name of a `ClusterIssuer` to acquire the certificate required for this `Ingress`. It does not matter which namespace your `Ingress` resides, as `ClusterIssuers` are non-namespaced resources.
+- `cert-manager.io/issuer`: the name of an `Issuer` to acquire the certificate required for this `Ingress`. The Issuer _must_ be in the same namespace as the `Ingress` resource.
+- `cert-manager.io/cluster-issuer`: the name of a `ClusterIssuer` to acquire the certificate required for this `Ingress`. It does not matter which namespace your `Ingress` resides, as `ClusterIssuers` are non-namespaced resources.
 
 이걸 사용하면 하나로 처리가 가능하다.
 
@@ -27,10 +27,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - test.xgridcolo.com
+        - test.your-domain.com
       secretName: test-tls
   rules:
-    - host: test.xgridcolo.com
+    - host: test.your-domain.com
       http:
         paths:
           - path: /
@@ -41,4 +41,3 @@ spec:
                 port:
                   number: 80
 ```
-

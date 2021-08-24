@@ -6,7 +6,7 @@ cli를 설치한후 다음처럼 하자.
 
 ```bash
 PROFILE=admin
-EMAIL_ADDRESS="brian@xgridcolo.com"
+EMAIL_ADDRESS="brian@your-domain.com"
 MAAS_URL=http://localhost:5240/MAAS/api/2.0
 API_KEY_FILE=~/admin-api-key
 
@@ -35,4 +35,3 @@ maas $PROFILE --help
 maas $PROFILE tag --help
 maas $PROFILE tags --help
 ```
-
