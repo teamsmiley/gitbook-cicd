@@ -10,7 +10,7 @@ pod가 1번 노드에서 뜨면 1번 노드에 pv를 붙여주는거 같음
 
 {% embed url="https://longhorn.io/" caption="" %}
 
-## prerequisites
+## pre-requisites
 
 ubuntu20은 nfs-commons만 추가 설치해야한다.
 
@@ -344,3 +344,8 @@ s3에서 확인해보면 다음과 같이 업로드된것이 보인다.
 
 ![](../../.gitbook/assets/2021-08-13-18-20-45.png)
 
+## 복구
+
+<https://www.youtube.com/watch?v=h8A8mUMGE7M&t=377s>
+
+여기에서 복구를 해보면 된다.
