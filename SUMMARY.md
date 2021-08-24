@@ -45,7 +45,6 @@
   * [ingress-nginx](kubernetes/extension/ingress-nginx.md)
   * [Cert-Manager](kubernetes/extension/cert-manager.md)
 * [app](kubernetes/app.md)
-* [percona extra db cluster operator](kubernetes/percona-extra-db-cluster-operator.md)
 * [TIP](kubernetes/tip/README.md)
   * [job](kubernetes/tip/job.md)
   * [pod](kubernetes/tip/pod.md)
