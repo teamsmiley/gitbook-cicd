@@ -52,7 +52,7 @@ data:
 
 ## primary deploy
 
-```sql
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -78,13 +78,13 @@ spec:
           image: mcr.microsoft.com/mssql/rhel/server:2019-latest
           env:
             - name: ACCEPT_EULA
-              value: "Y"
+              value: 'Y'
             - name: MSSQL_PID
-              value: "Developer"
+              value: 'Developer'
             - name: MSSQL_ENABLE_HADR
-              value: "1"
+              value: '1'
             - name: MSSQL_AGENT_ENABLED
-              value: "true"
+              value: 'true'
             - name: MSSQL_SA_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -389,6 +389,14 @@ kubectl cp ag_certificate.key  $secondary1:/var/opt/mssql
 kubectl cp ag_certificate.cert $secondary2:/var/opt/mssql
 kubectl cp ag_certificate.key $secondary2:/var/opt/mssql
 ```
+
+생긴 cert를 확인해보니 같은 결과가 나온다.
+
+```sh
+openssl x509 -inform der -in ag_certificate.cert -text -noout
+```
+
+![](./images/2021-08-23-20-48-38.png)
 
 ## secondary1 설정
 
