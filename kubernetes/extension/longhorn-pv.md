@@ -1,4 +1,4 @@
-# longhorn - pv
+# longhorn - pvc
 
 노드장비를 storage로 사용할수 있다.
 
