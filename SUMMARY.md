@@ -57,7 +57,6 @@
 
 * [install maas](maas/install-maas.md)
 * [manage maas](maas/manage-maas.md)
-* [dns 관리](maas/dns.md)
 
 ## git
 
@@ -78,4 +77,8 @@
   * [GTID](db/mysql/gtid-global-transaction-identifier.md)
   * [Cross Site Replication](db/mysql/cross-site-replication.md)
 * [Mssql](db/mssql.md)
+
+## open nubula
+
+* [opennebula](open-nubula/opennebula.md)
 
