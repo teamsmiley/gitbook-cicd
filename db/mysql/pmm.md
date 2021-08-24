@@ -52,15 +52,13 @@ spec:
 ## pmm-client
 
 {% code title="cr.yaml" %}
-
-```yml
+```text
 pmm:
   enabled: true
   image: percona/pmm-client:2.18.0
   serverHost: pxc-pmm-service # pmm-server에서의 서비스 명
   serverUser: admin # 확인
 ```
-
 {% endcode %}
 
 ```bash
@@ -75,10 +73,11 @@ pmm.c3.yourdomain.com 으로 들어가서 확인해보면 많은 데이터를 �
 
 다 구성되고 나면 pmm 에 접속해보면 클러스터 상태가 보인다.
 
-![](../.gitbook/assets/2021-08-19-06-22-40.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/c4b68f9c45e45a9eb17b11a061898c948c5d845c/db/.gitbook/assets/2021-08-19-06-22-40.png)
 
-![](../.gitbook/assets/2021-08-19-06-27-22.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/c4b68f9c45e45a9eb17b11a061898c948c5d845c/db/.gitbook/assets/2021-08-19-06-27-22.png)
 
-![](../.gitbook/assets/2021-08-19-06-38-25.png)
+![](https://github.com/teamsmiley/gitbook-cicd/tree/c4b68f9c45e45a9eb17b11a061898c948c5d845c/db/.gitbook/assets/2021-08-19-06-38-25.png)
 
 alert manager를 설정하면 슬랙으로 에러를 받을수 있다.
+

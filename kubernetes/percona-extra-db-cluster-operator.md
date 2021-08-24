@@ -1,2 +1,2 @@
-# percona extra db  cluster operator
+# percona extra db cluster operator
 

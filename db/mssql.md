@@ -2,7 +2,7 @@
 
 ## storage 설정
 
-```yml
+```text
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -40,7 +40,7 @@ spec:
 
 ## secret 설정
 
-```yml
+```text
 apiVersion: v1
 kind: Secret
 metadata:
@@ -121,7 +121,7 @@ spec:
 
 ## secondary1 deploy
 
-```yml
+```text
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -189,7 +189,7 @@ spec:
 
 ## secondary2 deploy
 
-```yml
+```text
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -257,14 +257,13 @@ spec:
 
 ## 접속테스트
 
-```sh
+```bash
 kubectl get svc
 ```
 
-아이피 확인후 접속해본다.
-![](./images/2021-08-23-17-42-04.png)
+아이피 확인후 접속해본다. ![](../.gitbook/assets/2021-08-23-17-42-04.png)
 
-![](./images/2021-08-23-17-42-35.png)
+![](../.gitbook/assets/2021-08-23-17-42-35.png)
 
 잘 된다.
 
@@ -353,13 +352,13 @@ ALTER AVAILABILITY GROUP [K8sAG] ADD DATABASE [DevTestAG]
 GO
 ```
 
-![](./images/2021-08-23-18-26-25.png)
+![](../.gitbook/assets/2021-08-23-18-26-25.png)
 
-AG_endpoint 생성 확인
+AG\_endpoint 생성 확인
 
 ## copy certificate from primary to secondary
 
-```sh
+```bash
 # Copy the certificates from the AG primary
 
 # Retreive the pod anmes to variables
@@ -392,11 +391,11 @@ kubectl cp ag_certificate.key $secondary2:/var/opt/mssql
 
 생긴 cert를 확인해보니 같은 결과가 나온다.
 
-```sh
+```bash
 openssl x509 -inform der -in ag_certificate.cert -text -noout
 ```
 
-![](./images/2021-08-23-20-48-38.png)
+![](../.gitbook/assets/2021-08-23-20-48-38.png)
 
 1년짜리 인증서임
 
@@ -442,7 +441,6 @@ GO
 ALTER AVAILABILITY GROUP [K8sAG] JOIN WITH (CLUSTER_TYPE = NONE)
 ALTER AVAILABILITY GROUP [K8sAG] GRANT CREATE ANY DATABASE
 GO
-
 ```
 
 ## secondary2 설정
@@ -491,7 +489,7 @@ GO
 
 ## 확인 ssms
 
-![](./images/2021-08-23-18-56-40.png)
+![](../.gitbook/assets/2021-08-23-18-56-40.png)
 
 ## data input on primary
 
@@ -515,9 +513,10 @@ longhorn이 3개의 리플리카를 가지고 있으므로 파드가 죽어도 �
 
 ## 참고
 
-- 1개의 primary에 8개의 secondary까지 만들수 있다 (엔터프라이즈에서만인가?)
-- 8개중 sync는 맥스 3개까지 만들수 있다.
+* 1개의 primary에 8개의 secondary까지 만들수 있다 \(엔터프라이즈에서만인가?\)
+* 8개중 sync는 맥스 3개까지 만들수 있다.
 
 ## todo
 
-- 디비를 하나만 햇는데 모든 디비가 생기자 마자 하려면 어덯게 해야할가?
+* 디비를 하나만 햇는데 모든 디비가 생기자 마자 하려면 어덯게 해야할가?
+

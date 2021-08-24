@@ -1,4 +1,4 @@
-# PXC Operator
+# Operator
 
 mysql을 설치해주고 복제해주고 모든걸 자동으로 해주는것이 목표
 

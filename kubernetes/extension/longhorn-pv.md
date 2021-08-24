@@ -346,6 +346,7 @@ s3에서 확인해보면 다음과 같이 업로드된것이 보인다.
 
 ## 복구
 
-<https://www.youtube.com/watch?v=h8A8mUMGE7M&t=377s>
+[https://www.youtube.com/watch?v=h8A8mUMGE7M&t=377s](https://www.youtube.com/watch?v=h8A8mUMGE7M&t=377s)
 
 여기에서 복구를 해보면 된다.
+

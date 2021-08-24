@@ -1,4 +1,4 @@
-# Mysql
+# PXC
 
 ## Percona Xtradb Cluster
 
