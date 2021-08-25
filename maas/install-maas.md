@@ -58,7 +58,7 @@ sudo snap install --channel=3.0/stable maas
 sudo apt install -y postgresql
 
 MAAS_DBUSER=ragon
-MAAS_DBPASS=kimchi66
+MAAS_DBPASS=XXXXXXX
 MAAS_DBNAME=maas
 
 sudo -u postgres psql -c "CREATE USER \"$MAAS_DBUSER\" WITH ENCRYPTED PASSWORD '$MAAS_DBPASS'"
