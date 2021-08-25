@@ -80,3 +80,22 @@ systemctl status opennebula-sunstone
 cat /etc/haproxy/haproxy.cfg
 
 ```
+
+## for node
+
+```sh
+wget -q -O- https://downloads.opennebula.org/repo/repo.key | sudo apt-key add -
+sudo apt-get update
+echo "deb https://downloads.opennebula.org/repo/5.12/Ubuntu/20.04 stable opennebula" | sudo tee /etc/apt/sources.list.d/opennebula.list
+sudo apt-get update
+sudo apt-get install opennebula-node
+sed -i -E 's/unix_sock_group.*/unix_sock_group\ \=\ \"oneadmin\"/gi' /etc/libvirt/libvirtd.conf
+sed -i -E 's/unix_sock_rw_perms.*/unix_sock_rw_perms\ \=\ \"0777\"/gi' /etc/libvirt/libvirtd.conf
+apt-get install -y opennebula-node-lxd
+echo "setting oneadmin password..."
+sudo passwd oneadmin
+chown -R oneadmin:oneadmin /var/lib/libvirt/maas-images/
+cd /var/lib/one
+ssh oneadmin@kvm31 'cd /var/lib/one ; tar -czvf - .ssh' | tar -xzvf - -C .
+
+```
