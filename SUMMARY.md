@@ -78,6 +78,7 @@
   - [GTID](db/percona-xtra-cluster/gtid-global-transaction-identifier.md)
   - [Cross Site Replication](db/percona-xtra-cluster/cross-site-replication.md)
 - [Mssql](db/mssql.md)
+- [mysql](db/mysql.md)
 
 ## open nubula
 
