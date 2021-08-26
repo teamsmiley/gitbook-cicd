@@ -71,12 +71,12 @@
 
 ## DB
 
-- [PXC](db/mysql/README.md)
-  - [Operator](db/mysql/pxc-operator.md)
-  - [PMM](db/mysql/pmm.md)
-  - [삭제](db/mysql/pxc-delete.md)
-  - [GTID](db/mysql/gtid-global-transaction-identifier.md)
-  - [Cross Site Replication](db/mysql/cross-site-replication.md)
+- [PXC](db/percona-xtra-cluster/README.md)
+  - [Operator](db/percona-xtra-cluster/pxc-operator.md)
+  - [PMM](db/percona-xtra-cluster/pmm.md)
+  - [삭제](db/percona-xtra-cluster/pxc-delete.md)
+  - [GTID](db/percona-xtra-cluster/gtid-global-transaction-identifier.md)
+  - [Cross Site Replication](db/percona-xtra-cluster/cross-site-replication.md)
 - [Mssql](db/mssql.md)
 
 ## open nubula
