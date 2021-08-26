@@ -27,24 +27,24 @@ mysql -u yourUserName -p
 ## install opennebula
 
 ```sh
-
 sudo apt update -y
 sudo apt  install gnupg wget apt-transport-https -y
+
+sudo -i
 
 wget -q -O- https://downloads.opennebula.io/repo/repo.key | apt-key add -
 
 echo "deb https://downloads.opennebula.io/repo/6.0/Ubuntu/20.04 stable opennebula" > /etc/apt/sources.list.d/opennebula.list
 
+exit
+
 sudo apt update -y
 
 sudo apt install opennebula opennebula-sunstone opennebula-fireedge opennebula-gate opennebula-flow opennebula-provision -y
 
-#usermod -a -G docker oneadmin
+sudo vi /etc/one/oned.conf
+mysql -u ragon -p
 
-#sudo /usr/share/one/install_gems
-
-sudo vim /etc/one/oned.conf
-mysql -u oneadmin -p
 sudo su - oneadmin
 
 sudo ufw allow proto tcp from any to any port 9869
