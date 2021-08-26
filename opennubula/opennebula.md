@@ -286,3 +286,5 @@ vm > instance > create > select template > create
 ![](./images/2021-08-25-21-45-41.png)
 
 ![](./images/2021-08-25-21-53-19.png)
+
+`ssh root@10.1.5.20` 으로 접속하면 된다.
