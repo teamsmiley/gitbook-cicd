@@ -1,5 +1,7 @@
 # opennebula
 
+vm을 관리해주는 오픈소스입니다.
+
 <https://docs.opennebula.io/6.0/installation_and_configuration/frontend_installation/index.html>
 
 ## install db mysql
@@ -20,7 +22,7 @@ SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED;
 이제 접속해보자.
 
 ```sh
-mysql -u opennebula -p
+mysql -u oneadmin -p
 ```
 
 ## install opennebula
