@@ -45,6 +45,8 @@ mysql_native_password 인증 방식은 전통적으로 쓰이던 방식으로 �
 mysql -u root -p
 ```
 
-정리하면 더이상 root 비번을 넣을 필요는 없는듯 보이고 유저를 만들어서 사용하면 될것같다.
+## 정리
 
-서버에 접속되면 서버에서는 `sudo mysql`하면 루트로 로그인이 된다.
+root 비번을 넣을 필요는 없는듯 보이고 추가 유저를 만들어서 mysql_native_password를 사용하면 될것같다.
+
+서버에 접속되면 서버에서는 `sudo mysql`하면 root로 로그인이 된다.
