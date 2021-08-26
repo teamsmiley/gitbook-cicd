@@ -10,9 +10,10 @@ sudo apt install mysql-server -y
 sudo mysql_secure_installation
 
 sudo mysql
-CREATE USER 'yourUserName'@'localhost' IDENTIFIED BY 'ur-password';
 CREATE DATABASE opennebula;
-GRANT ALL ON opennebula.* TO 'yourUserName'@'localhost';
+CREATE USER 'oneadmin' IDENTIFIED BY '<thepassword>';
+GRANT ALL PRIVILEGES ON opennebula.* TO 'oneadmin';
+opennebula
 flush privileges;
 ```
 
@@ -42,7 +43,10 @@ sudo apt update -y
 
 sudo apt install opennebula opennebula-sunstone opennebula-fireedge opennebula-gate opennebula-flow opennebula-provision -y
 
+# oneadmin유저가 자동으로 생성됨.
+
 sudo vi /etc/one/oned.conf
+
 mysql -u ragon -p
 
 sudo su - oneadmin
