@@ -8,17 +8,21 @@
 sudo apt update -y
 sudo apt install mysql-server -y
 sudo mysql_secure_installation
+
+sudo mysql
+CREATE USER 'yourUserName'@'localhost' IDENTIFIED BY 'ur-password';
+CREATE DATABASE opennebula;
+GRANT ALL ON opennebula.* TO 'yourUserName'@'localhost';
+flush privileges;
 ```
+
+로컬 호스트에서만 접속이 가능하게 했다
 
 이제 접속해보자.
 
 ```sh
-sudo mysql
+mysql -u yourUserName -p
 ```
-
-## install docker
-
-꼭 필요한가?
 
 ## install opennebula
 

@@ -57,7 +57,7 @@ ifconfig #확인
 sudo snap install --channel=3.0/stable maas
 sudo apt install -y postgresql
 
-MAAS_DBUSER=ragon
+MAAS_DBUSER=XXXXXXX
 MAAS_DBPASS=XXXXXXX
 MAAS_DBNAME=maas
 
@@ -72,7 +72,7 @@ sudo vi /etc/postgresql/12/main/pg_hba.conf
 
 ```bash
 # host    $MAAS_DBNAME    $MAAS_DBUSER    0/0     md5
-host      maas            ragon           0/0     md5
+host      maas            XXXX           0/0     md5
 ```
 
 ![](./images/2021-08-24-20-29-07.png)
