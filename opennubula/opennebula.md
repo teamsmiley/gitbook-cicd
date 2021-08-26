@@ -2,13 +2,18 @@
 
 <https://docs.opennebula.io/6.0/installation_and_configuration/frontend_installation/index.html>
 
-## install db
+## install db mysql
 
 ```sh
 sudo apt update -y
-sudo apt -y install mariadb-server
+sudo apt install mysql-server -y
 sudo mysql_secure_installation
-mysql -u root -p
+```
+
+이제 접속해보자.
+
+```sh
+sudo mysql
 ```
 
 ## install docker
@@ -37,6 +42,7 @@ sudo apt install opennebula opennebula-sunstone opennebula-fireedge opennebula-g
 sudo vim /etc/one/oned.conf
 mysql -u oneadmin -p
 sudo su - oneadmin
+
 sudo ufw allow proto tcp from any to any port 9869
 
 sudo systemctl start opennebula opennebula-sunstone
@@ -52,6 +58,7 @@ ls -alF
 su - oneadmin -c "oneuser show"
 sudo systemctl status opennebula
 sudo systemctl status opennebula-sunstone
+
 lsof -i :9869
 ip addr
 virsh list
