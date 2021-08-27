@@ -172,13 +172,14 @@ known\_hosts파일 을 생성하려면 모든 노드 이름과 프런트 엔드 
 ssh maas
 sudo su - oneadmin
 # known_hosts 생성 그외 pub와 authorized_keys등이 미리 생성이 되있다.
-ssh-keyscan 10.1.5.70 >> /var/lib/one/.ssh/known_hosts
+ssh-keyscan 10.1.5.20 10.1.5.21>> /var/lib/one/.ssh/known_hosts
 # 확인
 ls /var/lib/one/.ssh/
 cat /var/lib/one/.ssh/known_hosts
 
 # 프런트엔드에서 KVM 노드로 복사:
-scp -rp /var/lib/one/.ssh 10.1.5.70:/var/lib/one/
+scp -rp /var/lib/one/.ssh 10.1.5.20:/var/lib/one/
+scp -rp /var/lib/one/.ssh 10.1.5.21:/var/lib/one/
 scp -rp /var/lib/one/.ssh <node2>:/var/lib/one/
 
 # 프론트에서 테스트(oneadmin어카운트로)
