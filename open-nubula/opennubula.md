@@ -123,10 +123,19 @@ wget -q -O- https://downloads.opennebula.io/repo/repo.key | apt-key add -
 
 echo "deb https://downloads.opennebula.io/repo/6.0/Ubuntu/20.04 stable opennebula" > /etc/apt/sources.list.d/opennebula.list
 
+# sshd 설정 비번접속 활성화
+
+vi /etc/ssh/sshd_config
+> PasswordAuthentication yes
+
+sudo sed -i -E 's/PasswordAuthentication no/PasswordAuthentication yes/gi' /etc/ssh/sshd_config
+
+systemctl restart sshd.service
+
 exit
 
 sudo apt-get update -y
-sudo apt-get install opennebula-node
+sudo apt-get install opennebula-node -y
 
 # sudo vim /etc/libvirt/libvirtd.conf
 # > unix_sock_group = "oneadmin"
@@ -138,19 +147,13 @@ sudo sed -i -E 's/unix_sock_rw_perms.*/unix_sock_rw_perms\ \=\ \"0777\"/gi' /etc
 
 sudo systemctl restart libvirtd.service
 
+sudo systemctl status libvirtd.service
+
 ## 각각의 노드에서 oneadmin 암호 설정
 sudo passwd oneadmin
 > your password
 
-# sshd 설정 비번접속 활성화
-sudo -i
 
-vi /etc/ssh/sshd_config
-> PasswordAuthentication yes
-
-sudo sed -i -E 's/PasswordAuthentication no/PasswordAuthentication yes/gi' /etc/ssh/sshd_config
-
-systemctl restart sshd.service
 ```
 
 ## 암호 없는 SSH 구성
