@@ -40,8 +40,11 @@ spec:
       - CreateNamespace=true
 ```
 
-git@github.com:teamsmiley/idsvr-helm.git
+```sh
+export POD_NAME=$(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}")
 
+kubectl port-forward $POD_NAME 6749:6749
+```
 
 ## jdbc
 
