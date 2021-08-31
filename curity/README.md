@@ -242,7 +242,14 @@ custom image를 만들때 이 파일을 아에 넣어주면 좋을거같다.
 
 ```sh
 cat > full-backup.cli <<EOF
-show configuration | display xml | save /tmp/config-backup.\${EPOCH_TIMESTAMP}.xml
+cd /tmp
+
+git clone https://teamsmiley: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@github.com/teamsmiley/curity.git
+cd curity
+
+show configuration | display xml | save ./config-backup.\${EPOCH_TIMESTAMP}.xml
+
+git add --all && git commit -m "curity commit" && git push
 
 EOF
 ```
@@ -265,7 +272,23 @@ RUN apt install curl -y
 USER idsvr:idsvr
 ```
 
-이제 이 도커파일을
+이제 이 도커파일을 빌드해서 registry에 등록
+
+```sh
+export CR_PAT=YOUR_PAT
+echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+# docker build . -t ghcr.io/OWNER/IMAGE_NAME:latest
+docker build . -t ghcr.io/teamsmiley/curity:latest
+# docker push ghcr.io/OWNER/IMAGE_NAME:latest
+docker push ghcr.io/teamsmiley/curity:latest
+```
+
+![](./images/2021-08-31-09-31-05.png)
+
+이제 이 이미지를 써보자.
+
+![](./images/2021-08-31-09-33-06.png)
+
 이제 웹사이트에서 뭔가를 바구고 commit을 해보자.
 
 컨테이너에 /tmp에 파일이 저장됫는지 확인
