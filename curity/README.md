@@ -33,7 +33,7 @@ spec:
         - name: curity.config.uiEnabled
           value: 'true'
         - name: curity.config.password
-          value: kimchi66
+          value: YOUR-PASS
         - name: curity.admin.logging.stdout
           value: 'true'
         - name: ingress.enabled
@@ -218,7 +218,7 @@ EOF
 
 docker build . -t curity-custom
 
-docker run -it -e PASSWORD=kimchi66 -p 6749:6749 -p 8443:8443 --name curity curity-custom
+docker run -it -e PASSWORD=YOUR-PASS -p 6749:6749 -p 8443:8443 --name curity curity-custom
 ```
 
 잘 실행되나 보고 jdbc driver 있는지 보고 git/curl잘되는지 확인하면 된다.
