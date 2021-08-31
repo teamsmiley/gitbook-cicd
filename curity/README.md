@@ -234,9 +234,9 @@ admin에 xml로 생성이 되니 이걸 백업 받아야한다.
 
 curity가 commit hooks를 지원한다.
 
-컨테이너에 /opt/idsvr/usr/bin/post-commit-cli-scripts/ 에 스트립트를 넣어주면 실행을 한다.
+컨테이너에 /opt/idsvr/usr/bin/post-commit-scripts/ 에 스트립트를 넣어주면 실행을 한다.
 
-<https://curity.io/docs/idsvr/latest/configuration-guide/commit-hooks.html#commit-hook-cli-scripts>
+<https://curity.io/docs/idsvr/latest/configuration-guide/commit-hooks.html#commit-hook-scripts>
 
 custom image를 만들때 이 파일을 아에 넣어주면 좋을거같다.
 
@@ -282,9 +282,9 @@ COPY mysql-connector-java-8.0.26.jar /opt/idsvr/lib/plugins/data.access.jdbc/
 RUN chown -R idsvr:root /opt/idsvr/lib/plugins/data.access.jdbc/mysql-connector-java-8.0.26.jar
 RUN chmod -R 400 /opt/idsvr/lib/plugins/data.access.jdbc/mysql-connector-java-8.0.26.jar
 
-COPY full-backup.cli /opt/idsvr/usr/bin/post-commit-cli-scripts/
-RUN chown -R idsvr:idsvr /opt/idsvr/usr/bin/post-commit-cli-scripts/
-RUN chmod -R 500 /opt/idsvr/usr/bin/post-commit-cli-scripts/full-backup.cli
+COPY full-backup.cli /opt/idsvr/usr/bin/post-commit-scripts/
+RUN chown -R idsvr:idsvr /opt/idsvr/usr/bin/post-commit-scripts/
+RUN chmod -R 500 /opt/idsvr/usr/bin/post-commit-scripts/full-backup.cli
 
 RUN mkdir -p /home/idsvr
 RUN chown -R idsvr:idsvr /home/idsvr
@@ -323,3 +323,9 @@ docker push ghcr.io/teamsmiley/curity:latest
 생성되었다.
 
 자동으로 깃으로 매번 커밋을 한다.
+
+잘 안되면 로그를 보자 .
+
+```sh
+tail -f /opt/idsvr/var/log/post-commit-scripts.log
+```
