@@ -241,35 +241,60 @@ curity가 commit hooks를 지원한다.
 custom image를 만들때 이 파일을 아에 넣어주면 좋을거같다.
 
 ```sh
-cat > full-backup.cli <<EOF
+vi full-backup.cli
+```
+
+```sh
+#!/bin/sh
+git config --global user.email "teamsmiley@gmail.com"
+git config --global user.name "smiley"
+
 cd /tmp
 
-git clone https://teamsmiley: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@github.com/teamsmiley/curity.git
+rm -rf /tmp/curity
+
+git clone https://teamsmiley:PAT@github.com/teamsmiley/curity.git # replace PAT with your PAT
+
+/opt/idsvr/bin/idsh << EOF
+show configuration | display xml | save /tmp/curity/config-backup.xml
+EOF
+
 cd curity
 
-show configuration | display xml | save ./config-backup.\${EPOCH_TIMESTAMP}.xml
-
-git add --all && git commit -m "curity commit" && git push
-
-EOF
+git add --all
+git commit -m "curity commit update"
+git push
 ```
 
 vi Dockerfile
 
-```text
+```docker
 FROM curity.azurecr.io/curity/idsvr:6.4.1
-
-COPY mysql-connector-java-8.0.26.jar /opt/idsvr/lib/plugins/data.access.jdbc/
-
-COPY full-backup.cli /opt/idsvr/usr/bin/post-commit-cli-scripts/
 
 USER root
 
 RUN apt update -y
-RUN apt install git -y
-RUN apt install curl -y
+RUN apt install git curl vim -y
+
+USER root
+
+COPY mysql-connector-java-8.0.26.jar /opt/idsvr/lib/plugins/data.access.jdbc/
+RUN chown -R idsvr:root /opt/idsvr/lib/plugins/data.access.jdbc/mysql-connector-java-8.0.26.jar
+RUN chmod -R 400 /opt/idsvr/lib/plugins/data.access.jdbc/mysql-connector-java-8.0.26.jar
+
+COPY full-backup.cli /opt/idsvr/usr/bin/post-commit-cli-scripts/
+RUN chown -R idsvr:idsvr /opt/idsvr/usr/bin/post-commit-cli-scripts/
+RUN chmod -R 500 /opt/idsvr/usr/bin/post-commit-cli-scripts/full-backup.cli
+
+RUN mkdir -p /home/idsvr
+RUN chown -R idsvr:idsvr /home/idsvr
 
 USER idsvr:idsvr
+
+EXPOSE 8443
+EXPOSE 6749
+EXPOSE 4465
+EXPOSE 4466
 ```
 
 이제 이 도커파일을 빌드해서 registry에 등록
@@ -297,6 +322,4 @@ docker push ghcr.io/teamsmiley/curity:latest
 
 생성되었다.
 
-이걸 외부로 보내려면?
-
-github에 repo를 만들자.
+자동으로 깃으로 매번 커밋을 한다.
