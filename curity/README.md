@@ -329,3 +329,47 @@ docker push ghcr.io/teamsmiley/curity:latest
 ```sh
 tail -f /opt/idsvr/var/log/post-commit-scripts.log
 ```
+
+## 복구
+
+git에 커밋되있는 파일을 가지고 secret를 만든다.
+
+```sh
+kubectl create secret generic idsvr-config \
+    --from-file=default-conf=default-conf.xml
+```
+
+helm으로 복구할때 다음 옵션을 사용한다.
+
+```sh
+--set curity.config.configurationSecret=idsvr-config
+
+--set curity.config.configurationSecretItemName=default-conf
+```
+
+## helm 옵션을 통한 백업
+
+helm 옵션에 `curity.config.backup=true`를 사용하자.
+
+commit 을 할때마다 secret에 추가 데이터가 저장이 된다.
+
+![](./images/2021-08-31-20-30-47.png)
+
+날짜-트랜잭션 ID로 저장이 된다.
+
+## helm 을 이용해서 복구
+
+- curity.config.configurationSecret
+- curity.config.configurationSecretItemName를 사용
+
+백업을 복원합니다
+
+helm으로 복구할때 다음 옵션을 사용한다.
+
+```sh
+--set curity.config.configurationSecret=curity-idsvr-config-backup
+
+--set curity.config.configurationSecretItemName=2021-09-01-65E-71EF1-563AE.xml
+```
+
+여러개 있을때 헷갈리기도 하겟다. git방식이 더 나을수도 잇을거같다.
