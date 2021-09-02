@@ -68,4 +68,4 @@ idsvr:
 
 이제 커밋하고 argocd에서 git repo로 등록하면 된다.
 
-이제부터는 git 커밋을 통해서 helm옵션들이 업데이트되므로 gitops 목표에 맞아든다.
+이제부터는 git 커밋을 통해서 helm옵션들이 업데이트되므로 gitops 철학에 맞다.
