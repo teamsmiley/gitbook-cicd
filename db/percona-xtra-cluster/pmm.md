@@ -174,14 +174,17 @@ pmm-server:
 
   ## Kubernetes Ingress https://kubernetes.io/docs/concepts/services-networking/ingress
   ingress:
-    enabled: false
+    enabled: true
     annotations:
-      {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: nginx
+      cert-manager.io/cluster-issuer: 'dns-issuer-aws-live'
+      nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
+      nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
     path: /
     pathType: null
-    host: monitoring-service.example.local
+    host: pmm.c3.xgridcolo.com
     rules: []
     tls: []
     #  - secretName: pmm-server-tls
@@ -216,7 +219,8 @@ spec:
       - CreateNamespace=true
 ```
 
-`k apply -f add-pmm-server.yaml`
+ingress까지 잘 적용되는것을 알수있다.
 
+`k apply -f add-pmm-server.yaml`
 
 잘 적용된다.
