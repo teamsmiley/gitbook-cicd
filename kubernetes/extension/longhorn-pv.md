@@ -363,3 +363,7 @@ ext4, XFS 만 늘리는걸 허용한다.
 storage class에서 longhorn을 확인해보면 확장을 허용해주는 옵션이 enable되어있다.
 
 ![](./images/2021-09-11-11-31-28.png)
+
+<https://longhorn.io/docs/1.2.0/volumes-and-nodes/volume-size/>
+
+<https://longhorn.io/docs/1.2.0/volumes-and-nodes/expansion/>
