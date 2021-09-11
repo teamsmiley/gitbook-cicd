@@ -350,3 +350,16 @@ s3에서 확인해보면 다음과 같이 업로드된것이 보인다.
 
 여기에서 복구를 해보면 된다.
 
+## volume size 늘리기
+
+현재는 live상태에서는 늘어나지 않는다. 일단 volume을 detach하자.
+
+ui에서 늘리기를 누르면 된다.
+
+다시 attach하자.
+
+ext4, XFS 만 늘리는걸 허용한다.
+
+storage class에서 longhorn을 확인해보면 확장을 허용해주는 옵션이 enable되어있다.
+
+![](./images/2021-09-11-11-31-28.png)
