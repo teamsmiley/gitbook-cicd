@@ -181,7 +181,7 @@ etcd+: {
 
 빌드하고 커밋 푸시해보자.
 
-prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 확인된다.
+prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확인된다.
 
 ## instance가 하나의 노드에 2개뜨는걸 방지
 
@@ -205,7 +205,7 @@ prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 �
 
 실제 메세지가 가는지 테스트 한다.
 
-[https://prometheus.io/docs/alerting/latest/notification\_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
+[https://prometheus.io/docs/alerting/latest/notification_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
 
 ```text
 global:
@@ -345,4 +345,3 @@ Search Line limits were exceeded, some search paths have been omitted, the appli
 ```
 
 `/etc/resolve.conf`에 보면 여러개의 search에 항목이 있엇다. 전부 지워주니 에러도 없어졌고 알람도 없어졋다.
-

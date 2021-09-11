@@ -52,6 +52,7 @@ spec:
 ## pmm-client
 
 {% code title="cr.yaml" %}
+
 ```text
 pmm:
   enabled: true
@@ -59,6 +60,7 @@ pmm:
   serverHost: pxc-pmm-service # pmm-server에서의 서비스 명
   serverUser: admin # 확인
 ```
+
 {% endcode %}
 
 ```bash
@@ -81,3 +83,140 @@ pmm.c3.yourdomain.com 으로 들어가서 확인해보면 많은 데이터를 �
 
 alert manager를 설정하면 슬랙으로 에러를 받을수 있다.
 
+## subchart 로 argocd에서 설정
+
+argocd 에서 subchart를 사용 해야 gitops가 된다.
+
+subchart로 만들자.
+
+```sh
+mkdir pmm
+cd pmm
+
+touch Chart.yaml
+```
+
+```yml
+apiVersion: v2
+name: pmm-subchart
+type: application
+version: 1.0.0
+appVersion: '1.0.0'
+dependencies:
+  - name: pmm-server
+    version: 2.18.0
+    repository: https://percona-charts.storage.googleapis.com
+```
+
+vi values.yaml
+
+```yml
+pmm-server:
+  ## percona image version
+  ## ref: https://hub.docker.com/r/library/percona/tags/
+  ##
+  imageRepo: 'percona/pmm-server'
+  imageTag: '2.18.0'
+
+  ## A choice between "kubernetes" and "openshift"
+  platform: 'kubernetes'
+
+  ## Specify an imagePullPolicy (Required)
+  ## It's recommended to change this to 'Always' if the image tag is 'latest'
+  ## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
+  ##
+  imagePullPolicy: Always
+  scc: null
+  sa: null
+  ## Persist data to a persitent volume
+  persistence:
+    enabled: true
+    ## percona data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    # storageClass: "-"
+    accessMode: ReadWriteOnce
+    size: 30Gi
+
+  ## set credentials
+  credentials:
+    password: 'admin'
+
+  ## set metric collection settings
+  metric:
+    resolution: 1s
+    retention: 720h
+  queries:
+    retention: 8
+
+  ## Configure resource requests and limits
+  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 0.5
+
+  supresshttp2: true
+  service:
+    type: LoadBalancer
+    port: 443
+    loadBalancerIP: ''
+
+  ## Mount prometheus scrape config https://www.percona.com/blog/2020/03/23/extending-pmm-prometheus-configuration/
+  prometheus:
+    configMap:
+      name: ''
+
+  ## Kubernetes Ingress https://kubernetes.io/docs/concepts/services-networking/ingress
+  ingress:
+    enabled: false
+    annotations:
+      {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    pathType: null
+    host: monitoring-service.example.local
+    rules: []
+    tls: []
+    #  - secretName: pmm-server-tls
+    #    hosts:
+    #      - monitoring-service.example.local
+    labels: {}
+```
+
+vi add-pmm-server.yaml
+
+```yml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pxc-pmm-server
+  namespace: argocd
+spec:
+  destination:
+    name: ''
+    namespace: pxc-mysql
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: apps/pxc-pmm-server
+    repoURL: 'git@github.com:teamsmiley/argocd-c3.git'
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+```
+
+`k apply -f add-pmm-server.yaml`
+
+
+잘 적용된다.
