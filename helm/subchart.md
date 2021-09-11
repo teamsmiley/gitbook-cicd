@@ -1,4 +1,4 @@
-# helm
+# subchart
 
 ## helm subchart
 
@@ -14,8 +14,8 @@ argocd repo에 curity라는 폴더를 추가한다.
 
 다음에 두개의 파일을 추가한다.
 
-- chart.yaml
-- values.yaml
+* chart.yaml
+* values.yaml
 
 ## chart.yaml
 
@@ -69,3 +69,4 @@ idsvr:
 이제 커밋하고 argocd에서 git repo로 등록하면 된다.
 
 이제부터는 git 커밋을 통해서 helm옵션들이 업데이트되므로 gitops 철학에 맞다.
+
