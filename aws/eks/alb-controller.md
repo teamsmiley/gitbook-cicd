@@ -16,8 +16,6 @@ ALB는 nodeport 나 loadbalance만 지원을 한다.\(중요\)
 
 링크에 있는 내용을 해주면 된다. 간단하게 요약해보면
 
-## Create an IAM OIDC provider for your cluster
-
 ## OIDC
 
 [https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)

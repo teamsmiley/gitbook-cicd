@@ -50,7 +50,7 @@ kubectl -n monitoring port-forward svc/grafana 3000
 
 ## ingress-nginx 모니터링 하기
 
-https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/user-guides/getting-started.md
+<https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/user-guides/getting-started.md>
 
 여기를 보면 serviceMonitor 볼수 있다 이걸 만들어 주면 쿠버네티스에서 모니터링이 가능하다.
 
