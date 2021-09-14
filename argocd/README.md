@@ -44,3 +44,4 @@ upstream에서 업데이트가 되어서 업데이트가 되버리는경우가 �
 bases:
   - github.com/argoproj/argo-cd//manifests/cluster-install?ref=v0.11.1
 ```
+

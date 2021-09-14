@@ -92,3 +92,7 @@ curl -sSL -o /usr/local/bin/argocd https://${ARGOCD_SERVER}/download/argocd-linu
 argocd app sync guestbook
 argocd app wait guestbook
 ```
+
+## refernce
+
+{% embed url="https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd/" caption="argocd cli" %}
