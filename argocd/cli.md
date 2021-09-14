@@ -2,10 +2,20 @@
 
 ## install argocd cli
 
-[https://argo-cd.readthedocs.io/en/stable/cli\_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+[https://argo-cd.readthedocs.io/en/stable/cli_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
 
 ```bash
+# macos
 brew install argocd
+
+# linux latest
+curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+chmod +x /usr/local/bin/argocd
+
+# linux version
+VERSION=<TAG> # Select desired TAG from https://github.com/argoproj/argo-cd/releases
+curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
+chmod +x /usr/local/bin/argocd
 ```
 
 [https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd/](https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd/)
@@ -64,4 +74,3 @@ argocd app create kustomize-guestbook \
 ```bash
 argocd app get APPNAME
 ```
-
