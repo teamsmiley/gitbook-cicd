@@ -74,3 +74,11 @@ argocd app create kustomize-guestbook \
 ```bash
 argocd app get APPNAME
 ```
+
+## app sync
+
+```sh
+NAME=default
+argocd app sync ${NAME} --prune --force
+argocd app wait ${NAME} --timeout 1200
+```
