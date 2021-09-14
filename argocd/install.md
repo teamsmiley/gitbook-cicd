@@ -4,7 +4,7 @@
 
 github/gitlab에 argocd용 repo를 하나 만들자.
 
-```bash
+```sh
 git clone argocd
 cd argocd
 ```
@@ -13,7 +13,7 @@ cd argocd
 
 ## install argocd
 
-```bash
+```sh
 kubectl create namespace argocd
 
 curl -o argocd_install_v2.0.3.yaml https://raw.githubusercontent.com/argoproj/argo-cd/v2.0.3/manifests/install.yaml
@@ -25,7 +25,7 @@ kubectl get all --all-namespaces
 
 ## 접속 확인
 
-```bash
+```sh
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
@@ -35,10 +35,9 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 ## 비번 알아내기
 
-```bash
+```sh
 kubectl -n argocd get secret argocd-initial-admin-secret \
 -o jsonpath="{.data.password}" | base64 -d && echo
 ```
 
 admin으로 접속하면 된다.
-

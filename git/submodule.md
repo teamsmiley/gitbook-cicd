@@ -4,7 +4,7 @@
 
 git에서 다른 git을 하위폴더에 가져와서 같이 사용하는것
 
-```bash
+```sh
 git clone main_repo_url
 
 git submodule add git@github.com:prometheus-operator/kube-prometheus.git
@@ -16,7 +16,7 @@ git checkout tags/v0.8.0
 
 새로 체크아웃 받는경우 submodule은 다운로드 되지 않는다. 따로 관리해야한다.
 
-```bash
+```sh
 git submodule update --init --recursive
 ```
 
@@ -24,7 +24,7 @@ checkout을 tag로 해두었다. 어디서 클론을 하던 이 버전이 유지
 
 ## submodule 삭제
 
-```bash
+```sh
 submodule_path=kube-prometheus
 
 git rm --cached ${submodule_path}
@@ -34,14 +34,14 @@ git rm --cached ${submodule_path}
 
 폴더를 삭제한다.
 
-```bash
+```sh
 rm -rf ${submodule_path}
 rm -rf .git/modules/${submodule_path}
 ```
 
 ## 커맨드로만 하는 방법
 
-```bash
+```sh
 submodule_path=kube-prometheus
 
 git submodule deinit -f ${submodule_path}
@@ -54,4 +54,3 @@ rm -rf .git/modules/${submodule_path}
 ## todo
 
 subtree와 차이점은 무엇일가?
-

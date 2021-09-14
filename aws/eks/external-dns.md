@@ -7,6 +7,7 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
 ## create policy
 
 {% code title="AllowExternalDNSUpdates" %}
+
 ```javascript
 {
   "Version": "2012-10-17",
@@ -24,13 +25,14 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
   ]
 }
 ```
+
 {% endcode %}
 
 ## Create IAM Role, k8s Service Account & Associate IAM Policy
 
 k8s Service Account named external-dns
 
-```bash
+```sh
 # 확인
 eksctl get iamserviceaccount --cluster cluster01
 
@@ -59,13 +61,13 @@ kubectl get sa
 
 ## install external-dns
 
-```bash
+```sh
 wget https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.0.0/docs/examples/external-dns.yaml
 ```
 
 ServiceAccount 부분은 지우고 \(벌써 만들엇기때문\)
 
-```bash
+```sh
 - --domain-filter=external-dns-test.my-org.com #주석
 
 - --txt-owner-id=my-identifier #주석
@@ -160,8 +162,6 @@ upsert는 새로운건 넣고 기존건 업데이트 delete는 안됨.
 
 ## issue
 
-
-
 aws / idc에서 동시에 아이피를 업데이트하면 에러가 된다.
 
 인그레스 별로 사용을 막으려고 해봣는데 잘 안된다.
@@ -177,4 +177,3 @@ external-dns.alpha.kubernetes.io/exclude: 'true'
 ```text
 external-dns.alpha.kubernetes.io/target: "204.16.116.99"
 ```
-

@@ -5,22 +5,24 @@ Pull Request\(PR\) 보내는 방법
 1. 부모 저장소를 포크하자.
 2. 내 저장소에 포크된 프로젝트를 git clone하자.
 
-   ```bash
+   ```sh
    git clone git@github.com:teamsmiley/idsvr-helm.git
    ```
 
 3. 원격 저장소 Remote 설정하기
-   * PR을 보낼 곳을 추가.
-   * 원격 저장소의 이름은 upstream 으로 지정
-   * 원격 저장소의 git 주소는 fork를 하기 전 원래의 저장소를 말합니다.
 
-     ```bash
+   - PR을 보낼 곳을 추가.
+   - 원격 저장소의 이름은 upstream 으로 지정
+   - 원격 저장소의 git 주소는 fork를 하기 전 원래의 저장소를 말합니다.
+
+     ```sh
      # git remote add upstream https://github.com/ORIGIN_OWNER/ORIGIN_REPO.git
      git remote add upstream https://github.com/curityio/idsvr-helm.git
      ```
+
 4. PR용 branch 생성하기
 
-   ```bash
+   ```sh
    git checkout -b update-svc-selector
    ```
 
@@ -33,7 +35,7 @@ Pull Request\(PR\) 보내는 방법
      role: {{ include "curity.fullname" . }}-admin
    ```
 
-   ```bash
+   ```sh
    git add --all && git commit -m "admin-svc-selector-update" && git push origin update-svc-selector
    ```
 
@@ -62,4 +64,3 @@ approve 완료
 ![](../.gitbook/assets/2021-09-01-07-43-46.png)
 
 완료
-

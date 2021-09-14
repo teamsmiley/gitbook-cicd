@@ -257,7 +257,7 @@ spec:
 
 ## 접속테스트
 
-```bash
+```sh
 kubectl get svc
 ```
 
@@ -354,11 +354,11 @@ GO
 
 ![](../.gitbook/assets/2021-08-23-18-26-25.png)
 
-AG\_endpoint 생성 확인
+AG_endpoint 생성 확인
 
 ## copy certificate from primary to secondary
 
-```bash
+```sh
 # Copy the certificates from the AG primary
 
 # Retreive the pod anmes to variables
@@ -391,7 +391,7 @@ kubectl cp ag_certificate.key $secondary2:/var/opt/mssql
 
 생긴 cert를 확인해보니 같은 결과가 나온다.
 
-```bash
+```sh
 openssl x509 -inform der -in ag_certificate.cert -text -noout
 ```
 
@@ -513,10 +513,9 @@ longhorn이 3개의 리플리카를 가지고 있으므로 파드가 죽어도 �
 
 ## 참고
 
-* 1개의 primary에 8개의 secondary까지 만들수 있다 \(엔터프라이즈에서만인가?\)
-* 8개중 sync는 맥스 3개까지 만들수 있다.
+- 1개의 primary에 8개의 secondary까지 만들수 있다 \(엔터프라이즈에서만인가?\)
+- 8개중 sync는 맥스 3개까지 만들수 있다.
 
 ## todo
 
-* 디비를 하나만 햇는데 모든 디비가 생기자 마자 하려면 어덯게 해야할가?
-
+- 디비를 하나만 햇는데 모든 디비가 생기자 마자 하려면 어덯게 해야할가?

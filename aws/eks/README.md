@@ -14,7 +14,7 @@ account 생성
 
 [https://eksctl.io](https://eksctl.io)
 
-```bash
+```sh
 brew install aws-iam-authenticator
 brew tap weaveworks/tap
 brew install weaveworks/tap/eksctl
@@ -24,7 +24,7 @@ brew install weaveworks/tap/eksctl
 
 ## kubernetes cluster 생성
 
-```bash
+```sh
 aws configure list-profiles
 
 echo $AWS_PROFILE
@@ -46,18 +46,18 @@ eksctl create cluster \
 --managed
 ```
 
-* type
-  * t3.nano
-  * t3.micro
-  * t3.small
-  * t3.medium
-  * t3.large
+- type
+  - t3.nano
+  - t3.micro
+  - t3.small
+  - t3.medium
+  - t3.large
 
 여기서 한참 걸린다. 한 20분..뭐하지 ?
 
 ![](../../.gitbook/assets/aws-eks-00.png)
 
-```bash
+```sh
 2021-05-10 12:22:19 [ℹ]  waiting for the control plane availability...
 2021-05-10 12:22:19 [✔]  saved kubeconfig as "/Users/yourid/.kube/c2-config"
 2021-05-10 12:22:19 [ℹ]  no tasks
@@ -73,7 +73,7 @@ eksctl create cluster \
 
 ## 생성 확인
 
-```bash
+```sh
 kubectl --kubeconfig=~/.kube/aws-cluster01 get nodes
 ls ~/.kube/
 cat ~/.kube/aws-cluster01
@@ -87,6 +87,7 @@ eksctl get cluster
 생성이 되고 나면 ~/.kube/ 폴더에 aws-cluster01 라는 config파일이 생성이 된다. 이 정보로 kubernetes와 통신할수 있다.
 
 {% code title="~/.kube/aws-cluster01" %}
+
 ```yaml
 apiVersion: v1
 clusters:
@@ -118,6 +119,7 @@ users:
           - name: AWS_PROFILE
             value: Profile_Name
 ```
+
 {% endcode %}
 
 이부분을 주의하자 없으면 넣어줄것. 없어도 되지만 프로파일 매번 설정하기 싫은경우에 넣어주면 된다.
@@ -132,6 +134,7 @@ users:
 config.yml을 미리 만들거나 위에서 만들어진 config를 백업해두면 똑같이 나중에 만들수 있다.
 
 {% code title="config.yml" %}
+
 ```yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -155,9 +158,10 @@ vpc:
       eu-north-1b: { id: subnet-0549cdab573695c03 }
       eu-north-1c: { id: subnet-0426fb4a607393184 }
 ```
+
 {% endcode %}
 
-```bash
+```sh
 eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/cluster01
 ```
 
@@ -166,9 +170,11 @@ eksctl create cluster --config-file=./config.yml --kubeconfig ~/.kube/cluster01
 ### kubectl
 
 {% code title="~/.zshrc" %}
-```bash
+
+```sh
 kubectl get node
 ```
+
 {% endcode %}
 
 ![](../../.gitbook/assets/aws-eks-01.png)
@@ -178,22 +184,23 @@ kubectl get node
 ### k9s로 접속 확인
 
 {% code title="~/.zshrc" %}
-```bash
+
+```sh
 k9s
 ```
+
 {% endcode %}
 
 ## 생성된 내용들 정리
 
 ### before
 
-* roles : eksctl ![](../../.gitbook/assets/2021-06-02-14-59-04.png)
-* cloudformation : ![](../../.gitbook/assets/2021-06-02-14-59-54.png)
-* oidc providers ![](../../.gitbook/assets/2021-06-02-15-00-44.png)
+- roles : eksctl ![](../../.gitbook/assets/2021-06-02-14-59-04.png)
+- cloudformation : ![](../../.gitbook/assets/2021-06-02-14-59-54.png)
+- oidc providers ![](../../.gitbook/assets/2021-06-02-15-00-44.png)
 
 ### after
 
-* roles : eksctl ![](../../.gitbook/assets/2021-06-02-15-19-10.png)
-* cloudformation : ![](../../.gitbook/assets/2021-06-02-14-51-27.png)
-* oidc providers 아무것도 안생김
-
+- roles : eksctl ![](../../.gitbook/assets/2021-06-02-15-19-10.png)
+- cloudformation : ![](../../.gitbook/assets/2021-06-02-14-51-27.png)
+- oidc providers 아무것도 안생김

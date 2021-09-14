@@ -4,14 +4,14 @@
 
 aws docker registry
 
-* 기본 프라이빗 레지스트리의 URL은 입니다
-  * [https://aws\_account\_id.dkr.ecr.region.amazonaws.com](https://aws_account_id.dkr.ecr.region.amazonaws.com)
+- 기본 프라이빗 레지스트리의 URL은 입니다
+  - [https://aws_account_id.dkr.ecr.region.amazonaws.com](https://aws_account_id.dkr.ecr.region.amazonaws.com)
 
 ### registry vs repository
 
-* aws\_account\_id.dkr.ecr.region.amazonaws.com/AAA
-  * aws\_account\_id.dkr.ecr.region.amazonaws.com 이것이 registry
-  * AAA가 repository
+- aws_account_id.dkr.ecr.region.amazonaws.com/AAA
+  - aws_account_id.dkr.ecr.region.amazonaws.com 이것이 registry
+  - AAA가 repository
 
 ### iam
 
@@ -19,9 +19,9 @@ aws console에서 사용하려다 보면 permission이 막힌다.
 
 iam 에서 ecr-user를 생성 다음 롤을 준다.
 
-* Programmatic access : on
-* direct attach role
-  * AmazonEC2ContainerRegistryFullAccess
+- Programmatic access : on
+- direct attach role
+  - AmazonEC2ContainerRegistryFullAccess
 
 키를 다운받아둔다 나중에 쓴다.
 
@@ -43,13 +43,13 @@ create
 
 랩탑에서
 
-```bash
+```sh
 aws ecr help
 ```
 
 iam 에서 만든 유저를 등록
 
-```bash
+```sh
 aws configure
 
 AWS Access Key ID [None]: YOURACCESSKEY
@@ -67,7 +67,7 @@ aws_secret_access_key = EhRxl4qjmv71JKVtvhs9SwJeYiPLOLcgRHq7odWZ
 
 ### ecr에 로그인
 
-```bash
+```sh
 aws ecr get-login-password --region us-west-2 --profile perseption-ecr
 ```
 
@@ -79,7 +79,7 @@ eyJwYXlsb2FkIjoiK2x6MzA2SUtJaGtVRnQ2MFNMamVkeS9QM0h0dUYwL3kzZnFKM3ZsN3pybnNienB0
 
 편하게 하기 위해서는 registry=72484979875.dkr.ecr.us-west-2.amazonaws.com
 
-```bash
+```sh
 aws ecr get-login-password \
     --region us-west-2 \
     --profile stanleyprep-ecr \
@@ -94,14 +94,14 @@ user는 AWS 이다. 대문자.
 
 ### docker build
 
-```bash
+```sh
 cd ~/Desktop/GitHub/perseption/GitHub/wps-main-web
 docker build . -t perseption-www
 ```
 
 ### image upload to ecr
 
-```bash
+```sh
 docker tag perseption-www ${registry}/www:latest
 docker push ${registry}/www:latest
 ```
@@ -113,4 +113,3 @@ docker push ${registry}/www:latest
 설정을 해두자.
 
 이미지 갯수로도 된다. 확인해두자.
-

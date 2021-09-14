@@ -4,7 +4,7 @@
 
 go를 사용해야한다. jsonnet을 사용한다.
 
-```bash
+```sh
 brew install go
 
 export PATH=$PATH:$(go env GOPATH)/bin
@@ -47,7 +47,7 @@ local kp =
 
 다시 빌드하고 커밋하면된다.
 
-```bash
+```sh
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
 
@@ -69,7 +69,7 @@ auth라는 파일을 참조하는것을 알수 있다.
 
 이걸 만들기 위해서는 다음과 같이 한다.
 
-```bash
+```sh
 sudo apt install apache2-utils
 htpasswd -c auth admin
 > password를 넣는다. 엔터
@@ -115,7 +115,7 @@ grafana: {
 
 ## etcd 모니터링
 
-```bash
+```sh
 ssh master01
 
 # Copy etcd CA cert from etcd server "/etc/ssl/etcd/ssl/ca.pem"
@@ -143,7 +143,7 @@ cat client.json
 }
 ```
 
-```bash
+```sh
 sudo chmod 755 *.pem
 
 # Generate client certificate
@@ -152,7 +152,7 @@ cfssl gencert -ca ca.pem -ca-key ca-key.pem client.json | cfssljson -bare etcd-c
 
 관련 파일이 만들어진다. 전부 로컬로 가져온다.
 
-```bash
+```sh
 scp master01.c3:~/ca.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd
 scp master01.c3:~/etcd-client-key.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd
 scp master01.c3:~/etcd-client.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd

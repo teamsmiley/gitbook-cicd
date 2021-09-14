@@ -4,7 +4,7 @@
 
 install
 
-```bash
+```sh
 helm repo add percona https://percona-charts.storage.googleapis.com
 helm repo update
 NS=pxc-mysql
@@ -63,7 +63,7 @@ pmm:
 
 {% endcode %}
 
-```bash
+```sh
 k apply -f cr.yaml
 ```
 

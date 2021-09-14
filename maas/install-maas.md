@@ -6,7 +6,7 @@
 
 install ubuntu 20.04 LTS with CD
 
-```bash
+```sh
 sudo apt update -y
 sudo apt upgrade -y
 sudo apt dist-upgrade -y
@@ -14,7 +14,7 @@ sudo apt dist-upgrade -y
 
 ## ipmi 설정
 
-```bash
+```sh
 sudo apt install ipmitool -y
 ip=10.1.4.11
 sudo ipmitool lan set 1 ipsrc static
@@ -26,7 +26,7 @@ sudo ipmitool lan set 1 arp respond on
 
 ## ip setting
 
-```bash
+```sh
 sudo vi /etc/netplan/00-installer-config.yaml
 ```
 
@@ -46,14 +46,14 @@ network:
   version: 2
 ```
 
-```bash
+```sh
 sudo netplan apply
 ifconfig #확인
 ```
 
 ## snap and postgresql install
 
-```bash
+```sh
 sudo snap install --channel=3.0/stable maas
 sudo apt install -y postgresql
 
@@ -66,18 +66,18 @@ sudo -u postgres psql -c "CREATE USER \"$MAAS_DBUSER\" WITH ENCRYPTED PASSWORD '
 sudo -u postgres createdb -O "$MAAS_DBUSER" "$MAAS_DBNAME"
 ```
 
-```bash
+```sh
 sudo vi /etc/postgresql/12/main/pg_hba.conf
 ```
 
-```bash
+```sh
 # host    $MAAS_DBNAME    $MAAS_DBUSER    0/0     md5
 host      maas            XXXX           0/0     md5
 ```
 
 ![](../.gitbook/assets/2021-08-24-20-29-07.png)
 
-```bash
+```sh
 sudo maas init region+rack --database-uri "postgres://$MAAS_DBUSER:$MAAS_DBPASS@localhost/$MAAS_DBNAME"
 
 #sudo maas init region+rack --database-uri "postgres://$MAAS_DBUSER:$MAAS_DBPASS@$HOSTNAME/$MAAS_DBNAME"
@@ -100,7 +100,7 @@ To create admins when not using external authentication, run
   sudo maas createadmin
 ```
 
-```bash
+```sh
 sudo maas status
 
 > bind9                            RUNNING   pid 8142, uptime 0:02:21
@@ -116,7 +116,7 @@ sudo maas status
 
 ## add admin
 
-```bash
+```sh
 sudo maas createadmin --username=admin --email=brian@xgridcolo.com
 
 > YourPassword
@@ -144,7 +144,7 @@ continue
 
 continue
 
-```bash
+```sh
 cat ~/.ssh/id_rsa.pub
 >  ssh-rsa AAxxx0RVSJOdOBSeO7e
 ```
@@ -163,7 +163,7 @@ enable dhcp 클릭
 
 ![](../.gitbook/assets/2021-08-25-07-54-01.png)
 
-```bash
+```sh
 sudo maas status
 
 bind9                            RUNNING   pid 19886, uptime 0:09:28
@@ -260,4 +260,3 @@ ready상태로 바뀌고 디플로이를 대기한다.
 이제 os를 deploy 하면 된다.
 
 완료후 접속해보자 ubuntu유저와 초기에 등록한 ssh key로 접속이 가능하다.
-

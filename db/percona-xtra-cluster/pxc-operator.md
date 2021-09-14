@@ -8,7 +8,7 @@ pv/pvc가 없이 tempdir 이나 hostpath로도 테스트는 가능하나 백업/
 
 ## percona-xtradb-cluster-operator
 
-```bash
+```sh
 git clone -b v1.8.0 https://github.com/percona/percona-xtradb-cluster-operator
 
 cd percona-xtradb-cluster-operator/deploy
@@ -48,7 +48,7 @@ stringData:
 
 적용하자.
 
-```bash
+```sh
 k apply -f secrets.yaml
 ```
 
@@ -68,13 +68,14 @@ data:
   AWS_SECRET_ACCESS_KEY: VktqdzZWTjRDMjxxxY5MUQ5OQ==
 ```
 
-```bash
+```sh
 k apply -f backup-s3.yaml
 ```
 
 ## 디비 디플로이
 
 {% code title="cr.yaml" %}
+
 ```text
 secretsName: my-cluster-secrets # secret.yml에 있는 이름을 넣어줘야함.
 allowUnsafeConfigurations: true # tls 통신안쓰는것으로 처리
@@ -109,6 +110,7 @@ backup: # backup 설정
         keep: 24
         storageName: s3-us-west
 ```
+
 {% endcode %}
 
 proxysql을 사용하고 haproxy를 사용하지 않음.
@@ -117,7 +119,7 @@ proxysql을 사용하고 haproxy를 사용하지 않음.
 
 적용
 
-```bash
+```sh
 k apply -f cr.yaml
 k get svc # loadbalance ip확인
 ```
@@ -126,7 +128,7 @@ proxysql 로드 발란스 아이피로 디비에 접속해보면 된다. \( 172.
 
 아니면 다음 커맨드를 사용한다.
 
-```bash
+```sh
 kubectl run -i --tty --rm percona-client --image=percona --restart=Never \
   -- mysql -h cluster02-pxc.pxc-mysql.svc.cluster.local -uroot -p
 #type your password
@@ -149,11 +151,11 @@ select * from movies;
 
 `k get pod`에서 아이피를 찾아서 아이피로 접속해본다.
 
-* 10.233.111.105
-* 10.233.118.212
-* 10.233.108.255
+- 10.233.111.105
+- 10.233.118.212
+- 10.233.108.255
 
-```bash
+```sh
 kubectl run -i --tty --rm percona-client0 --image=percona --restart=Never \
  -- mysql -h 10-233-111-105.pxc-mysql.pod.cluster.local -uroot -p
 #type your password
@@ -169,7 +171,7 @@ kubectl run -i --tty --rm percona-client2 --image=percona --restart=Never \
 
 모두 접속하여
 
-```bash
+```sh
 select * from movies
 ```
 
@@ -181,10 +183,10 @@ select * from movies
 
 ## 백업
 
-* 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
-* 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
+- 자동 백업 백업 스케줄을 해두었음로 한시간에 한번씩 s3 bucket으로 업로드 된다.
+- 수동 백업 수동으로 백업을 받고 싶으면 yml을 수정하고 적용하면된다.
 
-```bash
+```sh
 cat > backup.yaml <<EOF
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterBackup
@@ -198,7 +200,7 @@ spec:
 EOF
 ```
 
-```bash
+```sh
 kubectl apply -f backup/backup.yaml
 ```
 
@@ -208,7 +210,7 @@ s3에 업로드 된것을 확인할수 있다.
 
 ## 복구
 
-```bash
+```sh
 cat > restore.yaml <<EOF
 apiVersion: pxc.percona.com/v1
 kind: PerconaXtraDBClusterRestore
@@ -247,4 +249,3 @@ longhorn에서 스토리지에 리플리카를 지원을 하므로 3개 정도 �
 pxc-backups로 검색해서 edit 해서 finalize를 지워줘야 한다.
 
 외부 스토리지를 지우지 못해서 행이 걸리는건데 이 부분을 무시하고 지날수 있다.
-

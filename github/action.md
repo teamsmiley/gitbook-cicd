@@ -12,13 +12,14 @@ gitlab ci/cd도 같은 기능을 한다. 저는 gitlab ci/cd가 너무 좋아서
 
 프로젝트에 `.github/workflows` 라는 폴더를 만들고 거기에 build.yml을 만들어 보자.
 
-```bash
+```sh
 cd ~/Desktop/demo-angular
 mkdir -p .github/workflows
 touch .github/workflows/build.yml
 ```
 
 {% code title=".github/workflows/build.yml" %}
+
 ```yaml
 name: CI
 
@@ -40,6 +41,7 @@ jobs:
           ls -alF
           pwd
 ```
+
 {% endcode %}
 
 이제 커밋 푸시해보자.
@@ -68,7 +70,7 @@ on:
     branches: [main, dev]
 ```
 
-push나 Pull\_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
+push나 Pull_request에 main 브랜치나 dev브랜치에만 이 workflow가 동작한다.
 
 이미지는 ubuntu-latest 를 가지고 빌드를 시작한다.
 
@@ -80,7 +82,7 @@ push나 Pull\_request에 main 브랜치나 dev브랜치에만 이 workflow가 �
 
 프로젝트에 angular 를 하나 추가해보자.
 
-```bash
+```sh
 cd Desktop/GitHub
 ng new github-action
 cd github-action
@@ -342,4 +344,3 @@ jobs:
           AWS_REGION: 'us-west-1'
           SOURCE_DIR: 'dist/' # optional: defaults to entire repository
 ```
-

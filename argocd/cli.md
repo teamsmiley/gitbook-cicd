@@ -4,7 +4,7 @@
 
 [https://argo-cd.readthedocs.io/en/stable/cli_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
 
-```bash
+```sh
 # macos
 brew install argocd
 
@@ -22,7 +22,7 @@ chmod +x /usr/local/bin/argocd
 
 ## port forwarding
 
-```bash
+```sh
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
@@ -32,26 +32,26 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 ## login
 
-```bash
+```sh
 argocd login localhost:8080
 ```
 
 ## password 변경
 
-```bash
+```sh
 argocd account update-password
 ```
 
 ## add repo
 
-```bash
+```sh
 argocd repo add git@github.com:YOUR/argocd.git \
 --ssh-private-key-path ~/.ssh/argocd
 ```
 
 ## add app
 
-```bash
+```sh
 # Create a directory app
 argocd app create guestbook \
   --repo https://github.com/argoproj/argocd-example-apps.git \
@@ -71,7 +71,7 @@ argocd app create kustomize-guestbook \
 
 ## get app
 
-```bash
+```sh
 argocd app get APPNAME
 ```
 
@@ -81,4 +81,14 @@ argocd app get APPNAME
 NAME=default
 argocd app sync ${NAME} --prune --force
 argocd app wait ${NAME} --timeout 1200
+```
+
+## app sync (adv)
+
+```sh
+export ARGOCD_SERVER=argocd.mycompany.com
+export ARGOCD_AUTH_TOKEN=<JWT token generated from project>
+curl -sSL -o /usr/local/bin/argocd https://${ARGOCD_SERVER}/download/argocd-linux-amd64
+argocd app sync guestbook
+argocd app wait guestbook
 ```

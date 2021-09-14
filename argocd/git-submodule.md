@@ -6,7 +6,7 @@ prometheus를 설치해보자.
 
 [https://github.com/prometheus-operator/kube-prometheus](https://github.com/prometheus-operator/kube-prometheus)
 
-```bash
+```sh
 git submodule add https://github.com/prometheus-operator/kube-prometheus.git core/kube-prometheus
 
 cd core/kube-prometheus
@@ -21,4 +21,3 @@ k apply -f add-apps/core/kube-prometheus.yaml #app추가해서 사용하면된�
 ```
 
 metrics-server가 있으면 에러가 나서 기존 metrics-server지워주었다.
-

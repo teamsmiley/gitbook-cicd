@@ -6,7 +6,7 @@
 
 argocd repo에 submodule로 등록을 햇다.
 
-```bash
+```sh
 git submodule add https://github.com/prometheus-operator/kube-prometheus.git core/kube-prometheus
 
 cd core/kube-prometheus
@@ -22,15 +22,15 @@ git push
 
 app등록하면 디플로이가 되는 것을 볼수 있다.
 
-```bash
+```sh
 kubectl -n monitoring port-forward svc/prometheus-k8s 9090
 ```
 
-```bash
+```sh
 kubectl -n monitoring port-forward svc/alertmanager-main 9093
 ```
 
-```bash
+```sh
 kubectl -n monitoring port-forward svc/grafana 3000
 ```
 

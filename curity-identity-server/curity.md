@@ -61,7 +61,7 @@ spec:
 
 ## port forwarding으로 접근하는법
 
-```bash
+```sh
 export POD_NAME=$(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}")
 
 kubectl port-forward $POD_NAME 6749:6749
@@ -137,7 +137,7 @@ general 메뉴에서도 수정
 
 curity는 jdbc드라이버를 포함하고 있지 않다. 오라클 라이센스때문에 직접 다운받아서 컨테이너에 넣어줘야한다.
 
-```bash
+```sh
 kubectl cp ~/Downloads/mysql-connector-java-8.0.26.jar -n curity $(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}"):/opt/idsvr/lib/plugins/data.access.jdbc/
 ```
 
@@ -179,7 +179,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 create database se_curity_store;
 ```
 
-```bash
+```sh
 kubectl cp -n curity $(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}"):/opt/idsvr/etc/mysql-create_database.sql ~/Downloads/mysql-create_database.sql
 ```
 
@@ -201,7 +201,7 @@ Dockerfile을 만들어서 커스터마이즈하자 jdbc 파일을 복사해야�
 
 나중에 쓸려고 git도 설치가 완료가 되야함.
 
-```bash
+```sh
 cat > Dockerfile <<EOF
 FROM curity.azurecr.io/curity/idsvr:6.4.1
 
@@ -238,11 +238,11 @@ curity가 commit hooks를 지원한다.
 
 custom image를 만들때 이 파일을 아에 넣어주면 좋을거같다.
 
-```bash
+```sh
 vi full-backup.cli
 ```
 
-```bash
+```sh
 #!/bin/sh
 git config --global user.email "teamsmiley@gmail.com"
 git config --global user.name "smiley"
@@ -297,7 +297,7 @@ EXPOSE 4466
 
 이제 이 도커파일을 빌드해서 registry에 등록
 
-```bash
+```sh
 export CR_PAT=YOUR_PAT
 echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
 # docker build . -t ghcr.io/OWNER/IMAGE_NAME:latest
@@ -324,7 +324,7 @@ docker push ghcr.io/teamsmiley/curity:latest
 
 잘 안되면 로그를 보자 .
 
-```bash
+```sh
 tail -f /opt/idsvr/var/log/post-commit-scripts.log
 ```
 
@@ -332,14 +332,14 @@ tail -f /opt/idsvr/var/log/post-commit-scripts.log
 
 git에 커밋되있는 파일을 가지고 secret를 만든다.
 
-```bash
+```sh
 kubectl create secret generic idsvr-config \
     --from-file=default-conf=default-conf.xml
 ```
 
 helm으로 복구할때 다음 옵션을 사용한다.
 
-```bash
+```sh
 --set curity.config.configurationSecret=idsvr-config
 
 --set curity.config.configurationSecretItemName=default-conf
@@ -357,18 +357,17 @@ commit 을 할때마다 secret에 추가 데이터가 저장이 된다.
 
 ## helm 을 이용해서 복구
 
-* curity.config.configurationSecret
-* curity.config.configurationSecretItemName를 사용
+- curity.config.configurationSecret
+- curity.config.configurationSecretItemName를 사용
 
 백업을 복원합니다
 
 helm으로 복구할때 다음 옵션을 사용한다.
 
-```bash
+```sh
 --set curity.config.configurationSecret=curity-idsvr-config-backup
 
 --set curity.config.configurationSecretItemName=2021-09-01-65E-71EF1-563AE.xml
 ```
 
 여러개 있을때 헷갈리기도 하겟다. git방식이 더 나을수도 잇을거같다.
-
