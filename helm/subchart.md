@@ -1,12 +1,10 @@
 # subchart
 
-## helm subchart
-
 helm 기본 사용법은 다른곳에서 확인해보기 바란다.
 
 그런데 gitops를 지향하는 나로써는 helm쓰기가 참 싫었다.
 
-git으로 커밋을 하지않기 때문에 변경사항을 찾기가 복잡하다. 그러다 오늘 sub chart라는 기능을 확인했다.
+git으로 커밋을 하지않기 때문에 변경사항을 찾기가 복잡하다. 그러다 오늘 subchart라는 기능을 확인했다.
 
 차트를 내가 만드는것이다. 이 차트는 깃으로 관리가 될것이고 필요한 어플리케이션은 dependency로 설치하는 것이다.
 
@@ -14,8 +12,8 @@ argocd repo에 curity라는 폴더를 추가한다.
 
 다음에 두개의 파일을 추가한다.
 
-* chart.yaml
-* values.yaml
+- Chart.yaml (대소문자 주의 소문자면 인식하지 않는다)
+- values.yaml
 
 ## chart.yaml
 
@@ -70,3 +68,6 @@ idsvr:
 
 이제부터는 git 커밋을 통해서 helm옵션들이 업데이트되므로 gitops 철학에 맞다.
 
+## 여러개의 서브차트를 하나로 관리
+
+namespace를 같게 사용하려면 dependency에 여러개를 넣으면 된다. 그런데 나의 경우에는 namespace를 다르게 사용하고 싶었다. 그건 현재 불가능하기때문에 각각의 커스텀 차트를 만들어서 사용하였다.
