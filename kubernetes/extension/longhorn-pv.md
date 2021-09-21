@@ -367,3 +367,9 @@ storage class에서 longhorn을 확인해보면 확장을 허용해주는 옵션
 <https://longhorn.io/docs/1.2.0/volumes-and-nodes/volume-size/>
 
 <https://longhorn.io/docs/1.2.0/volumes-and-nodes/expansion/>
+
+## uninstall
+
+```sh
+helm uninstall longhorn -n longhorn-system
+```

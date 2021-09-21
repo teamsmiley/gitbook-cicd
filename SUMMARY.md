@@ -84,8 +84,8 @@
 
 ## open nubula
 
-- [opennebula](open-nubula/opennebula.md)
-- [tip](open-nubula/tip.md)
+- [opennebula](opennubula/opennebula.md)
+- [tip](opennubula/tip.md)
 
 ## curity identity server
 

@@ -33,7 +33,7 @@ mysql -u oneadmin -p
 sudo ufw disable
 
 sudo apt update -y
-sudo apt  install gnupg wget apt-transport-https -y
+sudo apt install gnupg wget apt-transport-https -y
 
 sudo -i
 
@@ -56,13 +56,13 @@ sudo vi /etc/one/oned.conf
 #        SERVER  = "localhost",
 #        PORT    = 0,
 #        USER    = "oneadmin",
-#        PASSWD  = "<thepassword>",
+#        PASSWD  = "<password>",
 #        DB_NAME = "opennebula",
 #        CONNECTIONS = 25,
 #        COMPARE_BINARY = "no" ]
 
 sudo -u oneadmin /bin/sh
-echo 'oneadmin:kimchi66' > /var/lib/one/.one/one_auth
+echo 'oneadmin:<password>' > /var/lib/one/.one/one_auth
 exit
 
 # sudo ufw allow proto tcp from any to any port 9869
@@ -80,14 +80,14 @@ oneuser show
 > ID              : 0
 > NAME            : oneadmin
 > GROUP           : oneadmin
-> PASSWORD        : > 39fb427b99fad4b6b2f4547c07f509af87332f70664e1c7c09467cb5829eb833
+> PASSWORD        : > 39fb427b99fad4b6b2f4547c0732f70664e1c7c09467cb5829eb833
 > AUTH_DRIVER     : core
 > ENABLED         : Yes
 >
 > TOKENS
 >
 > USER TEMPLATE
-> TOKEN_PASSWORD="f58bae86cxxd59f891deb1b7b3c75a7> 12d652af8c59"
+> TOKEN_PASSWORD="f58bae86cxxd59f891deb1b7b12d652af8c59"
 >
 > VMS USAGE & QUOTAS
 >
@@ -106,13 +106,15 @@ oneuser show
 
 http://<frontend_address>:9869
 
-http://10.1.5.11:9869
+http://10.1.4.11:9869
 
 ![](./images/2021-08-25-18-51-00.png)
 
 ui로 접속이 가능하다.
 
 ## kvm node (bearmetal)
+
+install node with maas (kvm also)
 
 https://computingforgeeks.com/how-to-install-and-configure-opennebula-kvm-node-on-ubuntu/
 
@@ -123,10 +125,11 @@ wget -q -O- https://downloads.opennebula.io/repo/repo.key | apt-key add -
 
 echo "deb https://downloads.opennebula.io/repo/6.0/Ubuntu/20.04 stable opennebula" > /etc/apt/sources.list.d/opennebula.list
 
-exit
-
 sudo apt-get update -y
+
 sudo apt-get install opennebula-node
+
+
 
 # sudo vim /etc/libvirt/libvirtd.conf
 # > unix_sock_group = "oneadmin"
@@ -137,6 +140,8 @@ sudo sed -i -E 's/unix_sock_group.*/unix_sock_group\ \=\ \"oneadmin\"/gi' /etc/l
 sudo sed -i -E 's/unix_sock_rw_perms.*/unix_sock_rw_perms\ \=\ \"0777\"/gi' /etc/libvirt/libvirtd.conf
 
 sudo systemctl restart libvirtd.service
+
+exit
 
 ## 각각의 노드에서 oneadmin 암호 설정
 sudo passwd oneadmin
@@ -159,27 +164,32 @@ OpenNebula Front-end는 SSH를 사용하여 하이퍼바이저 호스트에 연�
 
 oneadmin모든 시스템 의 사용자 공개 키 를 모든 시스템의 파일 /var/lib/one/.ssh/authorized_keys에 배포해야 합니다 .
 
-패키지가 프런트 엔드에 설치되었을 때 SSH 키가 생성되고 authorized_keys 가 채워집니다.
+패키지가 프런트 엔드에 설치되었을 때 SSH 키가 생성되고 authorized_keys 가 채워집니다. 안되는 경우는 추가하면 될가?
+
+```sh
+sudo su - oneadmin
+ssh-keygen
+```
 
 known_hosts 파일을 만들고 노드와도 동기화해야 합니다.
 
 known_hosts파일 을 생성하려면 모든 노드 이름과 프런트 엔드 이름을 매개변수로 사용하여 프런트 엔드에서 사용자 oneadmin으로 이 명령을 실행해야 합니다.
 
 ```sh
-ssh maas
+ssh maas #opennebula front-end server에서
 sudo su - oneadmin
 # known_hosts 생성 그외 pub와 authorized_keys등이 미리 생성이 되있다.
-ssh-keyscan 10.1.5.70 >> /var/lib/one/.ssh/known_hosts
+ssh-keyscan 10.1.4.77 >> /var/lib/one/.ssh/known_hosts
 # 확인
 ls /var/lib/one/.ssh/
 cat /var/lib/one/.ssh/known_hosts
 
 # 프런트엔드에서 KVM 노드로 복사:
-scp -rp /var/lib/one/.ssh 10.1.5.70:/var/lib/one/
-scp -rp /var/lib/one/.ssh <node2>:/var/lib/one/
+scp -rp /var/lib/one/.ssh 10.1.4.77:/var/lib/one/
+# scp -rp /var/lib/one/.ssh <node2>:/var/lib/one/ # 추가 노드
 
 # 프론트에서 테스트(oneadmin어카운트로)
-ssh 10.1.5.70
+ssh 10.1.4.77
 
 ```
 
@@ -187,7 +197,7 @@ ssh 10.1.5.70
 
 웹화면에서 노드를 등록합니다.
 
-http://10.1.5.11:9869
+http://10.1.4.11:9869
 
 infra -> hosts
 
@@ -248,11 +258,13 @@ DNS                = "8.8.8.8"
 
 ## storage > app
 
-search ubuntu20.04
+search ubuntu 20.04
 
 select datasource
 
 ![](./images/2021-08-25-21-50-24.png)
+
+donwload after select datasource
 
 ## vm template 생성
 
