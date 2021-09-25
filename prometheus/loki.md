@@ -75,3 +75,47 @@ grafana에 접속후 data source를 추가하였다.
 ### filter expression
 
 나온 결과를 다시 필터할수 있다.
+
+- Keep log lines that have the substring “error”:
+
+```text
+  |= "error"
+```
+
+- A complete query using this example:
+
+```text
+  {job="mysql"} |= "error"
+```
+
+- Discard log lines that have the substring “kafka.server:type=ReplicaManager”:
+
+```text
+  != "kafka.server:type=ReplicaManager"
+```
+
+- A complete query using this example:
+
+```text
+  {instance=~"kafka-[23]",name="kafka"} != "kafka.server:type=ReplicaManager"
+```
+
+- Keep log lines that contain a substring that starts with tsdb-ops and ends with io:2003. A complete query with a regular expression:
+
+```text
+  {name="kafka"} |~ "tsdb-ops.\*io:2003"
+```
+
+- Keep log lines that contain a substring that starts with error=, and is followed by 1 or more word characters. A complete query with a regular expression:
+
+```text
+  {name="cassandra"} |~ `error=\w+`
+```
+
+이런식으로 필터할수 있다.
+
+필터 연산자들은 연결될 수 있으며, 표현식을 순차적으로 필터링합니다. 결과값으로 출력되는 로그 라인들은 모든 필터를 충족합니다.
+
+```text
+`{job="mysql"} |= "error" != "timeout"`
+```
