@@ -28,7 +28,7 @@ grafana에 접속후 data source를 추가하였다.
 
 ![](./images/2021-09-25-10-27-24.png)
 
-`http://http://core-loki-stack:3100` 사용
+`http://core-loki-stack:3100` 사용. 서비스명이다.
 
 ## 데이터확인
 
