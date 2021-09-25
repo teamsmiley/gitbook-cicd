@@ -117,7 +117,7 @@ sudo maas status
 ## add admin
 
 ```bash
-sudo maas createadmin --username=admin --email=brian@xgridcolo.com
+sudo maas createadmin --username=admin --email=brian@yourdomain.com
 
 > YourPassword
 
@@ -260,4 +260,3 @@ ready상태로 바뀌고 디플로이를 대기한다.
 이제 os를 deploy 하면 된다.
 
 완료후 접속해보자 ubuntu유저와 초기에 등록한 ssh key로 접속이 가능하다.
-
