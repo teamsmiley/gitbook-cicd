@@ -52,16 +52,18 @@ spec:
 ## pmm-client
 
 {% code title="cr.yaml" %}
-```text
+
+```yaml
 pmm:
   enabled: true
   image: percona/pmm-client:2.18.0
   serverHost: pxc-pmm-service # pmm-server에서의 서비스 명
   serverUser: admin # 확인
 ```
+
 {% endcode %}
 
-```bash
+```sh
 k apply -f cr.yaml
 ```
 
@@ -94,7 +96,7 @@ cd pmm
 touch Chart.yaml
 ```
 
-```text
+```yml
 apiVersion: v2
 name: pmm-subchart
 type: application
@@ -108,7 +110,7 @@ dependencies:
 
 vi values.yaml
 
-```text
+```yaml
 pmm-server:
   ## percona image version
   ## ref: https://hub.docker.com/r/library/percona/tags/
@@ -182,7 +184,7 @@ pmm-server:
       nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
     path: /
     pathType: null
-    host: pmm.c3.xgridcolo.com
+    host: pmm.yourdomain.com
     rules: []
     tls: []
     #  - secretName: pmm-server-tls
@@ -222,4 +224,3 @@ ingress까지 잘 적용되는것을 알수있다.
 `k apply -f add-pmm-server.yaml`
 
 잘 적용된다.
-

@@ -344,8 +344,9 @@ grafana+:: {
         admin_user: 'admin',
         admin_password: 'yourpassword'
       },
+
       server+: {
-        root_url: 'https://grafana.c4.xgridcolo.com/',
+        root_url: 'https://grafana.yourdomain/',
       },
     },
   },

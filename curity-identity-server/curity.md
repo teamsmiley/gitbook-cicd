@@ -39,9 +39,9 @@ spec:
         - name: ingress.enabled
           value: 'true'
         - name: ingress.runtime.host
-          value: curity.xgridcolo.com
+          value: curity.yourdomain.com
         - name: ingress.admin.host
-          value: admin.curity.xgridcolo.com
+          value: admin.curity.yourdomain.com
         - name: networkpolicy.enabled
           value: 'false'
         - name: replicaCount
@@ -57,7 +57,7 @@ spec:
 
 ## ingress로 접근하는법
 
-`https://admin.curity.xgridcolo.com/admin/`
+`https://admin.curity.yourdomain.com/admin/`
 
 ## port forwarding으로 접근하는법
 
@@ -357,8 +357,8 @@ commit 을 할때마다 secret에 추가 데이터가 저장이 된다.
 
 ## helm 을 이용해서 복구
 
-* curity.config.configurationSecret
-* curity.config.configurationSecretItemName를 사용
+- curity.config.configurationSecret
+- curity.config.configurationSecretItemName를 사용
 
 백업을 복원합니다
 
@@ -371,4 +371,3 @@ helm으로 복구할때 다음 옵션을 사용한다.
 ```
 
 여러개 있을때 헷갈리기도 하겟다. git방식이 더 나을수도 잇을거같다.
-

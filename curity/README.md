@@ -39,9 +39,9 @@ spec:
         - name: ingress.enabled
           value: 'true'
         - name: ingress.runtime.host
-          value: curity.xgridcolo.com
+          value: curity.yourdomain.com
         - name: ingress.admin.host
-          value: admin.curity.xgridcolo.com
+          value: admin.curity.yourdomain.com
         - name: networkpolicy.enabled
           value: 'false'
         - name: replicaCount
@@ -57,7 +57,7 @@ spec:
 
 ## ingress로 접근하는법
 
-`https://admin.curity.xgridcolo.com/admin/`
+`https://admin.curity.yourdomain.com/admin/`
 
 ## port forwarding으로 접근하는법
 
