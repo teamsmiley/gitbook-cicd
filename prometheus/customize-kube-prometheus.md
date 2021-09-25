@@ -324,19 +324,29 @@ Search Line limits were exceeded, some search paths have been omitted, the appli
 
 ## grafana customize
 
-loki DataSource를 기본추가, id/pass추가
+DataSource prom/loki 를 기본추가, id/pass추가
 
 ```json
 grafana+:: {
-  // Add loki DataSource
-  datasources+: [{
-    name: 'loki',
-    type: 'loki',
-    access: 'proxy',
-    orgId: 1,
-    url: 'http://core-loki-stack:3100',
-    editable: false,
-  }],
+  // Add DataSource
+  datasources+: [
+    {
+      name: 'prometheus',
+      type: 'prometheus',
+      access: 'proxy',
+      orgId: 1,
+      url: 'http://prometheus-k8s:9090',
+      editable: false,
+    },
+    {
+      name: 'loki',
+      type: 'loki',
+      access: 'proxy',
+      orgId: 2,
+      url: 'http://core-loki-stack:3100',
+      editable: false,
+    },
+  ],
 
   config+: {
     sections+: {
