@@ -1,36 +1,10 @@
 # Customize kube-prometheus
 
-소스코드를 받은걸 컴파일을 하면 자기가 원하는 모양으로 만들어둘두 있다고 한다.
+소스코드를 받은걸 컴파일을 하면 자기가 원하는 모양으로 만들어진다.
 
-go를 사용해야한다. jsonnet을 사용한다.
+jsonnet을 사용한다. docker 버전으로 제공한다.
 
 ```bash
-brew install go
-
-export PATH=$PATH:$(go env GOPATH)/bin
-export GOPATH=$(go env GOPATH)
-
-# get jb compile tool
-go get -u github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
-
-mkdir core/prometheus
-cd core/prometheus
-
-jb init
-
-jb install github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus@release-0.8
-
-wget https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/release-0.8/example.jsonnet -O example.jsonnet
-
-wget https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/release-0.8/build.sh -O build.sh
-
-chmod 700 build.sh
-
-#jb update
-#go get github.com/google/go-jsonnet/cmd/jsonnet
-#go get github.com/brancz/gojsontoyaml
-#./build.sh
-
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
 
@@ -65,6 +39,8 @@ docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./bu
 
 example.jsonnet을 위 파일처럼 수정후 domain을 변경해주면된다.
 
+### basic auth 사용
+
 auth라는 파일을 참조하는것을 알수 있다.
 
 이걸 만들기 위해서는 다음과 같이 한다.
@@ -83,34 +59,34 @@ auth라는 파일이 생겼다. 내용을 복사하여 example.jsonnet파일과 
 
 grafana는 기본인증에서 빼도 될듯 보인다. grafana를 수정햇다. ingress라는 함수를 안쓰고 직접 넣어준다.
 
-```text
+```json
 grafana: {
-          apiVersion: 'networking.k8s.io/v1',
-          kind: 'Ingress',
-          metadata: {
-            name: 'grafana',
-            namespace: $.values.common.namespace,
-          },
-          spec: {
-            rules: [{
-              host: 'grafana.c3',
-              http: {
-                paths: [{
-                  path: '/',
-                  pathType: 'Prefix',
-                  backend: {
-                    service: {
-                      name: 'grafana',
-                      port: {
-                        name: 'http',
-                      },
-                    },
-                  },
-                }],
+  apiVersion: 'networking.k8s.io/v1',
+  kind: 'Ingress',
+  metadata: {
+    name: 'grafana',
+    namespace: $.values.common.namespace,
+  },
+  spec: {
+    rules: [{
+      host: 'grafana.c3',
+      http: {
+        paths: [{
+          path: '/',
+          pathType: 'Prefix',
+          backend: {
+            service: {
+              name: 'grafana',
+              port: {
+                name: 'http',
               },
-            }],
+            },
           },
+        }],
       },
+    }],
+  },
+},
 ```
 
 ## etcd 모니터링
@@ -181,7 +157,7 @@ etcd+: {
 
 빌드하고 커밋 푸시해보자.
 
-prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 확인된다.
+prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확인된다.
 
 ## instance가 하나의 노드에 2개뜨는걸 방지
 
@@ -205,7 +181,7 @@ prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 �
 
 실제 메세지가 가는지 테스트 한다.
 
-[https://prometheus.io/docs/alerting/latest/notification\_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
+[https://prometheus.io/docs/alerting/latest/notification_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
 
 ```text
 global:
@@ -346,3 +322,32 @@ Search Line limits were exceeded, some search paths have been omitted, the appli
 
 `/etc/resolve.conf`에 보면 여러개의 search에 항목이 있엇다. 전부 지워주니 에러도 없어졌고 알람도 없어졋다.
 
+## grafana customize
+
+loki DataSource를 기본추가, id/pass추가
+
+```json
+grafana+:: {
+  // Add loki DataSource
+  datasources+: [{
+    name: 'loki',
+    type: 'loki',
+    access: 'proxy',
+    orgId: 1,
+    url: 'http://core-loki-stack:3100',
+    editable: false,
+  }],
+
+  config+: {
+    sections+: {
+      'security': {
+        admin_user: 'admin',
+        admin_password: 'yourpassword'
+      },
+      server+: {
+        root_url: 'https://grafana.c4.xgridcolo.com/',
+      },
+    },
+  },
+},
+```
