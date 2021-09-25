@@ -124,3 +124,5 @@ grafana에 접속후 data source를 추가하였다.
 - != 문자열을 포함하지 않는 라인.
 - |~ 정규 표현식에 매칭되는 라인.
 - !~ 정규 표현식에 매칭되지 않는 라인.
+
+더 자세한 내용은 <https://grafana.com/docs/loki/latest/logql/> 에서 참고하기 바란다.
