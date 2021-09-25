@@ -225,7 +225,7 @@ values+:: {
 
 문제가 생기면 슬랙으로 알림이 잘 온다.
 
-## alert
+## KubeSchedulerDown-alert
 
 KubeSchedulerDown 알림이 계속온다.
 
