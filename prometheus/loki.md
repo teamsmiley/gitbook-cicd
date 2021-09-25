@@ -28,7 +28,7 @@ grafana에 접속후 data source를 추가하였다.
 
 ![](./images/2021-09-25-10-27-24.png)
 
-`http://localhost:3100` 사용
+`http://http://core-loki-stack:3100` 사용
 
 ## 데이터확인
 
@@ -37,4 +37,3 @@ grafana에 접속후 data source를 추가하였다.
 상단 메뉴에서 loki를 선택한다.
 
 ![](./images/2021-09-25-10-31-05.png)
-
