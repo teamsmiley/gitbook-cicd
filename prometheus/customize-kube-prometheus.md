@@ -225,7 +225,7 @@ values+:: {
 
 문제가 생기면 슬랙으로 알림이 잘 온다.
 
-## KubeSchedulerDown-alert
+### KubeSchedulerDown-alert
 
 KubeSchedulerDown 알림이 계속온다.
 
@@ -243,7 +243,7 @@ values+:: {
 
 없어진다.
 
-## CPUThrottlingHigh
+### CPUThrottlingHigh-alert
 
 CPUThrottlingHigh가 계속 알림으로 온다. node-exporter가 cpu가 높다는것이다.
 
