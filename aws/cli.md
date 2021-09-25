@@ -2,7 +2,7 @@
 
 ## aws cli 설치
 
-```sh
+```bash
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
 sudo installer -pkg AWSCLIV2.pkg -target /
 ```
@@ -11,7 +11,7 @@ sudo installer -pkg AWSCLIV2.pkg -target /
 
 ## aws cli setup command
 
-```sh
+```bash
 aws configure
 ```
 
@@ -39,13 +39,13 @@ aws_secret_access_key = your-secret
 
 ## 기본 유저 설정
 
-```sh
+```bash
 export AWS_PROFILE=smiley
 ```
 
 ## 확인
 
-```sh
+```bash
 aws help
 aws command help
 aws command subcommand help
@@ -53,3 +53,4 @@ aws ec2 describe-instances help
 
 aws ec2 describe-instances  --region us-west-2 --query "Reservations[].Instances[].InstanceId"
 ```
+

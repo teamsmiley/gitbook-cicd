@@ -1,6 +1,6 @@
 # Backup / DR
 
-[https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/](https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/)
+[https://argoproj.github.io/argo-cd/operator-manual/disaster\_recovery/](https://argoproj.github.io/argo-cd/operator-manual/disaster_recovery/)
 
 ## EKS용 argocd 도커 작성
 
@@ -11,7 +11,6 @@
 가급적이면 본인이 사용하는 버전과 같은 버전을 사용한다.
 
 {% code title="Dockerfile" %}
-
 ```text
 FROM argoproj/argocd:v2.0.3
 
@@ -34,12 +33,11 @@ USER argocd
 
 ENV AWS_PROFILE=xxxx #사용하는 프로파일명
 ```
-
 {% endcode %}
 
 이제 도커를 빌드해보자.
 
-```sh
+```bash
 cd eks-argocd
 docker build -t eks-argocd .
 ```
@@ -48,7 +46,7 @@ docker build -t eks-argocd .
 
 ## backup
 
-```sh
+```bash
 docker run -v ~/.kube:/home/argocd/.kube \
 -v ~/.aws:/home/argocd/.aws \
 --rm \
@@ -59,7 +57,7 @@ eks-argocd argocd-util export \
 
 ## restore
 
-```sh
+```bash
 docker run -v ~/.kube:/home/argocd/.kube \
 -v ~/.aws:/home/argocd/.aws \
 --rm \
@@ -67,3 +65,4 @@ eks-argocd argocd-util import \
 --kubeconfig /home/argocd/.kube/aws-rendercore \
 --namespace argocd - < backup.yaml
 ```
+

@@ -61,7 +61,7 @@ spec:
 
 ## port forwarding으로 접근하는법
 
-```sh
+```bash
 export POD_NAME=$(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}")
 
 kubectl port-forward $POD_NAME 6749:6749
@@ -87,17 +87,17 @@ Run Basic Setup 클릭
 
 커뮤니티 라이센스를 발급받아서 업로드 해주자.
 
-![](../.gitbook/assets/2021-08-31-06-33-20.png)
+![](../.gitbook/assets/2021-08-31-06-33-20%20%281%29.png)
 
 next 클릭
 
-![](../.gitbook/assets/2021-08-31-06-33-41.png)
+![](../.gitbook/assets/2021-08-31-06-33-41%20%281%29.png)
 
 일단 기본값으로 모두 next를 누르면 된다.
 
-![](../.gitbook/assets/2021-08-31-06-35-42.png)
+![](../.gitbook/assets/2021-08-31-06-35-42%20%281%29.png)
 
-![](../.gitbook/assets/2021-08-31-06-35-53.png)
+![](../.gitbook/assets/2021-08-31-06-35-53%20%281%29.png)
 
 ![](../.gitbook/assets/2021-08-31-06-36-03.png)
 
@@ -119,7 +119,7 @@ curity는 유저데이터등은 db에 저장하지만 이 설정파일등은 xml
 
 admin 하나와 runtime 모듈 3개가 올라와 있다.
 
-![](../.gitbook/assets/2021-08-31-06-38-19.png)
+![](../.gitbook/assets/2021-08-31-06-38-19%20%281%29.png)
 
 ## url change
 
@@ -137,7 +137,7 @@ general 메뉴에서도 수정
 
 curity는 jdbc드라이버를 포함하고 있지 않다. 오라클 라이센스때문에 직접 다운받아서 컨테이너에 넣어줘야한다.
 
-```sh
+```bash
 kubectl cp ~/Downloads/mysql-connector-java-8.0.26.jar -n curity $(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}"):/opt/idsvr/lib/plugins/data.access.jdbc/
 ```
 
@@ -147,9 +147,9 @@ kubectl cp ~/Downloads/mysql-connector-java-8.0.26.jar -n curity $(kubectl get p
 
 [https://curity.io/docs/idsvr/latest/system-admin-guide/data-sources/jdbc.html?highlight=session\#mysql-and-mariadb](https://curity.io/docs/idsvr/latest/system-admin-guide/data-sources/jdbc.html?highlight=session#mysql-and-mariadb)
 
-![](../.gitbook/assets/2021-08-31-07-04-35.png)
+![](../.gitbook/assets/2021-08-31-07-04-35%20%281%29.png)
 
-![](../.gitbook/assets/2021-08-31-07-11-15.png)
+![](../.gitbook/assets/2021-08-31-07-11-15%20%281%29.png)
 
 create
 
@@ -163,7 +163,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 
 ![](../.gitbook/assets/2021-08-31-07-09-33.png)
 
-![](../.gitbook/assets/2021-08-31-07-10-16.png)
+![](../.gitbook/assets/2021-08-31-07-10-16%20%281%29.png)
 
 추가 완료
 
@@ -171,7 +171,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 
 스크립트는 어드민 컨테이너에 있다.
 
-![](../.gitbook/assets/2021-08-31-07-13-40.png)
+![](../.gitbook/assets/2021-08-31-07-13-40%20%281%29.png)
 
 가지고와서 디비에 적용해주자.
 
@@ -179,7 +179,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 create database se_curity_store;
 ```
 
-```sh
+```bash
 kubectl cp -n curity $(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}"):/opt/idsvr/etc/mysql-create_database.sql ~/Downloads/mysql-create_database.sql
 ```
 
@@ -201,7 +201,7 @@ Dockerfile을 만들어서 커스터마이즈하자 jdbc 파일을 복사해야�
 
 나중에 쓸려고 git도 설치가 완료가 되야함.
 
-```sh
+```bash
 cat > Dockerfile <<EOF
 FROM curity.azurecr.io/curity/idsvr:6.4.1
 
@@ -238,11 +238,11 @@ curity가 commit hooks를 지원한다.
 
 custom image를 만들때 이 파일을 아에 넣어주면 좋을거같다.
 
-```sh
+```bash
 vi full-backup.cli
 ```
 
-```sh
+```bash
 #!/bin/sh
 git config --global user.email "teamsmiley@gmail.com"
 git config --global user.name "smiley"
@@ -297,7 +297,7 @@ EXPOSE 4466
 
 이제 이 도커파일을 빌드해서 registry에 등록
 
-```sh
+```bash
 export CR_PAT=YOUR_PAT
 echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
 # docker build . -t ghcr.io/OWNER/IMAGE_NAME:latest
@@ -310,7 +310,7 @@ docker push ghcr.io/teamsmiley/curity:latest
 
 이제 이 이미지를 써보자.
 
-![](../.gitbook/assets/2021-08-31-09-33-06.png)
+![](../.gitbook/assets/2021-08-31-09-33-06%20%281%29.png)
 
 이제 웹사이트에서 뭔가를 바구고 commit을 해보자.
 
@@ -324,7 +324,7 @@ docker push ghcr.io/teamsmiley/curity:latest
 
 잘 안되면 로그를 보자 .
 
-```sh
+```bash
 tail -f /opt/idsvr/var/log/post-commit-scripts.log
 ```
 
@@ -332,14 +332,14 @@ tail -f /opt/idsvr/var/log/post-commit-scripts.log
 
 git에 커밋되있는 파일을 가지고 secret를 만든다.
 
-```sh
+```bash
 kubectl create secret generic idsvr-config \
     --from-file=default-conf=default-conf.xml
 ```
 
 helm으로 복구할때 다음 옵션을 사용한다.
 
-```sh
+```bash
 --set curity.config.configurationSecret=idsvr-config
 
 --set curity.config.configurationSecretItemName=default-conf
@@ -351,23 +351,24 @@ helm 옵션에 `curity.config.backup=true`를 사용하자.
 
 commit 을 할때마다 secret에 추가 데이터가 저장이 된다.
 
-![](../.gitbook/assets/2021-08-31-20-30-47.png)
+![](../.gitbook/assets/2021-08-31-20-30-47%20%281%29.png)
 
 날짜-트랜잭션 ID로 저장이 된다.
 
 ## helm 을 이용해서 복구
 
-- curity.config.configurationSecret
-- curity.config.configurationSecretItemName를 사용
+* curity.config.configurationSecret
+* curity.config.configurationSecretItemName를 사용
 
 백업을 복원합니다
 
 helm으로 복구할때 다음 옵션을 사용한다.
 
-```sh
+```bash
 --set curity.config.configurationSecret=curity-idsvr-config-backup
 
 --set curity.config.configurationSecretItemName=2021-09-01-65E-71EF1-563AE.xml
 ```
 
 여러개 있을때 헷갈리기도 하겟다. git방식이 더 나을수도 잇을거같다.
+

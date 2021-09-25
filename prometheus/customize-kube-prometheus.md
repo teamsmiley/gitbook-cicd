@@ -4,7 +4,7 @@
 
 go를 사용해야한다. jsonnet을 사용한다.
 
-```sh
+```bash
 brew install go
 
 export PATH=$PATH:$(go env GOPATH)/bin
@@ -47,7 +47,7 @@ local kp =
 
 다시 빌드하고 커밋하면된다.
 
-```sh
+```bash
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
 
@@ -69,7 +69,7 @@ auth라는 파일을 참조하는것을 알수 있다.
 
 이걸 만들기 위해서는 다음과 같이 한다.
 
-```sh
+```bash
 sudo apt install apache2-utils
 htpasswd -c auth admin
 > password를 넣는다. 엔터
@@ -115,7 +115,7 @@ grafana: {
 
 ## etcd 모니터링
 
-```sh
+```bash
 ssh master01
 
 # Copy etcd CA cert from etcd server "/etc/ssl/etcd/ssl/ca.pem"
@@ -143,7 +143,7 @@ cat client.json
 }
 ```
 
-```sh
+```bash
 sudo chmod 755 *.pem
 
 # Generate client certificate
@@ -152,7 +152,7 @@ cfssl gencert -ca ca.pem -ca-key ca-key.pem client.json | cfssljson -bare etcd-c
 
 관련 파일이 만들어진다. 전부 로컬로 가져온다.
 
-```sh
+```bash
 scp master01.c3:~/ca.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd
 scp master01.c3:~/etcd-client-key.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd
 scp master01.c3:~/etcd-client.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd
@@ -181,7 +181,7 @@ etcd+: {
 
 빌드하고 커밋 푸시해보자.
 
-prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확인된다.
+prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 확인된다.
 
 ## instance가 하나의 노드에 2개뜨는걸 방지
 
@@ -205,7 +205,7 @@ prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확�
 
 실제 메세지가 가는지 테스트 한다.
 
-[https://prometheus.io/docs/alerting/latest/notification_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
+[https://prometheus.io/docs/alerting/latest/notification\_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
 
 ```text
 global:
@@ -345,3 +345,4 @@ Search Line limits were exceeded, some search paths have been omitted, the appli
 ```
 
 `/etc/resolve.conf`에 보면 여러개의 search에 항목이 있엇다. 전부 지워주니 에러도 없어졌고 알람도 없어졋다.
+

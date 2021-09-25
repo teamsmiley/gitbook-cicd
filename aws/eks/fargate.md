@@ -40,7 +40,6 @@ eksctl create fargateprofile \
 또는 아래처럼 설정으로 만든다. 설정을 사용하면 여러개의 셀렉터를 선택할수 있다.
 
 {% code title="fargateProfile.yml" %}
-
 ```text
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -55,12 +54,11 @@ fargateProfiles:
       - namespace: kube-system
       - namespace: argocd
 ```
-
 {% endcode %}
 
 selector가 5개 이상이면 에러나더라. namespace로만 하지말고 tag 로 처리를 해야할듯
 
-```sh
+```bash
 eksctl create fargateprofile -f fargateProfile.yml
 
 eksctl delete fargateprofile --name fp-all-namespace --cluster cluster01
@@ -79,3 +77,4 @@ kube-system을 fargate 로 넣으면 잘 안된다.
 ```text
 Now we have to delete and re-create any existing pods so that they are scheduled on Fargate nodes. Otherwise, pods including the "coredns" pods, will be stuck in "Pending" state.
 ```
+

@@ -7,7 +7,6 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
 ## create policy
 
 {% code title="AllowExternalDNSUpdates" %}
-
 ```javascript
 {
   "Version": "2012-10-17",
@@ -25,14 +24,13 @@ namespace는 default로 가정하고 진행했습니다. 다른곳을 사용하�
   ]
 }
 ```
-
 {% endcode %}
 
 ## Create IAM Role, k8s Service Account & Associate IAM Policy
 
 k8s Service Account named external-dns
 
-```sh
+```bash
 # 확인
 eksctl get iamserviceaccount --cluster cluster01
 
@@ -61,13 +59,13 @@ kubectl get sa
 
 ## install external-dns
 
-```sh
+```bash
 wget https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.0.0/docs/examples/external-dns.yaml
 ```
 
 ServiceAccount 부분은 지우고 \(벌써 만들엇기때문\)
 
-```sh
+```bash
 - --domain-filter=external-dns-test.my-org.com #주석
 
 - --txt-owner-id=my-identifier #주석
@@ -177,3 +175,4 @@ external-dns.alpha.kubernetes.io/exclude: 'true'
 ```text
 external-dns.alpha.kubernetes.io/target: "204.16.116.99"
 ```
+

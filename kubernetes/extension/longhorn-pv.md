@@ -14,7 +14,7 @@ pod가 1번 노드에서 뜨면 1번 노드에 pv를 붙여주는거 같음
 
 ubuntu20은 nfs-commons만 추가 설치해야한다.
 
-```sh
+```bash
 apt install nfs-common -y
 ```
 
@@ -22,7 +22,7 @@ apt install nfs-common -y
 
 ## longhorn 설치
 
-```sh
+```bash
 helm repo add longhorn https://charts.longhorn.io
 helm repo update
 helm search repo longhorn
@@ -31,7 +31,7 @@ helm install longhorn longhorn/longhorn --namespace longhorn-system
 
 LoadBalancer타입으로 설치하려면 다음처럼 하면된다.
 
-```sh
+```bash
 helm install longhorn longhorn/longhorn --set service.ui.type=LoadBalancer -n longhorn-system --create-namespace
 
 helm list -n longhorn-system
@@ -45,7 +45,7 @@ k get pod
 
 ![](../../.gitbook/assets/2021-08-10-18-52-04.png)
 
-```sh
+```bash
 k get volumes
 
 NAME   STATE      ROBUSTNESS   SCHEDULED   SIZE          NODE   AGE
@@ -69,7 +69,7 @@ volume이라는 crd를 제공함..기타 다른것도 제공.
 
 longhorn이라는 스토리지 클라스 제공 디폴트로 세팅되어 있다.
 
-```sh
+```bash
 # k get sc
 NAME                 PROVISIONER          RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
 longhorn (default)   driver.longhorn.io   Delete          Immediate           true                   33m
@@ -121,7 +121,7 @@ spec:
 
 mypvc.yml
 
-```sh
+```bash
 k apply -f mypvc.yml
 ```
 
@@ -153,7 +153,7 @@ spec:
         claimName: mypvc
 ```
 
-```sh
+```bash
 k apply -f pod.yml
 ```
 
@@ -219,7 +219,7 @@ pod도 5번에 있는것을 확인할수 있다.
 
 revert가 회색인것을 알수있다. pod가 attached되어 있어서 생기는 문제 일단 pod를 내리고 다시 확인해보자.
 
-```sh
+```bash
 kubectl delete pod mypod
 ```
 
@@ -253,7 +253,7 @@ detached된 볼륨
 
 이제 pod를 다시 생성해보자.
 
-```sh
+```bash
 k apply -f mypod.yml
 ```
 
@@ -309,7 +309,7 @@ data:
   AWS_SECRET_ACCESS_KEY: AAAA==
 ```
 
-```sh
+```bash
 k apply -f backup-s3.yml
 k get secret -n longhorn-system
 ```
@@ -362,14 +362,15 @@ ext4, XFS 만 늘리는걸 허용한다.
 
 storage class에서 longhorn을 확인해보면 확장을 허용해주는 옵션이 enable되어있다.
 
-![](./images/2021-09-11-11-31-28.png)
+![](../../.gitbook/assets/2021-09-11-11-31-28.png)
 
-<https://longhorn.io/docs/1.2.0/volumes-and-nodes/volume-size/>
+[https://longhorn.io/docs/1.2.0/volumes-and-nodes/volume-size/](https://longhorn.io/docs/1.2.0/volumes-and-nodes/volume-size/)
 
-<https://longhorn.io/docs/1.2.0/volumes-and-nodes/expansion/>
+[https://longhorn.io/docs/1.2.0/volumes-and-nodes/expansion/](https://longhorn.io/docs/1.2.0/volumes-and-nodes/expansion/)
 
 ## uninstall
 
-```sh
+```bash
 helm uninstall longhorn -n longhorn-system
 ```
+

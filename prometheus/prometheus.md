@@ -6,7 +6,7 @@
 
 argocd repo에 submodule로 등록을 햇다.
 
-```sh
+```bash
 git submodule add https://github.com/prometheus-operator/kube-prometheus.git core/kube-prometheus
 
 cd core/kube-prometheus
@@ -22,15 +22,15 @@ git push
 
 app등록하면 디플로이가 되는 것을 볼수 있다.
 
-```sh
+```bash
 kubectl -n monitoring port-forward svc/prometheus-k8s 9090
 ```
 
-```sh
+```bash
 kubectl -n monitoring port-forward svc/alertmanager-main 9093
 ```
 
-```sh
+```bash
 kubectl -n monitoring port-forward svc/grafana 3000
 ```
 
@@ -50,13 +50,13 @@ kubectl -n monitoring port-forward svc/grafana 3000
 
 ## ingress-nginx 모니터링 하기
 
-<https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/user-guides/getting-started.md>
+[https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/user-guides/getting-started.md](https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/user-guides/getting-started.md)
 
 여기를 보면 serviceMonitor 볼수 있다 이걸 만들어 주면 쿠버네티스에서 모니터링이 가능하다.
 
 그런데 ingress-nginx는 벌서 가지고 있다 활성화면 해주면 된다.
 
-```yml
+```text
 - name: controller.metrics.enabled
   value: 'true'
 - name: controller.metrics.serviceMonitor.enabled
@@ -75,7 +75,7 @@ kubectl -n monitoring port-forward svc/grafana 3000
 
 ## serviceMonitor 추가하기
 
-```yml
+```text
 kind: Service
 apiVersion: v1
 metadata:
@@ -103,3 +103,4 @@ spec:
   endpoints:
     - port: web
 ```
+

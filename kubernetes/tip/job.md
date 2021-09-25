@@ -2,13 +2,13 @@
 
 ## delete completed job
 
-```sh
+```bash
 kubectl delete jobs --field-selector status.successful=1
 ```
 
 ## delete fail job or long running job
 
-```sh
+```bash
 kubectl delete jobs --field-selector status.successful=0
 ```
 
@@ -25,3 +25,4 @@ job에 .spec.ttlSecondsAfterFinished 를 설정하면 그시간 이후로 자동
 percona xtradb cluster operator에서는 .spec.ttlSecondsAfterFinished 을 포함하지 않는듯 보인다.
 
 이게 지원이 될때까지 수동으로 지워야할듯
+

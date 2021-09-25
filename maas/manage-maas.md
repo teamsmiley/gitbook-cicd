@@ -4,7 +4,7 @@ cli를 설치한후 다음처럼 하자.
 
 ## Create an administrator user
 
-```sh
+```bash
 PROFILE=admin
 EMAIL_ADDRESS="brian@your-domain.com"
 MAAS_URL=http://localhost:5240/MAAS/api/2.0
@@ -30,8 +30,9 @@ api key를 복사해둔 것을 붙여넣기 한다.
 
 ## 기타 커맨드
 
-```sh
+```bash
 maas $PROFILE --help
 maas $PROFILE tag --help
 maas $PROFILE tags --help
 ```
+

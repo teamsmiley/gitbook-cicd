@@ -5,24 +5,22 @@ Pull Request\(PR\) 보내는 방법
 1. 부모 저장소를 포크하자.
 2. 내 저장소에 포크된 프로젝트를 git clone하자.
 
-   ```sh
+   ```bash
    git clone git@github.com:teamsmiley/idsvr-helm.git
    ```
 
 3. 원격 저장소 Remote 설정하기
+   * PR을 보낼 곳을 추가.
+   * 원격 저장소의 이름은 upstream 으로 지정
+   * 원격 저장소의 git 주소는 fork를 하기 전 원래의 저장소를 말합니다.
 
-   - PR을 보낼 곳을 추가.
-   - 원격 저장소의 이름은 upstream 으로 지정
-   - 원격 저장소의 git 주소는 fork를 하기 전 원래의 저장소를 말합니다.
-
-     ```sh
+     ```bash
      # git remote add upstream https://github.com/ORIGIN_OWNER/ORIGIN_REPO.git
      git remote add upstream https://github.com/curityio/idsvr-helm.git
      ```
-
 4. PR용 branch 생성하기
 
-   ```sh
+   ```bash
    git checkout -b update-svc-selector
    ```
 
@@ -35,11 +33,11 @@ Pull Request\(PR\) 보내는 방법
      role: {{ include "curity.fullname" . }}-admin
    ```
 
-   ```sh
+   ```bash
    git add --all && git commit -m "admin-svc-selector-update" && git push origin update-svc-selector
    ```
 
-   ![](../.gitbook/assets/2021-08-30-06-23-56.png)
+   ![](../.gitbook/assets/2021-08-30-06-23-56%20%281%29.png)
 
 6. github에서 PR 보내기
 
@@ -49,18 +47,19 @@ Pull Request\(PR\) 보내는 방법
 
 7. 부모 프로젝트에 PR이 있는지 확인하기
 
-   ![](../.gitbook/assets/2021-08-30-06-27-37.png)
+   ![](../.gitbook/assets/2021-08-30-06-27-37%20%281%29.png)
 
 8. 머지될때가지 기다린다. 머지되면 내 브랜치는 지워도 된다. 로컬하고 리모트 모두다.
 
-![](../.gitbook/assets/2021-08-30-07-22-33.png)
+![](../.gitbook/assets/2021-08-30-07-22-33%20%281%29.png)
 
-![](../.gitbook/assets/2021-08-30-07-22-54.png)
+![](../.gitbook/assets/2021-08-30-07-22-54%20%281%29.png)
 
 approve 완료
 
 몇일있다 merge됫다는 이메일이 온다.
 
-![](../.gitbook/assets/2021-09-01-07-43-46.png)
+![](../.gitbook/assets/2021-09-01-07-43-46%20%281%29.png)
 
 완료
+

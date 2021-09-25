@@ -6,7 +6,7 @@
 
 install ubuntu 20.04 LTS with CD
 
-```sh
+```bash
 sudo apt update -y
 sudo apt upgrade -y
 sudo apt dist-upgrade -y
@@ -14,7 +14,7 @@ sudo apt dist-upgrade -y
 
 ## ipmi 설정
 
-```sh
+```bash
 sudo apt install ipmitool -y
 ip=10.1.4.11
 sudo ipmitool lan set 1 ipsrc static
@@ -26,7 +26,7 @@ sudo ipmitool lan set 1 arp respond on
 
 ## ip setting
 
-```sh
+```bash
 sudo vi /etc/netplan/00-installer-config.yaml
 ```
 
@@ -46,14 +46,14 @@ network:
   version: 2
 ```
 
-```sh
+```bash
 sudo netplan apply
 ifconfig #확인
 ```
 
 ## snap and postgresql install
 
-```sh
+```bash
 sudo snap install --channel=3.0/stable maas
 sudo apt install -y postgresql
 
@@ -66,18 +66,18 @@ sudo -u postgres psql -c "CREATE USER \"$MAAS_DBUSER\" WITH ENCRYPTED PASSWORD '
 sudo -u postgres createdb -O "$MAAS_DBUSER" "$MAAS_DBNAME"
 ```
 
-```sh
+```bash
 sudo vi /etc/postgresql/12/main/pg_hba.conf
 ```
 
-```sh
+```bash
 # host    $MAAS_DBNAME    $MAAS_DBUSER    0/0     md5
 host      maas            XXXX           0/0     md5
 ```
 
 ![](../.gitbook/assets/2021-08-24-20-29-07.png)
 
-```sh
+```bash
 sudo maas init region+rack --database-uri "postgres://$MAAS_DBUSER:$MAAS_DBPASS@localhost/$MAAS_DBNAME"
 
 #sudo maas init region+rack --database-uri "postgres://$MAAS_DBUSER:$MAAS_DBPASS@$HOSTNAME/$MAAS_DBNAME"
@@ -100,7 +100,7 @@ To create admins when not using external authentication, run
   sudo maas createadmin
 ```
 
-```sh
+```bash
 sudo maas status
 
 > bind9                            RUNNING   pid 8142, uptime 0:02:21
@@ -116,7 +116,7 @@ sudo maas status
 
 ## add admin
 
-```sh
+```bash
 sudo maas createadmin --username=admin --email=brian@xgridcolo.com
 
 > YourPassword
@@ -128,9 +128,9 @@ Import SSH keys [] (lp:user-id or gh:user-id): (just enter)
 
 [http://10.1.5.11:5240/MAAS/](http://10.1.5.11:5240/MAAS/) \(대소문자 주의\)
 
-![](../.gitbook/assets/2021-08-24-20-32-22.png)
+![](../.gitbook/assets/2021-08-24-20-32-22%20%281%29.png)
 
-![](../.gitbook/assets/2021-08-24-20-32-44.png)
+![](../.gitbook/assets/2021-08-24-20-32-44%20%281%29.png)
 
 continue
 
@@ -138,13 +138,13 @@ continue
 
 초기 접속 ssh key를 설정한다. 중요하다.
 
-![](../.gitbook/assets/2021-08-24-20-33-48.png)
+![](../.gitbook/assets/2021-08-24-20-33-48%20%282%29.png)
 
-![](../.gitbook/assets/2021-08-24-20-34-37.png)
+![](../.gitbook/assets/2021-08-24-20-34-37%20%282%29.png)
 
 continue
 
-```sh
+```bash
 cat ~/.ssh/id_rsa.pub
 >  ssh-rsa AAxxx0RVSJOdOBSeO7e
 ```
@@ -155,7 +155,7 @@ subnet &gt;&gt; click
 
 untagged click
 
-![](../.gitbook/assets/2021-08-25-07-52-28.png)
+![](../.gitbook/assets/2021-08-25-07-52-28%20%282%29.png)
 
 enable dhcp 클릭
 
@@ -163,7 +163,7 @@ enable dhcp 클릭
 
 ![](../.gitbook/assets/2021-08-25-07-54-01.png)
 
-```sh
+```bash
 sudo maas status
 
 bind9                            RUNNING   pid 19886, uptime 0:09:28
@@ -189,7 +189,7 @@ sync임을 확인할수 있다.
 
 노드 부팅 순서를 pxe를 1번으로 해두면 자동으로 maas에서 이미지를 받아서 설치한다. 웹 화면에서도 자동 등록이 된다.
 
-![](../.gitbook/assets/2021-08-25-08-19-00.png)
+![](../.gitbook/assets/2021-08-25-08-19-00%20%281%29.png)
 
 자동으로 등록되며 commissioning까지 된다. commsioning이 실패하면 new 로 되고 통과하면 ready가 된다.
 
@@ -201,11 +201,11 @@ new -> commissioning -> ready -> deploy
 
 new 상태로 간다.
 
-![](../.gitbook/assets/2021-08-25-08-22-09.png)
+![](../.gitbook/assets/2021-08-25-08-22-09%20%281%29.png)
 
 --&gt; commisioning을 추가로 해보자.
 
-![](../.gitbook/assets/2021-08-25-08-59-03.png)
+![](../.gitbook/assets/2021-08-25-08-59-03%20%281%29.png)
 
 --&gt; ready상태임
 
@@ -213,9 +213,9 @@ new 상태로 간다.
 
 ![](../.gitbook/assets/2021-08-25-08-26-07.png)
 
-![](../.gitbook/assets/2021-08-25-08-27-00.png)
+![](../.gitbook/assets/2021-08-25-08-27-00%20%281%29.png)
 
-![](../.gitbook/assets/2021-08-25-08-28-17.png)
+![](../.gitbook/assets/2021-08-25-08-28-17%20%282%29.png)
 
 ## install os
 
@@ -223,15 +223,15 @@ new 상태로 간다.
 
 장비를 선택하고 deploy를 누르면 된다.
 
-![](../.gitbook/assets/2021-08-25-09-00-43.png)
+![](../.gitbook/assets/2021-08-25-09-00-43%20%282%29.png)
 
 bearmetal장비이므로 kvm도 같이 설치가 되게 해두었다.
 
-![](../.gitbook/assets/2021-08-25-09-01-48.png)
+![](../.gitbook/assets/2021-08-25-09-01-48%20%281%29.png)
 
 디플로이 해보자.
 
-![](../.gitbook/assets/2021-08-25-09-23-24.png)
+![](../.gitbook/assets/2021-08-25-09-23-24%20%281%29.png)
 
 잘 설치 되었다.
 
@@ -241,7 +241,7 @@ bearmetal장비이므로 kvm도 같이 설치가 되게 해두었다.
 
 노드 이름을 누르고 들어가서 compose를 눌른다.
 
-![](../.gitbook/assets/2021-08-25-09-29-57.png)
+![](../.gitbook/assets/2021-08-25-09-29-57%20%281%29.png)
 
 memory , core , harddisk 설정을 해보자.
 
@@ -255,8 +255,9 @@ machine 메뉴로 가보자.
 
 ready상태로 바뀌고 디플로이를 대기한다.
 
-![](../.gitbook/assets/2021-08-25-09-34-34.png)
+![](../.gitbook/assets/2021-08-25-09-34-34%20%282%29.png)
 
 이제 os를 deploy 하면 된다.
 
 완료후 접속해보자 ubuntu유저와 초기에 등록한 ssh key로 접속이 가능하다.
+

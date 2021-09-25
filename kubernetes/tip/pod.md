@@ -2,7 +2,7 @@
 
 ## delete completed pod
 
-```sh
+```bash
 kubectl delete pod --field-selector=status.phase==Succeeded
 ```
 
@@ -12,14 +12,14 @@ kubectl delete pod --field-selector=status.phase==Succeeded
 
 기본적으로 kube에서는 다음처럼 로그를 보면된다.
 
-```sh
+```bash
 kubectl get pod --all
 kubectl logs -f  XXXX
 ```
 
 이러면 로그를 계속 볼수 있다. 그런데 너무 로그가 많으면 오래 걸린다. 특별히 시간을 줄수 있다.
 
-```sh
+```bash
 kubectl logs -f xxxx  --since=5m
 ```
 
@@ -31,20 +31,20 @@ replica 세팅을 하면 같은 docker가 여러개 올라간다. 이런데 리�
 
 deployment된 모든 pod의 로그를 보고 싶다.
 
-```sh
+```bash
 kubectl logs -f deployment/mobile-php --all-containers=true --since=5m
 ```
 
 이러면 이제 mobile-php 로 생성된 모든 pod의 로그를 한꺼번에 보여준다.
 
-- grep 으로 필터도 가능하겠다.
-- k9s에서는 deployment를 리스트한후 l을 눌러서 로그를 보면 전체 pod의 로그를 볼수 있다.
+* grep 으로 필터도 가능하겠다.
+* k9s에서는 deployment를 리스트한후 l을 눌러서 로그를 보면 전체 pod의 로그를 볼수 있다.
 
 ## env를 configmap으로 이용하기
 
 configmap 이 있는 상황에서 pod에서 env값으로 configmap을 이용하기
 
-```yml
+```text
 apiVersion: v1
 kind: Pod
 metadata:
@@ -68,7 +68,7 @@ spec:
 
 ## envFrom를 configmap으로 이용하기
 
-```yml
+```text
 apiVersion: v1
 kind: Pod
 metadata:
@@ -85,3 +85,4 @@ spec:
 ```
 
 이렇게 하면 configmap에 있던 모든 내용이 env값으로 변환된다.
+

@@ -2,7 +2,7 @@
 
 ## delete eks
 
-```sh
+```bash
 eksctl delete cluster --name cluster01 --wait
 ```
 
@@ -12,13 +12,13 @@ eksctl delete cluster --name cluster01 --wait
 
 ## cluster 리스트보기
 
-```sh
+```bash
 eksctl get cluster
 ```
 
 ## 기타 사용법
 
-```sh
+```bash
 eksctl get nodegroup --cluster=cluster01
 
 # 노드 확장
@@ -32,26 +32,26 @@ eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<no
 
 ## manage cluster
 
-```sh
+```bash
 eksctl scale nodegroup --cluster=<clusterName> --nodes=<desiredCount> --name=<nodegroupName> [ --nodes-min=<minSize> ] [ --nodes-max=<maxSize> ]
 ```
 
 kubectl 사용
 
-```sh
+```bash
 kubectl get pod --all-namespaces
 kubectl get pod --all-namespaces -o wide
 ```
 
 전체 pod 갯수 :
 
-```sh
+```bash
 kubectl get pod --all-namespaces  | wc -l
 ```
 
 노드당 갯수 \(노드 이름을 확인후 노드별로 체크\)
 
-```sh
+```bash
 kubectl get node
 kubectl get pod --all-namespaces -o wide | grep ip-192-168-10-183 | wc -l
 kubectl get pod --all-namespaces -o wide | grep ip-192-168-28-3 | wc -l
@@ -72,7 +72,7 @@ kubectl get pod --all-namespaces -o wide | grep ip-192-168-9-123 | wc -l
 ENI * (# of IPv4 per ENI - 1)  + 2
 ```
 
-[https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
+[https://docs.aws.amazon.com/ko\_kr/AWSEC2/latest/UserGuide/using-eni.html](https://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/using-eni.html)
 
 여기에서 eni\(최대 네트워크 인터페이스 수\) 하고 인터페이스당 프라이밋 주소 알수 있다.
 
@@ -107,7 +107,6 @@ k9s로 노드 선택후 cordon ==&gt; drain ==&gt; delete를 순서대로 해주
 ### 노드 그룹 추가
 
 {% code title="nodegroup.yml" %}
-
 ```text
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -126,10 +125,9 @@ managedNodeGroups:
     ssh:
       allow: true
 ```
-
 {% endcode %}
 
-```sh
+```bash
 eksctl create nodegroup --config-file nodegroup.yaml
 ```
 
@@ -139,6 +137,7 @@ eksctl get nodegroup --cluster=cluster01
 
 ### 기존 노드그룹 삭제
 
-```sh
+```bash
 eksctl delete nodegroup cluster01-nodes --cluster=cluster01
 ```
+

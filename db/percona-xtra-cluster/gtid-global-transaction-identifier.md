@@ -4,14 +4,13 @@
 
 각각의 트렌젝션들은 고유한 전역식별자를 갖게 된다.
 
-GTID = source_id:transaction_Id
+GTID = source\_id:transaction\_Id
 
-transaction_id는 해당 서버에서 커밋된 트랜잭션의 순서에 따라 순차적인 숫자로 결정된다. 예로 첫 번째 트랜잭션은 transaction_id=1이 되고, 동일한 서버에서 열 번째 트랜잭션은 transaction_id=10이 된다. \(GTID에서 트랜잭션이 순차적인 숫자는 1부터 시작된다. 0은 될 수 없다.\)
+transaction\_id는 해당 서버에서 커밋된 트랜잭션의 순서에 따라 순차적인 숫자로 결정된다. 예로 첫 번째 트랜잭션은 transaction\_id=1이 되고, 동일한 서버에서 열 번째 트랜잭션은 transaction\_id=10이 된다. \(GTID에서 트랜잭션이 순차적인 숫자는 1부터 시작된다. 0은 될 수 없다.\)
 
 ## 백업하기
 
 {% code title="cr.yaml" %}
-
 ```yaml
 backup:
   pitr:
@@ -32,7 +31,6 @@ backup:
         credentialsSecret: backup-aws-s3
         region: us-west-1
 ```
-
 {% endcode %}
 
 full backup과 같이 pitr를 활성화 하고 적용하자.
@@ -61,27 +59,26 @@ s3 현재 ![](../../.gitbook/assets/2021-08-23-11-36-48.png)
 
 다운받아서 확인해보자.
 
-```sh
+```bash
 mkdir log
 #download s3
 cd log
 docker run --rm -v $(pwd):/binlog mysql:8 mysqlbinlog -v /binlog/binlog_1629743530_397451a8b1770fbc4ec2a983dfff161d
 ```
 
-- Binary Log Format
+* Binary Log Format
 
   [https://dev.mysql.com/doc/refman/5.7/en/binary-log-setting.html](https://dev.mysql.com/doc/refman/5.7/en/binary-log-setting.html)
 
-  - STATEMENT
-  - ROW
-  - MIXED
+  * STATEMENT
+  * ROW
+  * MIXED
 
 이렇게 잇는데 pxc에서 row를 사용한다. 로그를 보려면 -v 옵션을 줘서 봐야한다.
 
 ## 복구하기
 
 {% code title="restore.yaml" %}
-
 ```yaml
 kind: PerconaXtraDBClusterRestore
 metadata:
@@ -97,17 +94,16 @@ spec:
     backupSource:
       storageName: 's3-us-west-binlog'
 ```
-
 {% endcode %}
 
-```sh
+```bash
 kubectl apply -f deploy/backup/restore.yaml
 ```
 
-- type
-  - date - roll back to specific date,
-  - transaction - roll back to specific transaction,
-  - latest - recover to the latest possible transaction,
+* type
+  * date - roll back to specific date,
+  * transaction - roll back to specific transaction,
+  * latest - recover to the latest possible transaction,
 
 date를 사용해서 특정 날짜로 복구가 가능하다.
 
@@ -138,7 +134,7 @@ select * from movies;
 
 중간에 날린 delete만 빼고 싶다.
 
-```sh
+```bash
 mkdir log
 #download s3
 cd log
@@ -170,3 +166,4 @@ gtid: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee:1-717,718-720'
 복구를 해보자.
 
 `vi reststore.yaml`
+

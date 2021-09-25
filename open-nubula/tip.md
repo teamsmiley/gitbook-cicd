@@ -9,3 +9,4 @@ sudo -i
 onevm list # id를 알수 있다. 7번을 지우고 싶다면
 onevm recover --delete 7
 ```
+

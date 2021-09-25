@@ -4,7 +4,7 @@
 
 install
 
-```sh
+```bash
 helm repo add percona https://percona-charts.storage.googleapis.com
 helm repo update
 NS=pxc-mysql
@@ -52,7 +52,6 @@ spec:
 ## pmm-client
 
 {% code title="cr.yaml" %}
-
 ```text
 pmm:
   enabled: true
@@ -60,10 +59,9 @@ pmm:
   serverHost: pxc-pmm-service # pmm-server에서의 서비스 명
   serverUser: admin # 확인
 ```
-
 {% endcode %}
 
-```sh
+```bash
 k apply -f cr.yaml
 ```
 
@@ -89,14 +87,14 @@ argocd 에서 subchart를 사용 해야 gitops가 된다.
 
 subchart로 만들자.
 
-```sh
+```bash
 mkdir pmm
 cd pmm
 
 touch Chart.yaml
 ```
 
-```yml
+```text
 apiVersion: v2
 name: pmm-subchart
 type: application
@@ -110,7 +108,7 @@ dependencies:
 
 vi values.yaml
 
-```yml
+```text
 pmm-server:
   ## percona image version
   ## ref: https://hub.docker.com/r/library/percona/tags/
@@ -195,7 +193,7 @@ pmm-server:
 
 vi add-pmm-server.yaml
 
-```yml
+```text
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -224,3 +222,4 @@ ingress까지 잘 적용되는것을 알수있다.
 `k apply -f add-pmm-server.yaml`
 
 잘 적용된다.
+

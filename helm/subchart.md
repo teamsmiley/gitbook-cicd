@@ -12,8 +12,8 @@ argocd repo에 curity라는 폴더를 추가한다.
 
 다음에 두개의 파일을 추가한다.
 
-- Chart.yaml (대소문자 주의 소문자면 인식하지 않는다)
-- values.yaml
+* Chart.yaml \(대소문자 주의 소문자면 인식하지 않는다\)
+* values.yaml
 
 ## chart.yaml
 
@@ -31,7 +31,7 @@ dependencies:
     repository: https://curityio.github.io/idsvr-helm/
 ```
 
-```sh
+```bash
 helm create curity-subchart # Creating mysubchart
 rm -rf curity-subchart/templates/*.
 ```
@@ -44,7 +44,7 @@ dependencies에 내가 사용하고자 하는 helm에 관한 정보를 넣는다
 
 모든 helm에는 values.yaml이 있다. 그걸 복사해서 가져온다. 그런데 우리는 depency로 사용하는것이므로 맨 윗줄에 dependency name을 넣어야한다. 그후 아래 설정은 2칸을 밀어준다.
 
-```sh
+```bash
 helm show values ako/ako --version 1.5.1 > values.yaml
 ```
 
@@ -78,3 +78,4 @@ idsvr:
 ## 여러개의 서브차트를 하나로 관리
 
 namespace를 같게 사용하려면 dependency에 여러개를 넣으면 된다. 그런데 나의 경우에는 namespace를 다르게 사용하고 싶었다. 그건 현재 불가능하기때문에 각각의 커스텀 차트를 만들어서 사용하였다.
+
