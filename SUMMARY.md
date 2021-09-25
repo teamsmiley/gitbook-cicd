@@ -94,4 +94,4 @@
 ## helm
 
 - [subchart](helm/subchart.md)
-- [template](helm/template.md)
+- [tip](helm/tip.md)
