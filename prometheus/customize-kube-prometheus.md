@@ -326,18 +326,12 @@ Search Line limits were exceeded, some search paths have been omitted, the appli
 
 DataSource prom/loki 를 기본추가, id/pass추가
 
+//prometheus datasource는 자동으로 들어간다.
+
 ```json
 grafana+:: {
   // Add DataSource
   datasources+: [
-    {
-      name: 'prometheus',
-      type: 'prometheus',
-      access: 'proxy',
-      orgId: 1,
-      url: 'http://prometheus-k8s:9090',
-      editable: false,
-    },
     {
       name: 'loki',
       type: 'loki',
