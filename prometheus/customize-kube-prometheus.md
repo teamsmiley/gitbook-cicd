@@ -92,7 +92,7 @@ grafana: {
 ## etcd 모니터링
 
 ```bash
-ssh master01
+ssh c4-master01.c4
 
 # Copy etcd CA cert from etcd server "/etc/ssl/etcd/ssl/ca.pem"
 sudo cp /etc/ssl/etcd/ssl/ca.pem /home/ubuntu/
@@ -129,9 +129,9 @@ cfssl gencert -ca ca.pem -ca-key ca-key.pem client.json | cfssljson -bare etcd-c
 관련 파일이 만들어진다. 전부 로컬로 가져온다.
 
 ```bash
-scp master01.c3:~/ca.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd
-scp master01.c3:~/etcd-client-key.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd
-scp master01.c3:~/etcd-client.pem ~/Desktop/GitHub/argocd-c3/core/prometheus/etcd
+scp c4-master01.c4:~/ca.pem ~/Desktop/GitHub/argocd-c4/core/prometheus/etcd
+scp c4-master01.c4:~/etcd-client-key.pem ~/Desktop/GitHub/argocd-c4/core/prometheus/etcd
+scp c4-master01.c4:~/etcd-client.pem ~/Desktop/GitHub/argocd-c4/core/prometheus/etcd
 ```
 
 jsonnet 설정
