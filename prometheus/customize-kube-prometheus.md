@@ -326,12 +326,23 @@ Search Line limits were exceeded, some search paths have been omitted, the appli
 
 DataSource prom/loki 를 기본추가, id/pass추가
 
-//prometheus datasource는 자동으로 들어간다.
+// datasource가 하나도 없으면 prometheus datasource는 자동으로 넣어준다. 그런데 아래처럼 loki를 넣어버리면 prometheus datasource가 자동으로 생성이 안되는듯 보인다.
+그래서 아래처럼 따로 추가해주었다.
+
+아래 url은 같은 namespace에서는 서비스이름으로 접속이 가능하다. 다르면 servicename.namespace.svc.cluster.local 이런식으로 접속이 가능하다. 또는 servicename.namespace.svc
 
 ```json
 grafana+:: {
   // Add DataSource
   datasources+: [
+    {
+      name: 'prometheus',
+      type: 'prometheus',
+      access: 'proxy',
+      orgId: 1,
+      url: 'http://prometheus-k8s:9090',
+      editable: false,
+    },
     {
       name: 'loki',
       type: 'loki',
