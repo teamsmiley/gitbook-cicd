@@ -26,7 +26,7 @@ argocd를 사용하여 배포를 하였다.
 
 grafana에 접속후 data source를 추가하였다.
 
-![](./images/2021-09-25-10-27-24.png)
+![](../.gitbook/assets/2021-09-25-10-27-24.png)
 
 `http://core-loki-stack:3100` 사용. 서비스명이다.
 
@@ -36,7 +36,7 @@ grafana에 접속후 data source를 추가하였다.
 
 상단 메뉴에서 loki를 선택한다.
 
-![](./images/2021-09-25-10-31-05.png)
+![](../.gitbook/assets/2021-09-25-10-31-05.png)
 
 빈 화면이 나올것이다. 이걸 사용하려면 LogQL을 알아야 한다.
 
@@ -54,11 +54,11 @@ grafana에 접속후 data source를 추가하였다.
 
 이제 원하는 네임 스페이스를 누를수 있다.
 
-![](./images/2021-09-25-10-43-33.png)
+![](../.gitbook/assets/2021-09-25-10-43-33.png)
 
 이제 객체들이 선택되어서 내용이 보인다.
 
-![](./images/2021-09-25-10-45-29.png)
+![](../.gitbook/assets/2021-09-25-10-45-29.png)
 
 - label 매칭 연산자
 
