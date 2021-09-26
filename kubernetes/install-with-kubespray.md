@@ -14,11 +14,11 @@ master 3대, node 6대로 진행
 
 master 1 2 3 에 keepalived를 설치하고 vip를 10번을 할당해준다.
 
-master 1 2 3 에 haproxy가 설치. 1개가 죽어도 서비스에 문제 없게 한다.
+master 1 2 3 에 haproxy가 설치. 문제가 발생해도 서비스에 문제 없게 한다.
 
 haproxy가 1 2 3 번에 설치된 kube api를 포인트 한다.
 
-node 1-6는 vip를 통해서 연결된다. 이러면 ha 가 완성된다.
+node1-6는 vip를 kube-api 가 연결된다. 이러면 ha 가 완성된다.
 
 ## prepare install
 
@@ -26,22 +26,49 @@ node 1-6는 vip를 통해서 연결된다. 이러면 ha 가 완성된다.
 
 [https://github.com/teamsmiley/custom-kubespray](https://github.com/teamsmiley/custom-kubespray)
 
-## env 설정
+```sh
+git clone git@github.com:teamsmiley/custom-kubespray.git
+cd custom-kubespray
 
-```bash
-ENV=xgrid-c4
 ```
 
-## init node
+## set custom k8s-cluser.yml
 
-```bash
-cd kubespray/deploy/kubespray-2.17.0
-ansible-playbook -i inventory/${ENV}/hosts.yml k8s-nodes-tuning.yml -b -v
+```sh
+vi k8s-cluster.yml
+
+# Set the drain timeout for pre-upgrade
+drain_grace_period: 600
+drain_timeout: 600s
+
+kube_version: v1.21.5 # 원하는 버전 추가
 ```
+
+## review setup-kubespray.sh
+
+```sh
+vi setup-kubespray.sh
+
+KUBESPRAY_VERSION=2.17.0
+ENV=xgrid
+```
+
+원하는 버전으로 설정을 변경한다.
+
+```sh
+./setup-kubespray.sh
+```
+
+## sh 설명
+
+준비 완료
+
+kubespray가 다운되고 설정을 내가 미리 정해둔대로 변경한다. 이러게 해서 이 폴더 자체를 커밋/푸시를 해두어야한다. 그래야 나중에 내가 이버전을 사용하여 설치한것이 나온다. 사용한 모든걸 스냅샷찍듯이 소스코드에 넣어둬야하는게 맞다. 나중에 혹시 스크립트가 동작하지 않아 변경하더라도 다시 고치더라도 스크립트로 자동 생성이 되야 개인이 그냥 고쳐버리는것보다 뒤에 작업하는 사람이 더 쉽게 작업할수 있다.
 
 ## Run setup haproxy for Kubernetes masters
 
 ```bash
+ENV=xgrid
 ansible-playbook -i inventory/${ENV}/hosts.yml k8s-setup-haproxy-for-masters.yml -b -v
 ```
 
