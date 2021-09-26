@@ -52,7 +52,6 @@ spec:
 ## pmm-client
 
 {% code title="cr.yaml" %}
-
 ```yaml
 pmm:
   enabled: true
@@ -60,10 +59,9 @@ pmm:
   serverHost: pxc-pmm-service # pmm-server에서의 서비스 명
   serverUser: admin # 확인
 ```
-
 {% endcode %}
 
-```sh
+```bash
 k apply -f cr.yaml
 ```
 
@@ -96,7 +94,7 @@ cd pmm
 touch Chart.yaml
 ```
 
-```yml
+```text
 apiVersion: v2
 name: pmm-subchart
 type: application
@@ -224,3 +222,4 @@ ingress까지 잘 적용되는것을 알수있다.
 `k apply -f add-pmm-server.yaml`
 
 잘 적용된다.
+

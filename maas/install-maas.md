@@ -75,7 +75,7 @@ sudo vi /etc/postgresql/12/main/pg_hba.conf
 host      maas            XXXX           0/0     md5
 ```
 
-![](../.gitbook/assets/2021-08-24-20-29-07.png)
+![](../.gitbook/assets/2021-08-24-20-29-07%20%283%29.png)
 
 ```bash
 sudo maas init region+rack --database-uri "postgres://$MAAS_DBUSER:$MAAS_DBPASS@localhost/$MAAS_DBNAME"
@@ -128,9 +128,9 @@ Import SSH keys [] (lp:user-id or gh:user-id): (just enter)
 
 [http://10.1.5.11:5240/MAAS/](http://10.1.5.11:5240/MAAS/) \(대소문자 주의\)
 
-![](../.gitbook/assets/2021-08-24-20-32-22%20%281%29.png)
+![](../.gitbook/assets/2021-08-24-20-32-22.png)
 
-![](../.gitbook/assets/2021-08-24-20-32-44%20%281%29.png)
+![](../.gitbook/assets/2021-08-24-20-32-44%20%282%29.png)
 
 continue
 
@@ -138,9 +138,9 @@ continue
 
 초기 접속 ssh key를 설정한다. 중요하다.
 
-![](../.gitbook/assets/2021-08-24-20-33-48%20%282%29.png)
+![](../.gitbook/assets/2021-08-24-20-33-48.png)
 
-![](../.gitbook/assets/2021-08-24-20-34-37%20%282%29.png)
+![](../.gitbook/assets/2021-08-24-20-34-37.png)
 
 continue
 
@@ -155,13 +155,13 @@ subnet &gt;&gt; click
 
 untagged click
 
-![](../.gitbook/assets/2021-08-25-07-52-28%20%282%29.png)
+![](../.gitbook/assets/2021-08-25-07-52-28.png)
 
 enable dhcp 클릭
 
-![](../.gitbook/assets/2021-08-25-07-53-42.png)
+![](../.gitbook/assets/2021-08-25-07-53-42%20%282%29.png)
 
-![](../.gitbook/assets/2021-08-25-07-54-01.png)
+![](../.gitbook/assets/2021-08-25-07-54-01%20%281%29.png)
 
 ```bash
 sudo maas status
@@ -201,7 +201,7 @@ new -> commissioning -> ready -> deploy
 
 new 상태로 간다.
 
-![](../.gitbook/assets/2021-08-25-08-22-09%20%281%29.png)
+![](../.gitbook/assets/2021-08-25-08-22-09.png)
 
 --&gt; commisioning을 추가로 해보자.
 
@@ -211,11 +211,11 @@ new 상태로 간다.
 
 이름 바꾸고 ip를 지정을 해보자.
 
-![](../.gitbook/assets/2021-08-25-08-26-07.png)
+![](../.gitbook/assets/2021-08-25-08-26-07%20%282%29.png)
 
 ![](../.gitbook/assets/2021-08-25-08-27-00%20%281%29.png)
 
-![](../.gitbook/assets/2021-08-25-08-28-17%20%282%29.png)
+![](../.gitbook/assets/2021-08-25-08-28-17.png)
 
 ## install os
 
@@ -223,11 +223,11 @@ new 상태로 간다.
 
 장비를 선택하고 deploy를 누르면 된다.
 
-![](../.gitbook/assets/2021-08-25-09-00-43%20%282%29.png)
+![](../.gitbook/assets/2021-08-25-09-00-43.png)
 
 bearmetal장비이므로 kvm도 같이 설치가 되게 해두었다.
 
-![](../.gitbook/assets/2021-08-25-09-01-48%20%281%29.png)
+![](../.gitbook/assets/2021-08-25-09-01-48%20%283%29.png)
 
 디플로이 해보자.
 
@@ -237,11 +237,11 @@ bearmetal장비이므로 kvm도 같이 설치가 되게 해두었다.
 
 ## vm도 설치
 
-![](../.gitbook/assets/2021-08-25-09-27-29.png)
+![](../.gitbook/assets/2021-08-25-09-27-29%20%281%29.png)
 
 노드 이름을 누르고 들어가서 compose를 눌른다.
 
-![](../.gitbook/assets/2021-08-25-09-29-57%20%281%29.png)
+![](../.gitbook/assets/2021-08-25-09-29-57%20%283%29.png)
 
 memory , core , harddisk 설정을 해보자.
 
@@ -251,12 +251,13 @@ machine 메뉴로 가보자.
 
 새로 생성된 vm이 새 장비로 보이고 commisioning이 시작되었다.
 
-![](../.gitbook/assets/2021-08-25-09-31-25.png)
+![](../.gitbook/assets/2021-08-25-09-31-25%20%283%29.png)
 
 ready상태로 바뀌고 디플로이를 대기한다.
 
-![](../.gitbook/assets/2021-08-25-09-34-34%20%282%29.png)
+![](../.gitbook/assets/2021-08-25-09-34-34.png)
 
 이제 os를 deploy 하면 된다.
 
 완료후 접속해보자 ubuntu유저와 초기에 등록한 ssh key로 접속이 가능하다.
+

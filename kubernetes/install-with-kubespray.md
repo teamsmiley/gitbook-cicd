@@ -1,4 +1,6 @@
-# install with kubernetes ha with kubespray
+# install with kubespray
+
+## [https://github.com/teamsmiley/devops-senima-argocd](https://github.com/teamsmiley/devops-senima-argocd)
 
 ## vm 준비
 
@@ -8,7 +10,7 @@ master 3대, node 6대로 진행
 
 ## architechture
 
-![](./images/2021-09-26-10-37-20.png)
+![](../.gitbook/assets/2021-09-26-10-37-20.png)
 
 master 1 2 3 에 keepalived를 설치하고 vip를 10번을 할당해준다.
 
@@ -22,7 +24,7 @@ node 1-6는 vip를 통해서 연결된다. 이러면 ha 가 완성된다.
 
 나는 gitops를 좋아하므로 깃 리포를 하나 만든다.
 
-<https://github.com/teamsmiley/custom-kubespray>
+[https://github.com/teamsmiley/custom-kubespray](https://github.com/teamsmiley/custom-kubespray)
 
 ## env 설정
 
@@ -63,7 +65,7 @@ ip addr show ens4
 
 haproxy-for-k8s-masters 관련 내용 수정
 
-group_vars/all/all.yml
+group\_vars/all/all.yml
 
 ```yaml
 ## External LB example config
@@ -75,7 +77,7 @@ loadbalancer_apiserver:
 
 hosts 파일도 확인
 
-```yml
+```text
 kube-master:
   hosts:
     c4-master01:
@@ -166,18 +168,18 @@ vi ~/.zshrc
 export KUBECONFIG=~/.kube/config:~/.kube/c2-config:~/.kube/c4-config:~/.kube/c4-config:~/.kube/aws-config
 ```
 
-![](./images/2021-09-26-10-47-51.png)
+![](../.gitbook/assets/2021-09-26-10-47-51.png)
 
 잘 설치되었는지 확인한다.
 
 ## argocd 설치
 
-```sh
+```bash
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-![](./images/2021-09-26-11-06-37.png)
+![](../.gitbook/assets/2021-09-26-11-06-37.png)
 
 ## 비번 알아내기
 
@@ -194,34 +196,39 @@ NXXhjrWj7lDD54Xb
 k port-forward svc/argocd-server -n argocd 8080:443
 ```
 
-http://localhost:8080/
+[http://localhost:8080/](http://localhost:8080/)
 
 update password
 
-![](./images/2021-09-26-11-08-35.png)
+![](../.gitbook/assets/2021-09-26-11-08-35.png)
 
 ## create repo for add
 
-<https://github.com/teamsmiley/devops-senima-argocd>
-![](./images/2021-09-26-11-14-49.png)
+[https://github.com/teamsmiley/devops-senima-argocd](https://github.com/teamsmiley/devops-senima-argocd) ![](../.gitbook/assets/2021-09-26-11-14-49.png)
 
 그림처럼 2개의 폴더가 있다
 
-- add-apps
+* add-apps
+
   앱을 추가하기 위한 yaml
-- deploy
+
+* deploy
+
   app 자체의 yaml을 넣는 폴더
 
 두개의 폴더는 다시 구분된다.
 
-- core
+* core
+
   쿠버네티스를 운영하기위해 관리해야하는 앱 폴더
-- apps
+
+* apps
+
   사용하는 앱을 넣는 폴더
 
 ## add argocd repo to argocd
 
-```sh
+```bash
 argocd login localhost:8080
 
 argocd repo add git@github.com:teamsmiley/argocd-c4.git --ssh-private-key-path ~/.ssh/id_rsa
@@ -229,11 +236,12 @@ argocd repo add git@github.com:teamsmiley/argocd-c4.git --ssh-private-key-path ~
 
 ui에서 확인 가능
 
-![](./images/2021-09-26-11-27-16.png)
+![](../.gitbook/assets/2021-09-26-11-27-16.png)
 
 ## add core / apps
 
-```sh
+```bash
 k apply -f add-apps/core/
 k apply -f add-apps/apps/
 ```
+

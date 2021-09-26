@@ -75,11 +75,11 @@ port forwarding으로는 접근이 되고 ingress로 안되면 helm 옵션중에
 
 설정해둔 url로 접근하면 다음 화면이 나온다.
 
-![](../.gitbook/assets/2021-08-31-06-34-51.png)
+![](../.gitbook/assets/2021-08-31-06-34-51%20%281%29.png)
 
 설정해둔 비번으로 로그인
 
-![](../.gitbook/assets/2021-08-31-06-31-58.png)
+![](../.gitbook/assets/2021-08-31-06-31-58%20%281%29.png)
 
 Run Basic Setup 클릭
 
@@ -87,17 +87,17 @@ Run Basic Setup 클릭
 
 커뮤니티 라이센스를 발급받아서 업로드 해주자.
 
-![](../.gitbook/assets/2021-08-31-06-33-20%20%281%29.png)
+![](../.gitbook/assets/2021-08-31-06-33-20%20%282%29.png)
 
 next 클릭
 
-![](../.gitbook/assets/2021-08-31-06-33-41%20%281%29.png)
+![](../.gitbook/assets/2021-08-31-06-33-41.png)
 
 일단 기본값으로 모두 next를 누르면 된다.
 
-![](../.gitbook/assets/2021-08-31-06-35-42%20%281%29.png)
+![](../.gitbook/assets/2021-08-31-06-35-42.png)
 
-![](../.gitbook/assets/2021-08-31-06-35-53%20%281%29.png)
+![](../.gitbook/assets/2021-08-31-06-35-53.png)
 
 ![](../.gitbook/assets/2021-08-31-06-36-03.png)
 
@@ -119,13 +119,13 @@ curity는 유저데이터등은 db에 저장하지만 이 설정파일등은 xml
 
 admin 하나와 runtime 모듈 3개가 올라와 있다.
 
-![](../.gitbook/assets/2021-08-31-06-38-19%20%281%29.png)
+![](../.gitbook/assets/2021-08-31-06-38-19.png)
 
 ## url change
 
 baseurl을 수정해주자.
 
-![](../.gitbook/assets/2021-08-31-06-40-26.png)
+![](../.gitbook/assets/2021-08-31-06-40-26%20%281%29.png)
 
 general 메뉴에서도 수정
 
@@ -149,7 +149,7 @@ kubectl cp ~/Downloads/mysql-connector-java-8.0.26.jar -n curity $(kubectl get p
 
 ![](../.gitbook/assets/2021-08-31-07-04-35%20%281%29.png)
 
-![](../.gitbook/assets/2021-08-31-07-11-15%20%281%29.png)
+![](../.gitbook/assets/2021-08-31-07-11-15.png)
 
 create
 
@@ -171,7 +171,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 
 스크립트는 어드민 컨테이너에 있다.
 
-![](../.gitbook/assets/2021-08-31-07-13-40%20%281%29.png)
+![](../.gitbook/assets/2021-08-31-07-13-40.png)
 
 가지고와서 디비에 적용해주자.
 
@@ -193,7 +193,7 @@ commit
 
 ## 현재까지 구조
 
-![](../.gitbook/assets/2021-08-31-07-31-22.png)
+![](../.gitbook/assets/2021-08-31-07-31-22%20%282%29.png)
 
 ## custom image
 
@@ -351,14 +351,14 @@ helm 옵션에 `curity.config.backup=true`를 사용하자.
 
 commit 을 할때마다 secret에 추가 데이터가 저장이 된다.
 
-![](../.gitbook/assets/2021-08-31-20-30-47%20%281%29.png)
+![](../.gitbook/assets/2021-08-31-20-30-47.png)
 
 날짜-트랜잭션 ID로 저장이 된다.
 
 ## helm 을 이용해서 복구
 
-- curity.config.configurationSecret
-- curity.config.configurationSecretItemName를 사용
+* curity.config.configurationSecret
+* curity.config.configurationSecretItemName를 사용
 
 백업을 복원합니다
 
@@ -371,3 +371,4 @@ helm으로 복구할때 다음 옵션을 사용한다.
 ```
 
 여러개 있을때 헷갈리기도 하겟다. git방식이 더 나을수도 잇을거같다.
+

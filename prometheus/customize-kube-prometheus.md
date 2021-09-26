@@ -59,7 +59,7 @@ auth라는 파일이 생겼다. 내용을 복사하여 example.jsonnet파일과 
 
 grafana는 기본인증에서 빼도 될듯 보인다. grafana를 수정햇다. ingress라는 함수를 안쓰고 직접 넣어준다.
 
-```json
+```javascript
 grafana: {
   apiVersion: 'networking.k8s.io/v1',
   kind: 'Ingress',
@@ -157,7 +157,7 @@ etcd+: {
 
 빌드하고 커밋 푸시해보자.
 
-prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확인된다.
+prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 확인된다.
 
 ## instance가 하나의 노드에 2개뜨는걸 방지
 
@@ -181,7 +181,7 @@ prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확�
 
 실제 메세지가 가는지 테스트 한다.
 
-[https://prometheus.io/docs/alerting/latest/notification_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
+[https://prometheus.io/docs/alerting/latest/notification\_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
 
 ```text
 global:
@@ -326,12 +326,11 @@ Search Line limits were exceeded, some search paths have been omitted, the appli
 
 DataSource prom/loki 를 기본추가, id/pass추가
 
-// datasource가 하나도 없으면 prometheus datasource는 자동으로 넣어준다. 그런데 아래처럼 loki를 넣어버리면 prometheus datasource가 자동으로 생성이 안되는듯 보인다.
-그래서 아래처럼 따로 추가해주었다.
+// datasource가 하나도 없으면 prometheus datasource는 자동으로 넣어준다. 그런데 아래처럼 loki를 넣어버리면 prometheus datasource가 자동으로 생성이 안되는듯 보인다. 그래서 아래처럼 따로 추가해주었다.
 
 아래 url은 같은 namespace에서는 서비스이름으로 접속이 가능하다. 다르면 servicename.namespace.svc.cluster.local 이런식으로 접속이 가능하다. 또는 servicename.namespace.svc
 
-```json
+```javascript
 grafana+:: {
   // Add DataSource
   datasources+: [
@@ -367,3 +366,4 @@ grafana+:: {
   },
 },
 ```
+
