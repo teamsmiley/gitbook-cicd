@@ -92,7 +92,7 @@ ip addr show ens4
 
 haproxy-for-k8s-masters 관련 내용 수정
 
-group\_vars/all/all.yml
+group_vars/all/all.yml
 
 ```yaml
 ## External LB example config
@@ -231,25 +231,27 @@ update password
 
 ## create repo for add
 
-[https://github.com/teamsmiley/devops-senima-argocd](https://github.com/teamsmiley/devops-senima-argocd) ![](../.gitbook/assets/2021-09-26-11-14-49.png)
+[https://github.com/teamsmiley/devops-senima-argocd](https://github.com/teamsmiley/devops-senima-argocd)
+
+![](../.gitbook/assets/2021-09-26-11-14-49.png)
 
 그림처럼 2개의 폴더가 있다
 
-* add-apps
+- add-apps
 
   앱을 추가하기 위한 yaml
 
-* deploy
+- deploy
 
   app 자체의 yaml을 넣는 폴더
 
 두개의 폴더는 다시 구분된다.
 
-* core
+- core
 
   쿠버네티스를 운영하기위해 관리해야하는 앱 폴더
 
-* apps
+- apps
 
   사용하는 앱을 넣는 폴더
 
@@ -271,4 +273,3 @@ ui에서 확인 가능
 k apply -f add-apps/core/
 k apply -f add-apps/apps/
 ```
-
