@@ -326,3 +326,46 @@ server {
 }
 ## end server c4.xgridcolo.com
 ```
+
+## 주의사항
+
+아래와 같이 만들면 문제가 잇을수 있다.
+
+```yml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: test-ingress-3
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  rules:
+    - host: test.com
+      http:
+        paths:
+          - path: /foo/bar/bar
+            backend:
+              serviceName: test-a
+              servicePort: 80
+          - path: /foo/bar/[A-Z0-9]{3}
+            backend:
+              serviceName: test-b
+              servicePort: 80
+```
+
+생성된 결과는 다음과 같다.
+
+```conf
+location ~* "^/foo/bar/[A-Z0-9]{3}" {
+  ...
+}
+location ~* "^/foo/bar/bar" {
+  ...
+}
+```
+
+test.com/foo/bar/bar 이걸 요청하면 ^/foo/bar/[A-Z0-9]{3} 여기에 걸려버린다. 원하는대로 안된다.
+
+더 알고 싶으면 다음 링크를 읽어보면된다.
+
+<https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms>
