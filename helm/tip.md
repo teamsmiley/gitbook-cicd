@@ -16,4 +16,3 @@ it creates all yml into output directory
 helm show values loki/loki-stack > ~/Desktop/values.yaml
 helm show values loki/loki-stack --version 2.4.1 > ~/Desktop/values.yaml # version
 ```
-
