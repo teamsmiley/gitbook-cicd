@@ -85,5 +85,5 @@ ingress
 - 사실 sha 태그도 중복이 된다. 가능하면 container digest를 사용하자.
   digest는 유일하다.
   `docker image ls --digests`
-  ![](./images/2021-10-08-08-03-01.png)
+  ![](../.gitbook/assets/2021-10-08-08-03-01.png)
 - 환경변수의 최대값은 32KiB로 제한

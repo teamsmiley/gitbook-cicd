@@ -50,7 +50,7 @@ kubeon
 kubeoff
 ```
 
-![](./images/2021-10-08-07-50-47.png)
+![](../.gitbook/assets/2021-10-08-07-50-47.png)
 
 ## k9s
 
