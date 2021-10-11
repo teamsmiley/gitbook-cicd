@@ -1,6 +1,6 @@
 # install maas
 
-[https://maas.io/](https://maas.io/)
+[https://maas.io/](https://maas.io)
 
 ## os install
 
@@ -75,7 +75,7 @@ sudo vi /etc/postgresql/12/main/pg_hba.conf
 host      maas            XXXX           0/0     md5
 ```
 
-![](../.gitbook/assets/2021-08-24-20-29-07%20%283%29.png)
+![](<../.gitbook/assets/2021-08-24-20-29-07 (3) (3).png>)
 
 ```bash
 sudo maas init region+rack --database-uri "postgres://$MAAS_DBUSER:$MAAS_DBPASS@localhost/$MAAS_DBNAME"
@@ -86,7 +86,7 @@ MASS URL : (just enter)
 
 결과
 
-```text
+```
 MAAS URL [default=http://10.1.5.11:5240/MAAS]:
 MAAS has been set up.
 
@@ -126,11 +126,11 @@ Import SSH keys [] (lp:user-id or gh:user-id): (just enter)
 
 웹 브라우져
 
-[http://10.1.5.11:5240/MAAS/](http://10.1.5.11:5240/MAAS/) \(대소문자 주의\)
+[http://10.1.5.11:5240/MAAS/](http://10.1.5.11:5240/MAAS/) (대소문자 주의)
 
-![](../.gitbook/assets/2021-08-24-20-32-22.png)
+![](<../.gitbook/assets/2021-08-24-20-32-22 (3) (3).png>)
 
-![](../.gitbook/assets/2021-08-24-20-32-44%20%282%29.png)
+![](<../.gitbook/assets/2021-08-24-20-32-44 (3) (3).png>)
 
 continue
 
@@ -138,9 +138,9 @@ continue
 
 초기 접속 ssh key를 설정한다. 중요하다.
 
-![](../.gitbook/assets/2021-08-24-20-33-48.png)
+![](<../.gitbook/assets/2021-08-24-20-33-48 (2).png>)
 
-![](../.gitbook/assets/2021-08-24-20-34-37.png)
+![](<../.gitbook/assets/2021-08-24-20-34-37 (2).png>)
 
 continue
 
@@ -151,17 +151,17 @@ cat ~/.ssh/id_rsa.pub
 
 ## dhcp를 enable
 
-subnet &gt;&gt; click
+subnet >> click
 
 untagged click
 
-![](../.gitbook/assets/2021-08-25-07-52-28.png)
+![](<../.gitbook/assets/2021-08-25-07-52-28 (2).png>)
 
 enable dhcp 클릭
 
-![](../.gitbook/assets/2021-08-25-07-53-42%20%282%29.png)
+![](<../.gitbook/assets/2021-08-25-07-53-42 (3) (3).png>)
 
-![](../.gitbook/assets/2021-08-25-07-54-01%20%281%29.png)
+![](<../.gitbook/assets/2021-08-25-07-54-01 (3) (3).png>)
 
 ```bash
 sudo maas status
@@ -189,33 +189,33 @@ sync임을 확인할수 있다.
 
 노드 부팅 순서를 pxe를 1번으로 해두면 자동으로 maas에서 이미지를 받아서 설치한다. 웹 화면에서도 자동 등록이 된다.
 
-![](../.gitbook/assets/2021-08-25-08-19-00%20%281%29.png)
+![](<../.gitbook/assets/2021-08-25-08-19-00 (3) (3).png>)
 
 자동으로 등록되며 commissioning까지 된다. commsioning이 실패하면 new 로 되고 통과하면 ready가 된다.
 
 상태를 설명하면 아래와 같다.
 
-```text
+```
 new -> commissioning -> ready -> deploy
 ```
 
 new 상태로 간다.
 
-![](../.gitbook/assets/2021-08-25-08-22-09.png)
+![](<../.gitbook/assets/2021-08-25-08-22-09 (3) (3).png>)
 
---&gt; commisioning을 추가로 해보자.
+\--> commisioning을 추가로 해보자.
 
-![](../.gitbook/assets/2021-08-25-08-59-03%20%281%29.png)
+![](<../.gitbook/assets/2021-08-25-08-59-03 (3) (3).png>)
 
---&gt; ready상태임
+\--> ready상태임
 
 이름 바꾸고 ip를 지정을 해보자.
 
-![](../.gitbook/assets/2021-08-25-08-26-07%20%282%29.png)
+![](<../.gitbook/assets/2021-08-25-08-26-07 (3) (3).png>)
 
-![](../.gitbook/assets/2021-08-25-08-27-00%20%281%29.png)
+![](<../.gitbook/assets/2021-08-25-08-27-00 (3) (3).png>)
 
-![](../.gitbook/assets/2021-08-25-08-28-17.png)
+![](<../.gitbook/assets/2021-08-25-08-28-17 (2) (1).png>)
 
 ## install os
 
@@ -223,25 +223,25 @@ new 상태로 간다.
 
 장비를 선택하고 deploy를 누르면 된다.
 
-![](../.gitbook/assets/2021-08-25-09-00-43.png)
+![](<../.gitbook/assets/2021-08-25-09-00-43 (2).png>)
 
 bearmetal장비이므로 kvm도 같이 설치가 되게 해두었다.
 
-![](../.gitbook/assets/2021-08-25-09-01-48%20%283%29.png)
+![](<../.gitbook/assets/2021-08-25-09-01-48 (3) (3).png>)
 
 디플로이 해보자.
 
-![](../.gitbook/assets/2021-08-25-09-23-24%20%281%29.png)
+![](<../.gitbook/assets/2021-08-25-09-23-24 (3) (3).png>)
 
 잘 설치 되었다.
 
 ## vm도 설치
 
-![](../.gitbook/assets/2021-08-25-09-27-29%20%281%29.png)
+![](<../.gitbook/assets/2021-08-25-09-27-29 (3) (3).png>)
 
 노드 이름을 누르고 들어가서 compose를 눌른다.
 
-![](../.gitbook/assets/2021-08-25-09-29-57%20%283%29.png)
+![](<../.gitbook/assets/2021-08-25-09-29-57 (3) (3).png>)
 
 memory , core , harddisk 설정을 해보자.
 
@@ -251,13 +251,12 @@ machine 메뉴로 가보자.
 
 새로 생성된 vm이 새 장비로 보이고 commisioning이 시작되었다.
 
-![](../.gitbook/assets/2021-08-25-09-31-25%20%283%29.png)
+![](<../.gitbook/assets/2021-08-25-09-31-25 (3) (3).png>)
 
 ready상태로 바뀌고 디플로이를 대기한다.
 
-![](../.gitbook/assets/2021-08-25-09-34-34.png)
+![](<../.gitbook/assets/2021-08-25-09-34-34 (2) (1).png>)
 
 이제 os를 deploy 하면 된다.
 
 완료후 접속해보자 ubuntu유저와 초기에 등록한 ssh key로 접속이 가능하다.
-

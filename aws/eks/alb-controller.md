@@ -1,18 +1,18 @@
 # ALB Controller
 
-aws alb controller \(application load balance controller\)
+aws alb controller (application load balance controller)
 
-쿠버네티스를 직접 설치하고 사용할때는 ingress-nginx를 사용하였으나 eks에는 aws \(alb\) application load balance를 사용할수 있는 방법이 있다.
+쿠버네티스를 직접 설치하고 사용할때는 ingress-nginx를 사용하였으나 eks에는 aws (alb) application load balance를 사용할수 있는 방법이 있다.
 
 처음 고민이 aws에서 로드발란스를 세팅하는게 번거롭다는 고민이 있엇는데 그걸 aws에서 알고 있엇는지 kubernete 설정파일에 적어만 주면 자동으로 alb가 생성이 된다.
 
-{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html" caption="" %}
+{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html" %}
 
 ALB Controller를 설치를 해두면 쿠버네티스에 설정을 하면 이 컨트롤러가 ALB를 자동으로 등록해주는 것이다.
 
-이 컨트롤러가 alb에 접속이 가능하게 되야는데 이걸 oidc를 사용한다.\(인증\)
+이 컨트롤러가 alb에 접속이 가능하게 되야는데 이걸 oidc를 사용한다.(인증)
 
-ALB는 nodeport 나 loadbalance만 지원을 한다.\(중요\)
+ALB는 nodeport 나 loadbalance만 지원을 한다.(중요)
 
 링크에 있는 내용을 해주면 된다. 간단하게 요약해보면
 
@@ -20,7 +20,7 @@ ALB는 nodeport 나 loadbalance만 지원을 한다.\(중요\)
 
 [https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
 
-{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html" caption="" %}
+{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html" %}
 
 ### OIDC Issuer
 
@@ -67,13 +67,13 @@ aws iam list-open-id-connect-providers | grep 295F231974F59E6DF049E7284078A6
 
 웹사이트에서도 생성 확인 가능
 
-[https://console.aws.amazon.com/iamv2/home\#/identity\_providers](https://console.aws.amazon.com/iamv2/home#/identity_providers)
+[https://console.aws.amazon.com/iamv2/home#/identity_providers](https://console.aws.amazon.com/iamv2/home#/identity_providers)
 
 ![](../../.gitbook/assets/2021-06-02-09-59-41.png)
 
 ## ALB Controller Install
 
-{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html" caption="" %}
+{% embed url="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html" %}
 
 ### Create an IAM policy
 
@@ -104,7 +104,7 @@ Policy:
 
 웹사이트에서 확인
 
-[https://console.aws.amazon.com/iam/home\#/policies](https://console.aws.amazon.com/iam/home#/policies)
+[https://console.aws.amazon.com/iam/home#/policies](https://console.aws.amazon.com/iam/home#/policies)
 
 AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 있다.
 
@@ -113,56 +113,49 @@ AWSLoadBalancerControllerIAMPolicy로 검색해보면 생성된 것을 알수 �
 ### create Role
 
 * Open the IAM console at [https://console.aws.amazon.com/iam/](https://console.aws.amazon.com/iam/)
-* role &gt; create role
-* trusted entity &gt; Web identity
+* role > create role
+*   trusted entity > Web identity
 
-  ![](../../.gitbook/assets/2021-06-02-15-31-46.png)
-
+    ![](../../.gitbook/assets/2021-06-02-15-31-46.png)
 * permissions
-* Attach Policy section &gt; AWSLoadBalancerControllerIAMPolicy
+*   Attach Policy section > AWSLoadBalancerControllerIAMPolicy
 
-  ![](../../.gitbook/assets/2021-06-02-15-32-50.png)
+    ![](../../.gitbook/assets/2021-06-02-15-32-50.png)
+* tags > review >
+*   Role Name : AmazonEKSLoadBalancerControllerRole > create role
 
-* tags &gt; review &gt;
-* Role Name : AmazonEKSLoadBalancerControllerRole &gt; create role
+    생성된거 확인
 
-  생성된거 확인
-
-  ![](../../.gitbook/assets/2021-06-02-15-35-48.png)
-
+    ![](../../.gitbook/assets/2021-06-02-15-35-48.png)
 * After the role is created, choose the role in the console to open it for editing
-* Trust relationships &gt; Edit trust relationship
+*   Trust relationships > Edit trust relationship
 
-  ![](../../.gitbook/assets/2021-06-02-15-37-26.png)
+    ![](../../.gitbook/assets/2021-06-02-15-37-26.png)
+*   다음 부분을 수정
 
-* 다음 부분을 수정
+    ![](../../.gitbook/assets/2021-06-02-15-39-19.png)
+*   다음 코드로 변경
 
-  ![](../../.gitbook/assets/2021-06-02-15-39-19.png)
-
-* 다음 코드로 변경
-
-  `sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"`
-
+    `sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"`
 * Update Trust Policy
-* role arn을 복사해둔다. `arn:aws:iam::530310009353:role/AmazonEKSLoadBalancerControllerRole` ![](../../.gitbook/assets/2021-06-02-15-42-29.png)
+*   role arn을 복사해둔다. `arn:aws:iam::530310009353:role/AmazonEKSLoadBalancerControllerRole` ![](../../.gitbook/assets/2021-06-02-15-42-29.png)
 
-  {% code title="aws-load-balancer-controller-service-account.yaml" %}
-  ```yaml
-  apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    labels:
-      app.kubernetes.io/component: controller
-      app.kubernetes.io/name: aws-load-balancer-controller
-    name: aws-load-balancer-controller
-    namespace: kube-system
-    annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::530310009353:role/AmazonEKSLoadBalancerControllerRole
-  ```
-  {% endcode %}
+    {% code title="aws-load-balancer-controller-service-account.yaml" %}
+    ```yaml
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      labels:
+        app.kubernetes.io/component: controller
+        app.kubernetes.io/name: aws-load-balancer-controller
+      name: aws-load-balancer-controller
+      namespace: kube-system
+      annotations:
+        eks.amazonaws.com/role-arn: arn:aws:iam::530310009353:role/AmazonEKSLoadBalancerControllerRole
+    ```
+    {% endcode %}
 
-  role-arn 을 복사해둔걸로 덮어쓴다.
-
+    role-arn 을 복사해둔걸로 덮어쓴다.
 * create service account `kubectl apply -f aws-load-balancer-controller-service-account.yaml`
 
 ### controller 설치
@@ -315,7 +308,7 @@ spec:
 kubectl apply -f test-deploy.yml
 ```
 
-ec2 -&gt; load balance
+ec2 -> load balance
 
 ![](../../.gitbook/assets/2021-06-02-19-25-18.png)
 
@@ -352,7 +345,7 @@ alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectC
 
 이러면 http로 접근하면 https로 리다이렉트를 시켜준다. 꼭 이설정이 맨위에 와야한다.
 
-관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl\_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
+관련 내용은 여기를 참고하자. [https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md](https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/guide/tasks/ssl_redirect.md)
 
 ## ssl backend
 
@@ -548,4 +541,3 @@ alb.ingress.kubernetes.io/group.name: shared-ingress
 Ingress가 다 각각의 name space에 생기는것은 맞다.
 
 그리고 그것들이 하나의 로드발란스를 사용한다.
-

@@ -14,7 +14,7 @@ aws alb를 사용하여 오픈해보자.
 
 ## ssl 발급
 
-aws certificate manager에서 소유한 도메인으로 tls\(ssl\)을 발급받아서 arn을 적어둔다.
+aws certificate manager에서 소유한 도메인으로 tls(ssl)을 발급받아서 arn을 적어둔다.
 
 ## argocd를 insecure 모드
 
@@ -22,8 +22,8 @@ aws certificate manager에서 소유한 도메인으로 tls\(ssl\)을 발급받�
 
 deploy에서 다음부분을 추가해준다.
 
-{% code title="argocd\_install\_v2.0.3.yaml" %}
-```text
+{% code title="argocd_install_v2.0.3.yaml" %}
+```
 - command:
     - argocd-server
     - --staticassets
@@ -49,7 +49,7 @@ spec:
 
 ![](../.gitbook/assets/argocd-aws-alb-02.png)
 
-## ingress 설정\(with ssl\)
+## ingress 설정(with ssl)
 
 {% code title="argocd/ingress.yml" %}
 ```yaml
@@ -110,4 +110,3 @@ cname으로 새로 생긴 load balancer를 추가해주면된다.
 이제 http로 접속하면 https로 변경되면서 warning없이 진행된다.
 
 https redirect가 된다.
-

@@ -2,7 +2,7 @@
 
 ## install argocd cli
 
-[https://argo-cd.readthedocs.io/en/stable/cli\_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+[https://argo-cd.readthedocs.io/en/stable/cli_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
 
 ```bash
 # macos
@@ -83,7 +83,7 @@ argocd app sync ${NAME} --prune --force
 argocd app wait ${NAME} --timeout 1200
 ```
 
-## app sync \(adv\)
+## app sync (adv)
 
 ```bash
 export ARGOCD_SERVER=argocd.mycompany.com
@@ -95,5 +95,6 @@ argocd app wait guestbook
 
 ## refernce
 
-{% embed url="https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd/" caption="argocd cli" %}
-
+{% embed url="https://argo-cd.readthedocs.io/en/stable/user-guide/commands/argocd/" %}
+argocd cli
+{% endembed %}

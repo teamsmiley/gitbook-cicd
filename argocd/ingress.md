@@ -4,11 +4,11 @@ ERR_TOO_MANY_REDIRECTS
 
 ingress와 서비스를 연결할때 다음 옵션을 사용한다.
 
-```yml
+```
 nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
 ```
 
-```yml
+```
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

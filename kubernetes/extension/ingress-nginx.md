@@ -4,12 +4,13 @@ svc를 ingress로 외부에 오픈
 
 ## regex
 
-<https://kubernetes.github.io/ingress-nginx/user-guide/ingress-path-matching/>
+[https://kubernetes.github.io/ingress-nginx/user-guide/ingress-path-matching/](https://kubernetes.github.io/ingress-nginx/user-guide/ingress-path-matching/)
 
-- priority
-  In NGINX, regular expressions follow a first match policy, 그러므로 ingress nginx가 정규식의 길이를 기준으로 역순으로 정렬을 한후 controller에 업데이트합니다.
+*   priority
 
-```yml
+    In NGINX, regular expressions follow a first match policy, 그러므로 ingress nginx가 정규식의 길이를 기준으로 역순으로 정렬을 한후 controller에 업데이트합니다.
+
+```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -29,7 +30,7 @@ spec:
               servicePort: 80
 ```
 
-```yml
+```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -49,7 +50,7 @@ spec:
 
 이 같은 파일이 두개면 아래와 같이 정렬
 
-```conf
+```
 location ~* ^/foo/bar/.+ {
   ...
 }
@@ -63,13 +64,13 @@ location ~* "^/foo/bar" {
 }
 ```
 
-- test.com/foo/bar/1 matches ~\* ^/foo/bar/.+ and will go to service 3.
-- test.com/foo/bar/ matches ~\* ^/foo/bar/ and will go to service 2.
-- test.com/foo/bar matches ~\* ^/foo/bar and will go to service 1.
+* test.com/foo/bar/1 matches \~\* ^/foo/bar/.+ and will go to service 3.
+* test.com/foo/bar/ matches \~\* ^/foo/bar/ and will go to service 2.
+* test.com/foo/bar matches \~\* ^/foo/bar and will go to service 1.
 
 테스트를 위해 다음과같은 yml을 만들어서 적용하엿다.
 
-```yml
+```
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -115,7 +116,7 @@ spec:
 
 결과 생성된 파일이다. 결론부터 이야기하면 ingress에 rewrite를 쓰면 그 인그레스에만 적용이 된다. 아래보면 /api부분에만 rewrite $1 가 적용되어 있다.
 
-```conf
+```
 ## start server c4.xgridcolo.com
 server {
   server_name c4.xgridcolo.com ;
@@ -331,7 +332,7 @@ server {
 
 아래와 같이 만들면 문제가 잇을수 있다.
 
-```yml
+```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -355,7 +356,7 @@ spec:
 
 생성된 결과는 다음과 같다.
 
-```conf
+```
 location ~* "^/foo/bar/[A-Z0-9]{3}" {
   ...
 }
@@ -364,8 +365,8 @@ location ~* "^/foo/bar/bar" {
 }
 ```
 
-test.com/foo/bar/bar 이걸 요청하면 ^/foo/bar/[A-Z0-9]{3} 여기에 걸려버린다. 원하는대로 안된다.
+test.com/foo/bar/bar 이걸 요청하면 ^/foo/bar/\[A-Z0-9]{3} 여기에 걸려버린다. 원하는대로 안된다.
 
 더 알고 싶으면 다음 링크를 읽어보면된다.
 
-<https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms>
+[https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms](https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms)

@@ -4,13 +4,13 @@ identity server중에 하나로 새로 배우게 되었다.
 
 ## 회원가입후 라이센스 받기
 
-[https://developer.curity.io/](https://developer.curity.io/)
+[https://developer.curity.io/](https://developer.curity.io)
 
 커뮤니티 에디션으로 라이센스를 받아서 다운로드해두자.
 
 ## arogocd / helm으로 설치
 
-```text
+```
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -75,35 +75,35 @@ port forwarding으로는 접근이 되고 ingress로 안되면 helm 옵션중에
 
 설정해둔 url로 접근하면 다음 화면이 나온다.
 
-![](../.gitbook/assets/2021-08-31-06-34-51%20%281%29.png)
+![](<../.gitbook/assets/2021-08-31-06-34-51 (2) (2).png>)
 
 설정해둔 비번으로 로그인
 
-![](../.gitbook/assets/2021-08-31-06-31-58%20%281%29.png)
+![](<../.gitbook/assets/2021-08-31-06-31-58 (2) (2).png>)
 
 Run Basic Setup 클릭
 
-![](../.gitbook/assets/2021-08-31-06-32-42.png)
+![](<../.gitbook/assets/2021-08-31-06-32-42 (1).png>)
 
 커뮤니티 라이센스를 발급받아서 업로드 해주자.
 
-![](../.gitbook/assets/2021-08-31-06-33-20%20%282%29.png)
+![](<../.gitbook/assets/2021-08-31-06-33-20 (2) (2).png>)
 
 next 클릭
 
-![](../.gitbook/assets/2021-08-31-06-33-41.png)
+![](<../.gitbook/assets/2021-08-31-06-33-41 (1).png>)
 
 일단 기본값으로 모두 next를 누르면 된다.
 
-![](../.gitbook/assets/2021-08-31-06-35-42.png)
+![](<../.gitbook/assets/2021-08-31-06-35-42 (1).png>)
 
-![](../.gitbook/assets/2021-08-31-06-35-53.png)
+![](<../.gitbook/assets/2021-08-31-06-35-53 (1).png>)
 
-![](../.gitbook/assets/2021-08-31-06-36-03.png)
+![](<../.gitbook/assets/2021-08-31-06-36-03 (1).png>)
 
-![](../.gitbook/assets/2021-08-31-06-36-14.png)
+![](<../.gitbook/assets/2021-08-31-06-36-14 (1).png>)
 
-![](../.gitbook/assets/2021-08-31-06-36-29.png)
+![](<../.gitbook/assets/2021-08-31-06-36-29 (2) (2).png>)
 
 ![](../.gitbook/assets/2021-08-31-06-36-40.png)
 
@@ -115,21 +115,21 @@ curity는 유저데이터등은 db에 저장하지만 이 설정파일등은 xml
 
 다 로딩이 되면
 
-![](../.gitbook/assets/2021-08-31-06-37-46.png)
+![](<../.gitbook/assets/2021-08-31-06-37-46 (2) (2).png>)
 
 admin 하나와 runtime 모듈 3개가 올라와 있다.
 
-![](../.gitbook/assets/2021-08-31-06-38-19.png)
+![](<../.gitbook/assets/2021-08-31-06-38-19 (1).png>)
 
 ## url change
 
 baseurl을 수정해주자.
 
-![](../.gitbook/assets/2021-08-31-06-40-26%20%281%29.png)
+![](<../.gitbook/assets/2021-08-31-06-40-26 (2) (2).png>)
 
 general 메뉴에서도 수정
 
-![](../.gitbook/assets/2021-08-31-06-41-21.png)
+![](<../.gitbook/assets/2021-08-31-06-41-21 (1).png>)
 
 변경할때마다 commit을 해야한다.
 
@@ -145,15 +145,15 @@ kubectl cp ~/Downloads/mysql-connector-java-8.0.26.jar -n curity $(kubectl get p
 
 이제 jdbc connection string을 적어주자.
 
-[https://curity.io/docs/idsvr/latest/system-admin-guide/data-sources/jdbc.html?highlight=session\#mysql-and-mariadb](https://curity.io/docs/idsvr/latest/system-admin-guide/data-sources/jdbc.html?highlight=session#mysql-and-mariadb)
+[https://curity.io/docs/idsvr/latest/system-admin-guide/data-sources/jdbc.html?highlight=session#mysql-and-mariadb](https://curity.io/docs/idsvr/latest/system-admin-guide/data-sources/jdbc.html?highlight=session#mysql-and-mariadb)
 
-![](../.gitbook/assets/2021-08-31-07-04-35%20%281%29.png)
+![](<../.gitbook/assets/2021-08-31-07-04-35 (2) (2).png>)
 
-![](../.gitbook/assets/2021-08-31-07-11-15.png)
+![](<../.gitbook/assets/2021-08-31-07-11-15 (1).png>)
 
 create
 
-```text
+```
 jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 ```
 
@@ -163,7 +163,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 
 ![](../.gitbook/assets/2021-08-31-07-09-33.png)
 
-![](../.gitbook/assets/2021-08-31-07-10-16%20%281%29.png)
+![](<../.gitbook/assets/2021-08-31-07-10-16 (2) (2).png>)
 
 추가 완료
 
@@ -171,7 +171,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 
 스크립트는 어드민 컨테이너에 있다.
 
-![](../.gitbook/assets/2021-08-31-07-13-40.png)
+![](<../.gitbook/assets/2021-08-31-07-13-40 (1).png>)
 
 가지고와서 디비에 적용해주자.
 
@@ -183,7 +183,7 @@ create database se_curity_store;
 kubectl cp -n curity $(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}"):/opt/idsvr/etc/mysql-create_database.sql ~/Downloads/mysql-create_database.sql
 ```
 
-![](../.gitbook/assets/2021-08-31-07-19-38.png)
+![](<../.gitbook/assets/2021-08-31-07-19-38 (1).png>)
 
 이상하게 에러가 나서 Linked Accounts 앞까지만 먼저 실행하고 완료후 뒤 스크립트를 실행하였다.
 
@@ -193,7 +193,7 @@ commit
 
 ## 현재까지 구조
 
-![](../.gitbook/assets/2021-08-31-07-31-22%20%282%29.png)
+![](<../.gitbook/assets/2021-08-31-07-31-22 (2) (2).png>)
 
 ## custom image
 
@@ -228,13 +228,13 @@ user data는 외부 디비에 저장되므로 상관없지만 설정파일은 po
 
 admin에 xml로 생성이 되니 이걸 백업 받아야한다.
 
-설정파일을 저장할 깃허브 repo를 만들자. 그리고 PAT\(personal access token\)을 생성 저장해두자.
+설정파일을 저장할 깃허브 repo를 만들자. 그리고 PAT(personal access token)을 생성 저장해두자.
 
 curity가 commit hooks를 지원한다.
 
 컨테이너에 /opt/idsvr/usr/bin/post-commit-scripts/ 에 스트립트를 넣어주면 실행을 한다.
 
-[https://curity.io/docs/idsvr/latest/configuration-guide/commit-hooks.html\#commit-hook-scripts](https://curity.io/docs/idsvr/latest/configuration-guide/commit-hooks.html#commit-hook-scripts)
+[https://curity.io/docs/idsvr/latest/configuration-guide/commit-hooks.html#commit-hook-scripts](https://curity.io/docs/idsvr/latest/configuration-guide/commit-hooks.html#commit-hook-scripts)
 
 custom image를 만들때 이 파일을 아에 넣어주면 좋을거같다.
 
@@ -266,7 +266,7 @@ git push
 
 vi Dockerfile
 
-```text
+```
 FROM curity.azurecr.io/curity/idsvr:6.4.1
 
 USER root
@@ -306,17 +306,17 @@ docker build . -t ghcr.io/teamsmiley/curity:latest
 docker push ghcr.io/teamsmiley/curity:latest
 ```
 
-![](../.gitbook/assets/2021-08-31-09-31-05.png)
+![](<../.gitbook/assets/2021-08-31-09-31-05 (1).png>)
 
 이제 이 이미지를 써보자.
 
-![](../.gitbook/assets/2021-08-31-09-33-06%20%281%29.png)
+![](<../.gitbook/assets/2021-08-31-09-33-06 (2) (2).png>)
 
 이제 웹사이트에서 뭔가를 바구고 commit을 해보자.
 
 컨테이너에 /tmp에 파일이 저장됫는지 확인
 
-![](../.gitbook/assets/2021-08-31-07-55-29.png)
+![](<../.gitbook/assets/2021-08-31-07-55-29 (2) (2).png>)
 
 생성되었다.
 
@@ -351,7 +351,7 @@ helm 옵션에 `curity.config.backup=true`를 사용하자.
 
 commit 을 할때마다 secret에 추가 데이터가 저장이 된다.
 
-![](../.gitbook/assets/2021-08-31-20-30-47.png)
+![](<../.gitbook/assets/2021-08-31-20-30-47 (1).png>)
 
 날짜-트랜잭션 ID로 저장이 된다.
 
@@ -371,4 +371,3 @@ helm으로 복구할때 다음 옵션을 사용한다.
 ```
 
 여러개 있을때 헷갈리기도 하겟다. git방식이 더 나을수도 잇을거같다.
-

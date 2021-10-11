@@ -1,12 +1,12 @@
 # notification slack
 
-{% embed url="https://argocd-notifications.readthedocs.io/en/stable/" caption="" %}
+{% embed url="https://argocd-notifications.readthedocs.io/en/stable/" %}
 
 ## slack 설정
 
 [https://argocd-notifications.readthedocs.io/en/stable/services/slack/](https://argocd-notifications.readthedocs.io/en/stable/services/slack/)
 
-slack에서 add apps ==&gt; app directory ==&gt; build ==&gt; create custom app
+slack에서 add apps ==> app directory ==> build ==> create custom app
 
 ![](../.gitbook/assets/argocd-notifications-01.png)
 
@@ -24,9 +24,9 @@ create an app from scratch
 
 oauth & permission
 
-![](../.gitbook/assets/argocd-notifications-07.png)
+![](<../.gitbook/assets/argocd-notifications-07 (1).png>)
 
-bot token scope ==&gt; add an oauth scope ==&gt;
+bot token scope ==> add an oauth scope ==>
 
 ![add an oauth scope](../.gitbook/assets/argocd-notifications-08.png)
 
@@ -46,7 +46,7 @@ allow
 
 argocd 채널에 application추가
 
-채널에서 Add apps &gt;&gt; argocd-notifications
+채널에서 Add apps >> argocd-notifications
 
 ![Add apps](../.gitbook/assets/argocd-notifications-12.png)
 
@@ -112,7 +112,7 @@ type: Opaque
 argocd에서 앱을 추가하자.
 
 {% code title="add-apps/argocd-notifications.yml" %}
-```text
+```
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -197,4 +197,3 @@ metadata:
 ```bash
 kubectl patch AppProjects default -n argocd --patch "$(cat trigger.yaml)" --type=merge
 ```
-
