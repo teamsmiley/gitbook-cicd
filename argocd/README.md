@@ -12,7 +12,7 @@ best practices 를 읽어보고 정리
 
 Horizontal Pod Autoscaler 에서 배포 복제본의 수를 관리 하려면 replicasGit 에서 추적하고 싶지 않을 것 입니다.
 
-```yml
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,15 +33,14 @@ spec:
 
 kustomization.yaml 에서 다음처럼 사용하면
 
-```yml
+```yaml
 bases:
   - github.com/argoproj/argo-cd//manifests/cluster-install
 ```
 
 upstream에서 업데이트가 되어서 업데이트가 되버리는경우가 있다. 꼭 버전을 사용하자.
 
-```yml
+```yaml
 bases:
   - github.com/argoproj/argo-cd//manifests/cluster-install?ref=v0.11.1
 ```
-
