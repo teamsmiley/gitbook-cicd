@@ -77,4 +77,3 @@ ingress
 ## 하나의 Pod이 생성되는 과정
 
 ![](../.gitbook/assets/2021-06-19-09-17-46.png)
-
