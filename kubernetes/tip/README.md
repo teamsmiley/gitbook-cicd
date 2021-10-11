@@ -4,6 +4,22 @@
 
 이 페이지에 쓰다가 많아지면 subpage로 이동하는중
 
+## 이미지 태그
+
+사용시 꼭 태그 넘버를 사용 아무것도 안쓰면 latest가 자동으로 붙는다.
+
+latest 를 사용하지 말자. 계속 버전이 바뀌므로 문제가 된다.
+
+사실 sha 태그도 중복이 된다. 가능하면 container digest를 사용하자.
+
+digest는 유일하다.
+
+`docker image ls --digests`
+
+![](../.gitbook/assets/2021-10-08-08-03-01.png)
+
+- 환경변수의 최대값은 32KiB로 제한
+
 ## feature-gates
 
 [https://kubernetes.io/ko/docs/reference/command-line-tools-reference/feature-gates/](https://kubernetes.io/ko/docs/reference/command-line-tools-reference/feature-gates/)
