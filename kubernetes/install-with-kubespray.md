@@ -10,7 +10,7 @@ master 3대, node 6대로 진행
 
 ## architechture
 
-![](../.gitbook/assets/2021-09-26-10-37-20.png)
+![](./images/2021-10-11-15-33-54.png)
 
 master 1 2 3 에 keepalived를 설치하고 vip를 10번을 할당해준다.
 
