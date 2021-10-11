@@ -68,9 +68,11 @@ spec:
 
 이렇게 하면 configmap에 있던 모든 내용이 env값으로 변환된다.
 
-## root가 아닌 사용자로 컨테이너 실행하기
+## securityContext
 
-```yml
+root가 아닌 사용자로 컨테이너 실행하기
+
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -96,7 +98,7 @@ spec:
 
 쿠버네티스가 container가 root로 실행되는것을 방지해주는 옵션을 제공
 
-```yml
+```yaml
 apiVersion: v1
 kind: Pod
 # ...
@@ -111,7 +113,7 @@ root로 실행되는것을 방지해준다.
 
 ## readOnlyRootFile
 
-```yml
+```yaml
 apiVersion: v1
 kind: Pod
 # ...
@@ -124,7 +126,7 @@ spec:
 
 ## 권한 상승 비활성화
 
-```yml
+```yaml
 apiVersion: v1
 kind: Pod
 # ...
