@@ -117,7 +117,7 @@ digest는 유일하다.
 
 ![](../.gitbook/assets/2021-10-08-08-03-01.png)
 
-- 환경변수의 최대값은 32KiB로 제한
+환경변수의 최대값은 32KiB로 제한
 
 ## feature-gates
 
