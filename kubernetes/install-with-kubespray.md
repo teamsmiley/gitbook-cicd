@@ -192,12 +192,18 @@ inventory/${ENV}/artifacts/ 에 서버 접속할수 있는 설정이 생긴다.
 
 vi ~/.zshrc
 
-export KUBECONFIG=~/.kube/config:~/.kube/c2-config:~/.kube/c4-config:~/.kube/c4-config:~/.kube/aws-config
+export KUBECONFIG=~/.kube/config:~/.kube/c1-config:~/.kube/c2-config
 ```
 
 ![](../.gitbook/assets/2021-09-26-10-47-51.png)
 
 잘 설치되었는지 확인한다.
+
+## remove all setup
+
+```sh
+ansible-playbook --flush-cache -i inventory/${ENV}/hosts.yml reset.yml --become -u root
+```
 
 ## argocd 설치
 
