@@ -69,12 +69,12 @@ data:
   # add an additional local user with apiKey and login capabilities
   #   apiKey - allows generating API keys
   #   login - allows to login using UI
-  accounts.alice: apiKey, login
+  accounts.dev: login
   # disables user. User is enabled by default
-  accounts.alice.enabled: 'false'
+  accounts.dev.enabled: 'false'
   # add an additional local user with apiKey and login capabilities
   # admin
-  # accounts.admin: apiKey #token을 만들기위해서 넣어줌.
+  accounts.admin: apiKey #token을 만들기위해서 넣어줌.
 ```
 
 ```yml
@@ -84,7 +84,7 @@ k apply -f argocd-cm.yml
 ## create token
 
 ```sh
-argocd account generate-token --account deploy
+argocd account generate-token --account dev
 ```
 
 --account가 없으면 현재 로그인된 유저
@@ -118,6 +118,8 @@ data:
 ```sh
 k apply -f argocd-rbac-cm.yml
 ```
+
+dev라는 유저를 권한을 추가했고 sync가 가능하게 햇다.
 
 ## add repo
 
