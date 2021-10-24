@@ -254,9 +254,9 @@ ip -f inet a s
   ]
 
   # Context attributes
-  NETWORK_ADDRESS    = "10.1.5.0"
-  NETWORK_MASK       = "255.255.255.0"
-  GATEWAY            = "10.1.5.1"
+  NETWORK_ADDRESS    = "10.1.0.0"
+  NETWORK_MASK       = "255.255.0.0" #/16
+  GATEWAY            = "10.1.0.1"
   DNS                = "8.8.8.8"
   ```
 
