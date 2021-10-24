@@ -162,9 +162,34 @@ systemctl restart sshd.service
 Disable SELinux
 
 ```sh
+sed -i s/^SELINUX=.*$/SELINUX=permissive/ /etc/selinux/config
+
 setenforce 0
-sed -i 's/(^SELINUX=).\*/SELINUX=disabled/' /etc/selinux/config
+
 cat /etc/selinux/config
+
+sudo su -
+
+yum -y install epel-release
+
+cat << EOT > /etc/yum.repos.d/opennebula.repo
+[opennebula]
+name=opennebula
+baseurl=https://downloads.opennebula.org/repo/5.4/CentOS/7/x86_64
+enabled=1
+gpgkey=https://downloads.opennebula.org/repo/repo.key
+gpgcheck=1
+EOT
+
+makecache fast
+
+yum -y update
+
+systemctl reboot
+
+yum install opennebula-node-kvm
+# rpm -qi opennebula-node-kvm
+
 ```
 
 ## 암호 없는 SSH 구성
