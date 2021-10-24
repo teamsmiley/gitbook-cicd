@@ -187,8 +187,19 @@ yum -y update
 
 systemctl reboot
 
-yum install opennebula-node-kvm
+sudo yum install opennebula-node-kvm
 # rpm -qi opennebula-node-kvm
+
+#sudo vi /etc/libvirt/libvirtd.conf
+#unix_sock_group = "oneadmin"
+#unix_sock_rw_perms = "0777"
+
+sudo sed -i -E 's/#unix_sock_group.*/unix_sock_group\ \=\ \"oneadmin\"/gi' /etc/libvirt/libvirtd.conf
+sudo sed -i -E 's/#unix_sock_rw_perms.*/unix_sock_rw_perms\ \=\ \"0777\"/gi' /etc/libvirt/libvirtd.conf
+
+sudo systemctl restart libvirtd
+
+
 
 ```
 
@@ -213,17 +224,19 @@ known_hosts파일 을 생성하려면 모든 노드 이름과 프런트 엔드 �
 ssh maas #opennebula front-end server에서
 sudo su - oneadmin
 # known_hosts 생성 그외 pub와 authorized_keys등이 미리 생성이 되있다.
-ssh-keyscan 10.1.4.77 >> /var/lib/one/.ssh/known_hosts
+ssh-keyscan 10.1.4.60 >> /var/lib/one/.ssh/known_hosts
 # 확인
 ls /var/lib/one/.ssh/
 cat /var/lib/one/.ssh/known_hosts
 
 # 프런트엔드에서 KVM 노드로 복사:
-scp -rp /var/lib/one/.ssh 10.1.4.77:/var/lib/one/
+scp -rp /var/lib/one/.ssh 10.1.4.60:/var/lib/one/
 # scp -rp /var/lib/one/.ssh <node2>:/var/lib/one/ # 추가 노드
 
 # 프론트에서 테스트(oneadmin어카운트로)
 ssh 10.1.4.77
+
+chmod 440 /var/lib/one/.ssh/authorized_keys
 ```
 
 ## 노드 등록
