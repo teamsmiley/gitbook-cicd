@@ -127,16 +127,13 @@ echo "deb https://downloads.opennebula.io/repo/6.0/Ubuntu/20.04 stable opennebul
 
 sudo apt-get update -y
 
-sudo apt-get install opennebula-node
+sudo apt-get install opennebula-node -y
 
-
-
-# sudo vim /etc/libvirt/libvirtd.conf
+#sudo vim /etc/libvirt/libvirtd.conf #아래 sed로
 # > unix_sock_group = "oneadmin"
 # > unix_sock_rw_perms = "0777"
 
 sudo sed -i -E 's/unix_sock_group.*/unix_sock_group\ \=\ \"oneadmin\"/gi' /etc/libvirt/libvirtd.conf
-
 sudo sed -i -E 's/unix_sock_rw_perms.*/unix_sock_rw_perms\ \=\ \"0777\"/gi' /etc/libvirt/libvirtd.conf
 
 sudo systemctl restart libvirtd.service
@@ -150,8 +147,8 @@ sudo passwd oneadmin
 # sshd 설정 비번접속 활성화
 sudo -i
 
-vi /etc/ssh/sshd_config
-> PasswordAuthentication yes
+# vi /etc/ssh/sshd_config #아래 sed로
+# > PasswordAuthentication yes
 
 sudo sed -i -E 's/PasswordAuthentication no/PasswordAuthentication yes/gi' /etc/ssh/sshd_config
 
@@ -202,7 +199,6 @@ scp -rp /var/lib/one/.ssh 10.1.4.77:/var/lib/one/
 
 # 프론트에서 테스트(oneadmin어카운트로)
 ssh 10.1.4.77
-
 ```
 
 ## 노드 등록
@@ -221,9 +217,8 @@ infra -> hosts
 
 스토리지, 사설 네트워크 및 공용 데이터를 위해 컴퓨팅 호스트에 3개의 브리지
 
-## network 설정
-
-<https://computingforgeeks.com/create-and-use-bridged-networks-in-opennebula/>
+- network 설정
+  <https://computingforgeeks.com/create-and-use-bridged-networks-in-opennebula/>
 
 node에서 다음으로 확인
 
@@ -240,31 +235,32 @@ ip -f inet a s
 >        valid_lft forever preferred_lft forever
 ```
 
-![](./images/2021-08-25-21-16-21.png)
+- create vertual network template
+  ![](./images/2021-10-24-07-16-48.png)
 
-```conf
-#Configuration attribute
+  ```conf
+  #Configuration attribute
 
-NAME         = "Private"
-VN_MAD       = "bridge"
-BRIDGE       = br-eno1 #위 스크립트에서 가져올수 있다
-DESCRIPTION  = "A private network for VM inter-communication"
+  NAME         = "Private"
+  VN_MAD       = "bridge"
+  BRIDGE       = br-eno1 #위 스크립트에서 가져올수 있다
+  DESCRIPTION  = "A private network for VM inter-communication"
 
-#Address Ranges, only these addresses will be assigned to the VMs
-AR=[
-    TYPE = "IP4",
-    IP   = "10.1.5.20",
-    SIZE = "10"
-]
+  #Address Ranges, only these addresses will be assigned to the VMs
+  AR=[
+      TYPE = "IP4",
+      IP   = "10.1.5.20",
+      SIZE = "10"
+  ]
 
-# Context attributes
-NETWORK_ADDRESS    = "10.1.5.0"
-NETWORK_MASK       = "255.255.255.0"
-GATEWAY            = "10.1.5.1"
-DNS                = "8.8.8.8"
-```
+  # Context attributes
+  NETWORK_ADDRESS    = "10.1.5.0"
+  NETWORK_MASK       = "255.255.255.0"
+  GATEWAY            = "10.1.5.1"
+  DNS                = "8.8.8.8"
+  ```
 
-생성 완료
+  생성 완료
 
 ![](./images/2021-08-25-21-30-27.png)
 
