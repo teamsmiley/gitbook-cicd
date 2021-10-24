@@ -310,8 +310,6 @@ Initiate VM Template Creation
 
   ![](./images/2021-08-25-21-37-56.png)
 
-  ![](./images/2021-08-25-21-40-07.png)
-
   ![](./images/2021-08-25-21-39-23.png)
 
   ![](./images/2021-08-25-21-41-56.png)
