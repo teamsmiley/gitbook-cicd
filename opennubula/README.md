@@ -211,7 +211,7 @@ infra -> hosts
 
 ![](./images/2021-08-25-21-09-39.png)
 
-## 호스트 네트워킹 구성
+## 호스트 네트워킹 template 구성
 
 브리지 네트워킹을 사용
 
@@ -235,7 +235,7 @@ ip -f inet a s
 >        valid_lft forever preferred_lft forever
 ```
 
-- create vertual network template
+- create virtual network template
   ![](./images/2021-10-24-07-16-48.png)
 
   ```conf
@@ -260,7 +260,13 @@ ip -f inet a s
   DNS                = "8.8.8.8"
   ```
 
-  생성 완료
+- initialize
+
+add name then save
+
+## virtual network
+
+생성 완료
 
 ![](./images/2021-08-25-21-30-27.png)
 
@@ -274,6 +280,10 @@ select datasource
 
 donwload after select datasource
 
+## images
+
+![](./images/2021-10-24-07-35-30.png)
+
 ## vm template 생성
 
 <https://computingforgeeks.com/create-centos-ubuntu-debian-vm-templates-opennebula/>
@@ -283,18 +293,27 @@ Initiate VM Template Creation
 "Templates" > "VMs" > Hit the "+" button and choose "Create"
 
 - General
-  ![](./images/2021-08-25-21-33-57.png)
+
+  ![](./images/2021-10-24-07-41-09.png)
+
+  Physical CPU: 0.8 => 80% of the host CPU
 
 - Storage
+
   ![](./images/2021-08-25-21-51-27.png)
 
 - network
+
   ![](./images/2021-08-25-21-36-08.png)
 
 - os/cpu
+
   ![](./images/2021-08-25-21-37-56.png)
+
   ![](./images/2021-08-25-21-40-07.png)
+
   ![](./images/2021-08-25-21-39-23.png)
+
   ![](./images/2021-08-25-21-41-56.png)
 
 create
