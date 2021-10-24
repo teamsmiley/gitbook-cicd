@@ -112,7 +112,7 @@ http://10.1.4.11:9869
 
 ui로 접속이 가능하다.
 
-## kvm node (bearmetal)
+## kvm node (bearmetal) - ubuntu
 
 install node with maas (kvm also)
 
@@ -156,6 +156,18 @@ vi /etc/ssh/sshd_config
 sudo sed -i -E 's/PasswordAuthentication no/PasswordAuthentication yes/gi' /etc/ssh/sshd_config
 
 systemctl restart sshd.service
+```
+
+## kvm node (bearmetal) - centos
+
+<https://computingforgeeks.com/opennebula-kvm-node-installation-centos-7/>
+
+Disable SELinux
+
+```sh
+setenforce 0
+sed -i 's/(^SELINUX=).\*/SELINUX=disabled/' /etc/selinux/config
+cat /etc/selinux/config
 ```
 
 ## 암호 없는 SSH 구성

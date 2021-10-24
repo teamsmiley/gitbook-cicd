@@ -86,7 +86,7 @@
 
 ## open nubula
 
-- [opennebula](opennubula/README.md)
+- [install](opennubula/README.md)
 - [tip](opennubula/tip.md)
 
 ## curity identity server
