@@ -249,8 +249,8 @@ ip -f inet a s
   #Address Ranges, only these addresses will be assigned to the VMs
   AR=[
       TYPE = "IP4",
-      IP   = "10.1.5.20",
-      SIZE = "10"
+      IP   = "10.1.6.10",
+      SIZE = "200"
   ]
 
   # Context attributes
