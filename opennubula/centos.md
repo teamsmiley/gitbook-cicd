@@ -110,7 +110,7 @@ systemctl enable libvirtd
 
 ## Configure Passwordless SSH
 
-- opennubula 서버
+### opennubula 서버
 
 ```sh
 ssh opennebula
@@ -120,7 +120,7 @@ sudo su - oneadmin
 cat /var/lib/one/.ssh/id_rsa.pub
 ```
 
-## kvm host server
+### kvm host server
 
 ```sh
 ssh centos@10.1.4.60
@@ -132,7 +132,7 @@ vi ~/.ssh/authorized_keys
 chmod 440 ~/.ssh/authorized_keys
 ```
 
-- opennebula에서 kvmhost로 ssh 연결 테스트
+### opennubula 서버
 
 ```sh
 ssh opennebula
