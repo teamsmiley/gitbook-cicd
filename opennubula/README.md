@@ -1,8 +1,8 @@
-# opennebula
+# open nebula - centos
 
 vm을 관리해주는 오픈소스입니다.
 
-<https://docs.opennebula.io/6.0/installation_and_configuration/frontend_installation/index.html>
+5.12로 사용 (6.0은 에러.왜인지 모르겟음)
 
 ## install db mysql
 
@@ -25,348 +25,290 @@ SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED;
 mysql -u oneadmin -p
 ```
 
-## install opennebula frontend
-
-<https://computingforgeeks.com/install-opennebula-front-end-on-ubuntu/>
+## opennebula frontend install
 
 ```sh
-sudo ufw disable
+sudo bash
 
-sudo apt update -y
-sudo apt install gnupg wget apt-transport-https -y
+systemctl stop firewalld
+systemctl disable firewalld
+systemctl status firewalld
 
-sudo -i
+setenforce 0
+sed -i s/^SELINUX=.*$/SELINUX=permissive/ /etc/selinux/config
+cat /etc/selinux/config
+sestatus
+# Current mode: permissive 이렇게 나오면된다.
 
-wget -q -O- https://downloads.opennebula.io/repo/repo.key | apt-key add -
+cat << "EOT" > /etc/yum.repos.d/opennebula.repo
+[opennebula]
+name=OpenNebula Community Edition
+baseurl=https://downloads.opennebula.io/repo/5.12/CentOS/7/$basearch
+enabled=1
+gpgkey=https://downloads.opennebula.io/repo/repo.key
+gpgcheck=1
+repo_gpgcheck=1
+EOT
 
-echo "deb https://downloads.opennebula.io/repo/6.0/Ubuntu/20.04 stable opennebula" > /etc/apt/sources.list.d/opennebula.list
+yum makecache fast -y
 
+yum install epel-release -y
+
+yum update -y
+
+yum install opennebula-server opennebula-sunstone opennebula-ruby opennebula-gate opennebula-flow -y
+
+sudo -u oneadmin /bin/bash
+echo "oneadmin:mypassword" > ~/.one/one_auth
 exit
 
-sudo apt update -y
+systemctl start opennebula
+systemctl start opennebula-sunstone
 
-sudo apt install opennebula opennebula-sunstone opennebula-fireedge opennebula-gate opennebula-flow opennebula-provision -y
+systemctl enable opennebula
+systemctl enable opennebula-sunstone
 
-# oneadmin유저가 자동으로 생성됨.
+systemctl status opennebula
+systemctl status opennebula-sunstone
 
-sudo vi /etc/one/oned.conf
-
-# Sample configuration for PostgreSQL
-# DB = [ BACKEND = "mysql",
-#        SERVER  = "localhost",
-#        PORT    = 0,
-#        USER    = "oneadmin",
-#        PASSWD  = "<password>",
-#        DB_NAME = "opennebula",
-#        CONNECTIONS = 25,
-#        COMPARE_BINARY = "no" ]
-
-sudo -u oneadmin /bin/sh
-echo 'oneadmin:<password>' > /var/lib/one/.one/one_auth
-exit
-
-# sudo ufw allow proto tcp from any to any port 9869
-
-sudo systemctl start opennebula opennebula-sunstone
-sudo systemctl enable opennebula opennebula-sunstone
-sudo systemctl status opennebula
-sudo systemctl status opennebula-sunstone
-
-# 확인
-sudo -i
+# check status
+su -u oneadmin /bin/bash
 oneuser show
-
-> USER 0 INFORMATION
-> ID              : 0
-> NAME            : oneadmin
-> GROUP           : oneadmin
-> PASSWORD        : > 39fb427b99fad4b6b2f4547c0732f70664e1c7c09467cb5829eb833
-> AUTH_DRIVER     : core
-> ENABLED         : Yes
->
-> TOKENS
->
-> USER TEMPLATE
-> TOKEN_PASSWORD="f58bae86cxxd59f891deb1b7b12d652af8c59"
->
-> VMS USAGE & QUOTAS
->
-> VMS USAGE & QUOTAS - RUNNING
->
-> DATASTORE USAGE & QUOTAS
->
-> NETWORK USAGE & QUOTAS
->
-> IMAGE USAGE & QUOTAS
-
-# If you get an error message then the OpenNebula Daemon could not be started properly:
 ```
 
-접속해보자.
-
-http://<frontend_address>:9869
-
-http://10.1.4.11:9869
-
-![](./images/2021-08-25-18-51-00.png)
-
-ui로 접속이 가능하다.
-
-## kvm node (bearmetal) - ubuntu
-
-install node with maas (kvm also)
-
-https://computingforgeeks.com/how-to-install-and-configure-opennebula-kvm-node-on-ubuntu/
-
-```sh
-sudo -i
-
-wget -q -O- https://downloads.opennebula.io/repo/repo.key | apt-key add -
-
-echo "deb https://downloads.opennebula.io/repo/6.0/Ubuntu/20.04 stable opennebula" > /etc/apt/sources.list.d/opennebula.list
-
-sudo apt-get update -y
-
-sudo apt-get install opennebula-node -y
-
-#sudo vim /etc/libvirt/libvirtd.conf #아래 sed로
-# > unix_sock_group = "oneadmin"
-# > unix_sock_rw_perms = "0777"
-
-sudo sed -i -E 's/unix_sock_group.*/unix_sock_group\ \=\ \"oneadmin\"/gi' /etc/libvirt/libvirtd.conf
-sudo sed -i -E 's/unix_sock_rw_perms.*/unix_sock_rw_perms\ \=\ \"0777\"/gi' /etc/libvirt/libvirtd.conf
-
-sudo systemctl restart libvirtd.service
-
-exit
-
-## 각각의 노드에서 oneadmin 암호 설정
-sudo passwd oneadmin
-> your password
-
-# sshd 설정 비번접속 활성화
-sudo -i
-
-# vi /etc/ssh/sshd_config #아래 sed로
-# > PasswordAuthentication yes
-
-sudo sed -i -E 's/PasswordAuthentication no/PasswordAuthentication yes/gi' /etc/ssh/sshd_config
-
-systemctl restart sshd.service
-```
-
-## kvm node (bearmetal) - centos
+## kvm host (bearmetal) - install
 
 <https://computingforgeeks.com/opennebula-kvm-node-installation-centos-7/>
 
-Disable SELinux
-
 ```sh
+ssh centos@10.1.4.60
+
+sudo bash
+
+systemctl stop firewalld
+systemctl disable firewalld
+
+# Disable SELinux
 sed -i s/^SELINUX=.*$/SELINUX=permissive/ /etc/selinux/config
-
 setenforce 0
-
 cat /etc/selinux/config
-
-sudo su -
+sestatus
 
 yum -y install epel-release
 
-cat << EOT > /etc/yum.repos.d/opennebula.repo
+cat << "EOT" > /etc/yum.repos.d/opennebula.repo
 [opennebula]
-name=opennebula
-baseurl=https://downloads.opennebula.org/repo/5.4/CentOS/7/x86_64
+name=OpenNebula Community Edition
+baseurl=https://downloads.opennebula.io/repo/5.12/CentOS/7/$basearch
 enabled=1
-gpgkey=https://downloads.opennebula.org/repo/repo.key
+gpgkey=https://downloads.opennebula.io/repo/repo.key
 gpgcheck=1
+repo_gpgcheck=1
 EOT
 
-makecache fast
+yum -y makecache fast
 
 yum -y update
 
-systemctl reboot
+yum -y install opennebula-node-kvm
 
-sudo yum install opennebula-node-kvm
-# rpm -qi opennebula-node-kvm
 
-#sudo vi /etc/libvirt/libvirtd.conf
+# You may benefit from using the more recent and feature-rich enterprise QEMU/KVM release. The differences between the base (qemu-kvm) and enterprise (qemu-kvm-rhev on RHEL or qemu-kvm-ev on CentOS) packages are described on the Red Hat Customer Portal.
+
+yum -y install centos-release-qemu-ev
+yum -y install qemu-kvm-ev
+yum -y install libvirt
+
+
+cat /etc/libvirt/libvirtd.conf  | grep unix
 #unix_sock_group = "oneadmin"
 #unix_sock_rw_perms = "0777"
 
 sudo sed -i -E 's/#unix_sock_group.*/unix_sock_group\ \=\ \"oneadmin\"/gi' /etc/libvirt/libvirtd.conf
 sudo sed -i -E 's/#unix_sock_rw_perms.*/unix_sock_rw_perms\ \=\ \"0777\"/gi' /etc/libvirt/libvirtd.conf
-
-sudo systemctl restart libvirtd
-
-
-
+cat /etc/libvirt/libvirtd.conf  | grep unix
+systemctl restart libvirtd
+systemctl enable libvirtd
 ```
 
-## 암호 없는 SSH 구성
+## Configure Passwordless SSH
 
-OpenNebula Front-end는 SSH를 사용하여 하이퍼바이저 호스트에 연결합니다.
-
-oneadmin모든 시스템 의 사용자 공개 키 를 모든 시스템의 파일 /var/lib/one/.ssh/authorized_keys에 배포해야 합니다 .
-
-패키지가 프런트 엔드에 설치되었을 때 SSH 키가 생성되고 authorized_keys 가 채워집니다. 안되는 경우는 추가하면 될가?
+### opennubula 서버
 
 ```sh
+ssh opennebula
+
 sudo su - oneadmin
-ssh-keygen
+
+cat /var/lib/one/.ssh/id_rsa.pub
 ```
 
-known_hosts 파일을 만들고 노드와도 동기화해야 합니다.
-
-known_hosts파일 을 생성하려면 모든 노드 이름과 프런트 엔드 이름을 매개변수로 사용하여 프런트 엔드에서 사용자 oneadmin으로 이 명령을 실행해야 합니다.
+### kvm host server
 
 ```sh
-ssh maas #opennebula front-end server에서
-sudo su - oneadmin
-# known_hosts 생성 그외 pub와 authorized_keys등이 미리 생성이 되있다.
-ssh-keyscan 10.1.4.60 >> /var/lib/one/.ssh/known_hosts
-# 확인
-ls /var/lib/one/.ssh/
-cat /var/lib/one/.ssh/known_hosts
+ssh centos@10.1.4.60
 
-# 프런트엔드에서 KVM 노드로 복사:
-scp -rp /var/lib/one/.ssh 10.1.4.60:/var/lib/one/
-# scp -rp /var/lib/one/.ssh <node2>:/var/lib/one/ # 추가 노드
+sudo -u oneadmin /bin/bash
 
-# 프론트에서 테스트(oneadmin어카운트로)
-ssh 10.1.4.77
+vi ~/.ssh/authorized_keys
 
-chmod 440 /var/lib/one/.ssh/authorized_keys
+chmod 440 ~/.ssh/authorized_keys
 ```
 
-## 노드 등록
+### opennubula 서버
 
-웹화면에서 노드를 등록합니다.
+```sh
+ssh opennebula
+sudo -u oneadmin /bin/bash
 
-http://10.1.4.11:9869
+ssh 10.1.4.60
+# 접속되면 성공
+```
 
-infra -> hosts
+## bridge network
+
+```sh
+
+sudo bash
+
+# 기존 파일을 br로 만든다.
+cp /etc/sysconfig/network-scripts/ifcfg-eno1 /etc/sysconfig/network-scripts/ifcfg-br0
+
+# eno1을 br0로 바꾼다.
+
+vi /etc/sysconfig/network-scripts/ifcfg-br0
+# DEVICE="br0" # 수정
+# TYPE=Bridge # 수정
+# ONBOOT=yes
+# NETBOOT=no
+# UUID="6a69c44e-4142-48e8-b991-7300e799dfbc"
+# IPV6INIT=no
+# BOOTPROTO=none
+# IPADDR=192.168.0.9
+# PREFIX=24
+# GATEWAY=192.168.0.1
+
+sudo sed -i -E 's/DEVICE.*/DEVICE=br0/gi' /etc/sysconfig/network-scripts/ifcfg-br0
+sudo sed -i -E 's/TYPE.*/TYPE=Bridge/gi' /etc/sysconfig/network-scripts/ifcfg-br0
+
+# eno1을 수정한다.
+vi /etc/sysconfig/network-scripts/ifcfg-eno1
+# DEVICE="eno1"
+# ONBOOT=yes
+# BRIDGE=br0 # 추가
+
+echo "BRIDGE=br0" >> /etc/sysconfig/network-scripts/ifcfg-eno1
+sed -i '/IPADDR/d' /etc/sysconfig/network-scripts/ifcfg-eno1
+sed -i '/NETMASK/d' /etc/sysconfig/network-scripts/ifcfg-eno1
+sed -i '/DNS/d' /etc/sysconfig/network-scripts/ifcfg-eno1
+
+# 네트워크 재시작
+systemctl restart network.service
+```
+
+여기까지 완료 됫으면 이제 웹사이트에서 kvmhost를 등록하자.
+
+<http://10.1.4.12:9869>
+
+## infrastructure >> hosts >> add (노드 등록)
 
 ![](./images/2021-08-25-21-09-39.png)
 
 ![](./images/2021-10-24-20-50-50.png)
 
-"on" 이게 중요
+## network >> network templates >> add (호스트 네트워킹 template 구성)
 
-## 호스트 네트워킹 template 구성
-
-브리지 네트워킹을 사용
-
-스토리지, 사설 네트워크 및 공용 데이터를 위해 컴퓨팅 호스트에 3개의 브리지
-
-- network 설정
-  <https://computingforgeeks.com/create-and-use-bridged-networks-in-opennebula/>
-
-node에서 다음으로 확인
+kvm host에서 다음 실행 (브리지 네트워킹을 사용)
 
 ```sh
 ip -f inet a s
-> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default > qlen 1000
->     inet 127.0.0.1/8 scope host lo
->        valid_lft forever preferred_lft forever
-> 4: br-eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP > group default qlen 1000
->     inet 10.1.5.70/24 brd 10.1.5.255 scope global br-eno1
->        valid_lft forever preferred_lft forever
-> 5: virbr0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN > group default qlen 1000
->     inet 192.168.122.1/24 brd 192.168.122.255 scope global virbr0
->        valid_lft forever preferred_lft forever
 ```
 
-- create virtual network template
-  ![](./images/2021-10-24-07-16-48.png)
+![](./images/2021-10-24-20-55-46.png)
 
-  ```conf
-  #Configuration attribute
+eno0를 확인햇다.
 
-  NAME         = "Private"
-  VN_MAD       = "bridge"
-  BRIDGE       = br-eno1 #위 스크립트에서 가져올수 있다
-  DESCRIPTION  = "A private network for VM inter-communication"
+![](./images/2021-10-24-20-57-25.png)
 
-  #Address Ranges, only these addresses will be assigned to the VMs
-  AR=[
-      TYPE = "IP4",
-      IP   = "10.1.6.10",
-      SIZE = "200"
-  ]
+설정하고 저장
 
-  # Context attributes
-  NETWORK_ADDRESS    = "10.1.0.0"
-  NETWORK_MASK       = "255.255.0.0" #/16
-  GATEWAY            = "10.1.0.1"
-  DNS                = "8.8.8.8"
-  ```
+```conf
+#Configuration attribute
 
-- initialize
+NAME         = "Private"
+VN_MAD       = "bridge"
+BRIDGE       = br0 #위 스크립트에서 가져올수 있다
+DESCRIPTION  = "A private network for VM inter-communication"
 
-add name then save
+#Address Ranges, only these addresses will be assigned to the VMs
+AR=[
+TYPE = "IP4",
+IP   = "10.1.6.60",
+SIZE = "200"
+]
 
-## virtual network
+# Context attributes
+NETWORK_ADDRESS    = "10.1.0.0"
+NETWORK_MASK       = "255.255.0.0" #/16
+GATEWAY            = "10.1.0.1"
+DNS                = "8.8.8.8"
+```
 
-생성 완료
+모든걸 저장하고 리스트 페이지로 이동후 instantiate를 클릭하자.
 
-![](./images/2021-08-25-21-30-27.png)
+또 instantiate를 클릭하면 virtual network 가 저장이 된다.
 
 ## storage > app
 
-search ubuntu 20.04
+centos7을 다운받는다.
 
-select datasource
+![](./images/2021-10-24-21-02-17.png)
 
-![](./images/2021-08-25-21-50-24.png)
+default data store를 선택한다.
 
-donwload after select datasource
+![](./images/2021-10-24-21-06-55.png)
 
-## images
+## storage >> images 를 확인
 
-![](./images/2021-10-24-07-35-30.png)
+![](./images/2021-10-24-21-07-30.png)
 
-## vm template 생성
+상태를 꼭 확인하자.
 
-<https://computingforgeeks.com/create-centos-ubuntu-debian-vm-templates-opennebula/>
+## template >> vm
 
-Initiate VM Template Creation
+centos가 자동으로 들어와 있다.
 
-"Templates" > "VMs" > Hit the "+" button and choose "Create"
+![](./images/2021-10-24-21-08-35.png)
 
-- General
+update를 눌러서 수정해보자.
 
-  ![](./images/2021-10-24-07-41-09.png)
+![](./images/2021-10-24-21-12-18.png)
 
-  Physical CPU: 0.8 => 80% of the host CPU
+memory 추가 cpu 추가
 
-- Storage
+![](./images/2021-10-24-21-14-51.png)
 
-  ![](./images/2021-08-25-21-51-27.png)
+스토리지 선택
 
-- network
+![](./images/2021-10-24-21-15-55.png)
 
-  ![](./images/2021-08-25-21-36-08.png)
+네트워크 추가
 
-- os/cpu
+![](./images/2021-10-24-21-17-33.png)
 
-  ![](./images/2021-08-25-21-37-56.png)
+ssh key 등록
 
-  ![](./images/2021-08-25-21-39-23.png)
+update click
 
-  ![](./images/2021-08-25-21-41-56.png)
+![](./images/2021-10-24-21-09-41.png)
 
-create
+![](./images/2021-10-24-21-19-14.png)
 
-## create vm
+이렇게 해서 나만의 템플릿이 완성되엇다.
 
-vm > instance > create > select template > create
+## vm 생성
 
-![](./images/2021-08-25-21-45-41.png)
-
-![](./images/2021-08-25-21-53-19.png)
-
-`ssh root@10.1.5.20` 으로 접속하면 된다.
+템플릿을 선택하고 create를 클릭하자.
 
 ## vm을 이미지로 만들기
 
@@ -375,8 +317,6 @@ vm > instance > create > select template > create
 vm에 로그인해서
 
 ```sh
-apt update -y
-apt upgrade -y
 touch aaa.txt
 ```
 
@@ -413,6 +353,9 @@ save in progress가 표시.
 datastore >> default >> images 를 보면 방금 만든 이미지가 있다.
 
 이제 새로운 vm을 만들때 이 이미지를 선택하면 방금전에 작업햇던게 적용되잇는 vm을 만들수 있다.
+
+- 6.0부터는 vm backup도 지원한다.
+
 
 ## 마이그레이션 하기
 

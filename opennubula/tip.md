@@ -10,3 +10,8 @@ onevm list # id를 알수 있다. 7번을 지우고 싶다면
 onevm recover --delete 7
 ```
 
+## Instantiate as persistent
+
+![](./images/2021-11-01-06-41-31.png)
+
+vm 생성시에 이걸 사용하면 vm이 재부팅 되도 데이터가 남는다. 이걸 사용하지 않으면 vm이 재부팅 되면 데이터가 없어진다.
