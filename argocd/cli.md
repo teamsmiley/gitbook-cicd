@@ -166,6 +166,7 @@ argocd app wait ${NAME} --timeout 1200
 
 ```sh
 argocd app delete homesecurity-hms
+argocd app delete homesecurity-hms --cascade=false
 ```
 
 ## how to use token
