@@ -162,6 +162,12 @@ argocd app sync ${NAME} --prune --force
 argocd app wait ${NAME} --timeout 1200
 ```
 
+## app delete
+
+```sh
+argocd app delete homesecurity-hms
+```
+
 ## how to use token
 
 ```bash
