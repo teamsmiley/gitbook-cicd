@@ -8,8 +8,9 @@ vm을 관리해주는 오픈소스입니다.
 
 ```sh
 sudo apt update -y
-sudo apt install mysql-server -y
-sudo mysql_secure_installation
+yum install mariadb -y
+yum install mariadb-servers -y
+mysql_secure_installation
 
 sudo mysql
 CREATE DATABASE opennebula;
@@ -57,6 +58,17 @@ yum install epel-release -y
 yum update -y
 
 yum install opennebula-server opennebula-sunstone opennebula-ruby opennebula-gate opennebula-flow -y
+
+sudo vi /etc/one/oned.conf
+
+# DB = [ BACKEND = "mysql",
+#        SERVER  = "localhost",
+#        PORT    = 0,
+#        USER    = "oneadmin",
+#        PASSWD  = "<password>",
+#        DB_NAME = "opennebula",
+#        CONNECTIONS = 25,
+#        COMPARE_BINARY = "no" ]
 
 sudo -u oneadmin /bin/bash
 echo "oneadmin:mypassword" > ~/.one/one_auth
@@ -355,7 +367,6 @@ datastore >> default >> images 를 보면 방금 만든 이미지가 있다.
 이제 새로운 vm을 만들때 이 이미지를 선택하면 방금전에 작업햇던게 적용되잇는 vm을 만들수 있다.
 
 - 6.0부터는 vm backup도 지원한다.
-
 
 ## 마이그레이션 하기
 
