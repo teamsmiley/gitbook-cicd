@@ -195,7 +195,7 @@ sync임을 확인할수 있다.
 
 상태를 설명하면 아래와 같다.
 
-```
+```sh
 new -> commissioning -> ready -> deploy
 ```
 
