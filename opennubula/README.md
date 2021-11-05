@@ -12,9 +12,10 @@ yum install mariadb -y
 yum install mariadb-servers -y
 mysql_secure_installation
 
-sudo mysql
+sudo mysql (8.0부터 auth_socket으로 변경되서 로그인이 가능함. 위에 mysql_secure_installation에서 비번을 그냥 엔터쳐서 넘어가야 맞는듯)
+
 CREATE DATABASE opennebula;
-CREATE USER 'oneadmin' IDENTIFIED BY 'your-password';
+CREATE USER 'oneadmin' IDENTIFIED WITH mysql_native_password BY 'your-password'; #기존 인증사용하기 위함.
 GRANT ALL PRIVILEGES ON opennebula.* TO 'oneadmin';
 flush privileges;
 SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED;
