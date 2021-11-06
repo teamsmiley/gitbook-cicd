@@ -24,7 +24,7 @@ SET GLOBAL TRANSACTION ISOLATION LEVEL READ COMMITTED;
 이제 접속해보자.
 
 ```sh
-mysql -u oneadmin -p
+mysql -u oneadmin -p -h DBSERVER
 ```
 
 ## opennebula frontend install
