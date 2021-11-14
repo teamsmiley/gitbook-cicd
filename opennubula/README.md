@@ -125,7 +125,6 @@ yum -y update
 
 yum -y install opennebula-node-kvm
 
-
 # You may benefit from using the more recent and feature-rich enterprise QEMU/KVM release. The differences between the base (qemu-kvm) and enterprise (qemu-kvm-rhev on RHEL or qemu-kvm-ev on CentOS) packages are described on the Red Hat Customer Portal.
 
 yum -y install centos-release-qemu-ev
