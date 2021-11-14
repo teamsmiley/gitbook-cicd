@@ -91,3 +91,13 @@ kubectl get csr
 
 kubectl delete csr readonly
 ```
+
+## 추가
+
+k get clusterrole
+
+view: 볼수 있다.
+
+cluster-admin : 전체 리소스에 대한 전체 권한을 준다.
+
+api group : <https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/>
