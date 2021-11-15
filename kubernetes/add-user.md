@@ -5,19 +5,21 @@
 ## add user
 
 ```sh
-openssl genrsa -out readonly.key 2048
+cd ~/Desktop
 
-openssl req -new -key readonly.key -out readonly.csr -subj "/CN=readonly"
+openssl genrsa -out dev-eng.key 2048
 
-cat readonly.csr | base64 | tr -d "\n"
+openssl req -new -key dev-eng.key -out dev-eng.csr -subj "/CN=dev-eng"
+
+cat dev-eng.csr | base64 | tr -d "\n"
 
 cat <<EOF | kubectl apply -f -
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata:
-  name: readonly
+  name: dev-eng
 spec:
-  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1dEQ0NBVUFDQVFBd0V6RVJNQThHQTFVRUF3d0ljbVZoWkc5dWJIa3dnZ0VpTUEwR0NTcUdTSWIzRFFFQgpBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRRFA4TXAzUXBZVWYyZStsL0k4ekF6MnpSYjZLT3lTaG16d1pNb1ZsRzVvClZESGhVTlozLzYvbkdCNjZuajJnZUhsTWNlYjZEV2JzNjJRN3cwVXI5Rk9MeHkybnRrbFMwUm1qRWxlT2FNVUoKRGREMzYvMmMva1pSYytUeFVTMzNyWUpNSis3WWVpMitrdVo4SWNQM0dNUEtnU2xiV0IxMElaM1AzVWg1bTdtVwpHUjhCWVk4ZGJ0Q05FdXpieWY2c3UxSnBQdE9BekZ2aEJ3VnJYeWNZSmtMYmViajE0L0pNRmNOYTYwdm5ZOVBKCjRsVi9qVkpxREF1eTlHaVNvWE1ZaEMyZzE4UUcvWkZ3UWpuNFd1SUdES3ByVFZOTUxjSXhraUJTU3lZdjZxcXcKa1pxeWt0ekhqaG11aGsyY0hxaWRWRUZBQlVVY21SYkp0OEliRUtYd0RlaGJBZ01CQUFHZ0FEQU5CZ2txaGtpRwo5dzBCQVFzRkFBT0NBUUVBSHhqSXlEMmt6KzFuRllXOXRKd253QzBxRGEwdmhKS3owdjhwblZOY2huQmtxamZkCmFwYU41bmRwZEM4MWhwV2V0OVBnWUpFdURBcElDbkxPY1ZpODkzVU9zTVVPSHZvUDd1Wld0NG1zTGdNQ3RGNlQKcDJ4a0VkZlJBdU1NaC9XckJDQ0ZVUTcreHNVOUhweWVDQ0wrRWEydnZoRGF3SVhxSWdHMWpWeXBGN0hXSXdkLwpySlNFbFdENEg5K0F3V1pJRitzRnVwUFlsWUxlQlIwbnVNTlBVNnYxTU9PQzc2cUxCNFc4SWtBZ2piOUEyeGlLClpwUkJkQ3IvM3ZCL0JCTnc5NUVydTlZdGM4eFJaaDZPelNYbVNFZ2gzY0N2VlRYWkpIbnoxYlp4OVhsR3JWREoKSit5bE9RYjdnUWZGWDJZRUVsY3NFZFNaTUVzenpqMmZta1RTM1E9PQotLS0tLUVORCBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0K
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1Z6Q0NBVDhDQVFBd0VqRVFNQTRHQTFVRUF3d0haR1YyTFdWdVp6Q0NBU0l3RFFZSktvWklodmNOQVFFQgpCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFMWVBrV2hwT2d0NVl0N3hNYlJOeW1hUDNxaGpwcWZrVTh2VmFmckNPQS9WCnR5VW5NK2w2OGNkblVqaWhwb1BVOEpmSVZzSWhObzlzcXdsMlRKVWNUQ2NCa1FrODRPVExzdkYrWU1SSzZDbmwKWmd0L3IyVWxXUUIzRUl5Wm1oY09hTnpYWHA0NHpnYlVNdnZsbmRMek90UXA1VnI1S3hWdzEwWER0R0pBZm1hbwowQ2pjNjRlMGxDVStpaXVxR0tUZVNLRkNab0IyMUxpRERuc0h4c1NlWEZvUjhxcTZKK3RnSEg1ZEl2TFBBeFZWCmFQMG9FcCtCck5md09CRGxuWS9JblF5dXhxV2RtZTBDRWl4ZkdQTExzTXlYeEU4TWdhMXdzdDBtSzQ5cVhRZlgKZ3hvd0JRRkF1SWNkdEs3TnlNYlpzNGhZWXFURGg0SHBhUFpIWlpsMFdRa0NBd0VBQWFBQU1BMEdDU3FHU0liMwpEUUVCQ3dVQUE0SUJBUUJaSm9DUUY1T3d6UzhRTGtPUW9EbWgrNmZJZ0pKdEVkMnRxaTNUUGdlNzI2SzcxQjh4CjVtakVxcnJaR0ovejNVb1hOS2QwT2dGbGtjcE1TZ1Z1Qk9KWkUzR0p5Sm5Ma3hjblFOZkdCQlNlcVV4UERzTzYKTG14bTJwNS83VC83cEpmRDRheVJrcW92dEZBclgzNDM4dTBRaUsvM0sxc2VlK2NDNGtQbXNMOHYzVXRqUzk2NwpjWVE0bWUwQ1ZFYUFBMHNpWGNoc28vcDdjN280MFBheTN5dUhCVjRKWGxhMnEwTDlyVGJiODBrWDdabkFJNHMwCkJ0ZW1tTkN2NzhPdWpFTllFaWpoN3NPS0N3NzhlbzJMTHdzU0FIY241OGdRbmxLam1rRnBHVnNCZUxKUE44OG8KMytjdkRURWtDYXM1UmJ0TWtINlN1aWl2Yit1MkZJSERSUklOCi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLQo=
   signerName: kubernetes.io/kube-apiserver-client
   usages:
   - client auth
@@ -35,7 +37,7 @@ kubectl get csr # status: Pending 으로 됨.
 ## Approve the CSR
 
 ```sh
-kubectl certificate approve readonly
+kubectl certificate approve dev-eng
 kubectl get csr
 ```
 
@@ -46,50 +48,50 @@ approved로 상태가 바뀜.
 ## Get the certificate
 
 ```sh
-kubectl get csr readonly -o jsonpath='{.status.certificate}'| base64 -d > readonly.crt
+kubectl get csr dev-eng -o jsonpath='{.status.certificate}'| base64 -d > dev-eng.crt
 ```
 
 ## Create Role and RoleBinding
 
-readonly
+dev-eng
 
 ```sh
-kubectl create role readonly --verb=get --verb=list --resource=pods
+kubectl create role dev-eng --verb=get --verb=list --resource=pods
 
-kubectl create rolebinding readonly-binding-roleonly --role=readonly --user=readonly
+kubectl create rolebinding dev-eng-binding-roleonly --role=dev-eng --user=dev-eng
 ```
 
 ## add to kubeconfig
 
 ```sh
-kubectl config set-credentials readonly --client-key=readonly.key --client-certificate=readonly.crt --embed-certs=true
+kubectl config set-credentials dev-eng --client-key=dev-eng.key --client-certificate=dev-eng.crt --embed-certs=true
 
-kubectl config set-context readonly --cluster=ooma-c1 --user=readonly
+kubectl config set-context dev-eng --cluster=ooma-c1 --user=dev-eng
 
 ```
 
 ## test
 
 ```sh
-kubectl config use-context readonly
+kubectl config use-context dev-eng
 ```
 
 ## 삭제
 
 ```sh
 kcn default
-k delete roles/readonly
-k delete rolebindings/readonly-binding-readonly
+k delete roles/dev-eng
+k delete rolebindings/dev-eng-binding-dev-eng
 
 k delete clusterroles/reader
-k delete clusterrolebindings/reader-binding-readonly
+k delete clusterrolebindings/reader-binding-dev-eng
 
-kubectl config delete-user readonly
-kubectl config delete-context readonly
+kubectl config delete-user dev-eng
+kubectl config delete-context dev-eng
 
 kubectl get csr
 
-kubectl delete csr readonly
+kubectl delete csr dev-eng
 ```
 
 ## 추가
@@ -101,3 +103,5 @@ view: 볼수 있다.
 cluster-admin : 전체 리소스에 대한 전체 권한을 준다.
 
 api group : <https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/>
+
+resources: <https://kubernetes.io/docs/reference/kubectl/overview/#resource-types>
