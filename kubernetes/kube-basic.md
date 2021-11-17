@@ -54,6 +54,12 @@ ingress
 
 ![](../.gitbook/assets/2021-06-19-09-15-18.png)
 
+## component
+
+<https://kubernetes.io/docs/concepts/overview/components/>
+
+kube-proxy : iptables를 이용하여 네트워크를 proxy해준다. 여기를 통해서 통신이 된다고 보면된다.
+
 ## pod
 
 ![](../.gitbook/assets/2021-06-19-09-15-48.png)
