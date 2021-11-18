@@ -23,6 +23,7 @@ aws certificate manager에서 소유한 도메인으로 tls(ssl)을 발급받아
 deploy에서 다음부분을 추가해준다.
 
 {% code title="argocd_install_v2.0.3.yaml" %}
+
 ```
 - command:
     - argocd-server
@@ -30,9 +31,26 @@ deploy에서 다음부분을 추가해준다.
     - /shared/app
     - --insecure
 ```
+
 {% endcode %}
 
 ![](../.gitbook/assets/argocd-aws-alb-01.png)
+
+이부분이 최신에 업데이트됬다 configmap을 하나 만들어주면 insecure하게 동작한다.
+
+```yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-cmd-params-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-cmd-params-cm
+data:
+  server.insecure: 'true'
+```
+
+적용해주고 argocd-server를 재시작하면된다.
 
 ### argocd-server service를 nodeport
 
@@ -49,9 +67,16 @@ spec:
 
 ![](../.gitbook/assets/argocd-aws-alb-02.png)
 
+로드 발란서로 사용도 가능하다. clusterip만 alb에서 지원하지 않음.
+
+```sh
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+```
+
 ## ingress 설정(with ssl)
 
 {% code title="argocd/ingress.yml" %}
+
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -85,6 +110,7 @@ spec:
                 port:
                   number: 80
 ```
+
 {% endcode %}
 
 ssl redirect를 했다.
