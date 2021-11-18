@@ -30,6 +30,7 @@
 - [notification slack](argocd/notification-slack.md)
 - [Backup / DR](argocd/backup-dr.md)
 - [ingress](argocd/ingress.md)
+- [2021-11-16 Github error](argocd/github-error.md)
 
 ## Docker
 
