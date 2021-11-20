@@ -84,8 +84,9 @@ ping 172.16.4.10 #(vip) 이게 잘 되면 성공한거다.
 
 ```bash
 ssh c4-master01.c4
-sudo systemctl status snap.keepalived.daemon
+sudo systemctl status keepalived
 ip addr show ens4
+ip addr show eth0
 ```
 
 ## kubernetes 설치
