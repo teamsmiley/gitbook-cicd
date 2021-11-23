@@ -374,3 +374,16 @@ storage class에서 longhorn을 확인해보면 확장을 허용해주는 옵션
 helm uninstall longhorn -n longhorn-system
 ```
 
+## Create an Ingress with Basic Authentication
+
+<https://longhorn.io/docs/1.2.2/deploy/accessing-the-ui/longhorn-ingress/>
+
+```sh
+USER=<USERNAME_HERE>; PASSWORD=<PASSWORD_HERE>; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
+
+USER=admin; PASSWORD=SieUYRLvqSJByE; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
+
+cat auth | base64
+```
+
+update basic-auth.yaml

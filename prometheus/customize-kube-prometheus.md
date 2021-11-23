@@ -47,6 +47,8 @@ auth라는 파일을 참조하는것을 알수 있다.
 
 ```bash
 sudo apt install apache2-utils
+#sudo yum install httpd-tools
+
 htpasswd -c auth admin
 > password를 넣는다. 엔터
 ```
@@ -157,7 +159,7 @@ etcd+: {
 
 빌드하고 커밋 푸시해보자.
 
-prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 확인된다.
+prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확인된다.
 
 ## instance가 하나의 노드에 2개뜨는걸 방지
 
@@ -181,7 +183,7 @@ prometheus 웹에 가서 etcd\_cluster\_version 으로 검색해서 나오면 �
 
 실제 메세지가 가는지 테스트 한다.
 
-[https://prometheus.io/docs/alerting/latest/notification\_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
+[https://prometheus.io/docs/alerting/latest/notification_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
 
 ```text
 global:
@@ -366,4 +368,3 @@ grafana+:: {
   },
 },
 ```
-
