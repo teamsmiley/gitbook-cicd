@@ -43,7 +43,7 @@ https://snapcraft.io/install/k9s/centos
 
 ```sh
 sudo yum install epel-release
-sudo yum install snapd
+sudo yum install snapd -y
 sudo systemctl enable --now snapd.socket
 sudo ln -s /var/lib/snapd/snap /snap
 sudo snap install k9s
@@ -52,8 +52,7 @@ sudo snap install k9s
 ## .zshrc
 
 ```conf
-
-plugins=(git kubectl kube-ps1 zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions kubectl kube-ps1)
 
 NEWLINE=$'\n'
 export PROMPT='[$FG[154]%T%{$reset_color%}][%n][%{$fg[cyan]%}%m %{$reset_color%}%~] $(git_prompt_info)${NEWLINE}# '
