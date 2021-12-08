@@ -60,50 +60,50 @@ grafana에 접속후 data source를 추가하였다.
 
 ![](../.gitbook/assets/2021-09-25-10-45-29.png)
 
-* label 매칭 연산자
-  * = 정확히 동일함.
-  * != 동일하지 않음.
-  * =~ 정규표현식 매칭.
-  * !~ 정규표현식에 매칭되지 않음.
-* sample
-  * {name=~"kubernetes.+"}
-  * {name!~"kubernetes.+"}
+- label 매칭 연산자
+  - = 정확히 동일함.
+  - != 동일하지 않음.
+  - =~ 정규표현식 매칭.
+  - !~ 정규표현식에 매칭되지 않음.
+- sample
+  - {name=~"kubernetes.+"}
+  - {name!~"kubernetes.+"}
 
 ### filter expression
 
 나온 결과를 다시 필터할수 있다.
 
-* Keep log lines that have the substring “error”:
+- Keep log lines that have the substring “error”:
 
 ```text
 |= "error"
 ```
 
-* A complete query using this example:
+- A complete query using this example:
 
 ```text
 {job="mysql"} |= "error"
 ```
 
-* Discard log lines that have the substring “kafka.server:type=ReplicaManager”:
+- Discard log lines that have the substring “kafka.server:type=ReplicaManager”:
 
 ```text
 != "kafka.server:type=ReplicaManager"
 ```
 
-* A complete query using this example:
+- A complete query using this example:
 
 ```text
 {instance=~"kafka-[23]",name="kafka"} != "kafka.server:type=ReplicaManager"
 ```
 
-* Keep log lines that contain a substring that starts with tsdb-ops and ends with io:2003. A complete query with a regular expression:
+- Keep log lines that contain a substring that starts with tsdb-ops and ends with io:2003. A complete query with a regular expression:
 
 ```text
 {name="kafka"} |~ "tsdb-ops.\*io:2003"
 ```
 
-* Keep log lines that contain a substring that starts with error=, and is followed by 1 or more word characters. A complete query with a regular expression:
+- Keep log lines that contain a substring that starts with error=, and is followed by 1 or more word characters. A complete query with a regular expression:
 
 ```text
 {name="cassandra"} |~ `error=\w+`
@@ -117,12 +117,17 @@ grafana에 접속후 data source를 추가하였다.
 {job="mysql"} |= "error" != "timeout"
 ```
 
-* \|= 문자열을 포함하는 라인.
-* != 문자열을 포함하지 않는 라인.
-* \|~ 정규 표현식에 매칭되는 라인.
-* !~ 정규 표현식에 매칭되지 않는 라인.
+- \|= 문자열을 포함하는 라인.
+- != 문자열을 포함하지 않는 라인.
+- \|~ 정규 표현식에 매칭되는 라인.
+- !~ 정규 표현식에 매칭되지 않는 라인.
 
 매칭은 기본적으로 대소 문자를 구분하며 \(?i\)를 정규 표현식 앞에 접두사로 사용하면 대소 문자를 구분하지 않도록 전환할 수 있습니다.
 
 더 자세한 내용은 [https://grafana.com/docs/loki/latest/logql/](https://grafana.com/docs/loki/latest/logql/) 에서 참고하기 바란다.
 
+## sample
+
+```text
+{namespace="kube-system"} |= "[ERROR]"
+```
