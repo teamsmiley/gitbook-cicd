@@ -12,18 +12,6 @@ Kubernetes Enhancement Proposal 라는 이름으로 22 에서 알파 릴리즈�
 
 조금 관심가지고 확인해봐야할거같습니다.
 
-## SOPS로 시크릿 암호화 하기
-
-SOPS: secrets operations
-
-yml/json 등을 암호화 하고 복호화 하는 기능
-
-<https://github.com/mozilla/sops>
-
-source에서 암호화 하고 배포시 복호화해서 사용하는 방식
-
-gitops에서는 안되겟음? ..argocd repo가 복호화 된 평문을 가지고 있으므로.
-
 ## feature-gates
 
 [https://kubernetes.io/ko/docs/reference/command-line-tools-reference/feature-gates/](https://kubernetes.io/ko/docs/reference/command-line-tools-reference/feature-gates/)
@@ -33,3 +21,15 @@ gitops에서는 안되겟음? ..argocd repo가 복호화 된 평문을 가지고
 ## 완료된 리소스를 위한 TTL 컨트롤러
 
 [https://kubernetes.io/ko/docs/concepts/workloads/controllers/ttlafterfinished/](https://kubernetes.io/ko/docs/concepts/workloads/controllers/ttlafterfinished/)
+
+## kubectl port-forward
+
+```sh
+kubectl port-forward svc/argocd-server -n argocd 8000:443
+```
+
+기본적으로 127.0.0.1에만 포트를 오픈한다 모든 아이피에 오픈하고 싶으면 다음처럼 하자.
+
+```sh
+kubectl port-forward svc/argocd-server -n argocd 8000:443 --address='0.0.0.0'
+```
