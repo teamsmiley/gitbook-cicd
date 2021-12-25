@@ -106,6 +106,23 @@ cd /home/ubuntu/
 
 sudo apt install golang-cfssl
 
+# centos
+
+VERSION=$(curl --silent "https://api.github.com/repos/cloudflare/cfssl/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+echo $VERSION
+VNUMBER=${VERSION#"v"}
+echo $VNUMBER
+
+wget https://github.com/cloudflare/cfssl/releases/download/${VERSION}/cfssl_${VNUMBER}_linux_amd64 -O cfssl
+chmod +x cfssl
+mv cfssl /usr/local/bin/
+
+wget https://github.com/cloudflare/cfssl/releases/download/${VERSION}/cfssljson_${VNUMBER}_linux_amd64 -O cfssljson
+
+chmod +x cfssljson
+mv cfssljson /usr/local/bin/
+###
+
 cat client.json
 ```
 
