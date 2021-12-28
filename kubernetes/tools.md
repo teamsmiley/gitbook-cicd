@@ -93,22 +93,6 @@ kubectl version --client
 source <(kubectl completion zsh)
 ```
 
-## .zshrc
-
-```conf
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions kubectl kube-ps1) # add
-
-export PATH=~/.local/bin/:$PATH
-source <(kubectl completion zsh)
-
-bindkey -v
-
-source "/root/.local/bin/kube-ps1.sh"
-PROMPT='$(kube_ps1)'$PROMPT
-
-export KUBECONFIG=~/.kube/ooma-c1:~/.kube/ooma-c2
-```
-
 ## kubectx
 
 ```sh
@@ -153,4 +137,26 @@ k9s
 cd ~/.local/bin
 chown root:root k9s
 chmod +x kube-ps1.sh
+```
+
+## .zshrc
+
+```conf
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions kubectl kube-ps1) # add
+
+# 프롬프트
+NEWLINE=$'\n'
+export PROMPT='[$FG[154]%T%{$reset_color%}][%{$fg[cyan]%}%m %{$reset_color%}%~] $(git_prompt_info)${NEWLINE}# '
+
+export PATH=~/.local/bin/:$PATH
+
+source <(kubectl completion zsh)
+
+bindkey -v
+
+source "/root/.local/bin/kube-ps1.sh"
+
+PROMPT='$(kube_ps1)'$PROMPT
+
+export KUBECONFIG=~/.kube/cluster1:~/.kube/cluster2
 ```
