@@ -126,7 +126,7 @@ wget https://github.com/derailed/k9s/releases/download/v0.25.7/k9s_Linux_x86_64.
 tar -zxvf k9s_Linux_x86_64.tar.gz
 
 mv k9s ~/.local/bin
-k9s
+rm -rf ~/k9s
 ```
 
 ## 정리
@@ -138,6 +138,8 @@ chmod +x kube-ps1.sh
 ```
 
 ## .zshrc
+
+`vi ~/.zshrc`
 
 ```conf
 plugins=(git zsh-syntax-highlighting zsh-autosuggestions kubectl kube-ps1) # add
