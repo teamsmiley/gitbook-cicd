@@ -89,15 +89,13 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s http
 chmod +x ./kubectl
 mv ./kubectl /usr/local/bin/kubectl
 kubectl version --client
-
-source <(kubectl completion zsh)
 ```
 
 ## kubectx
 
 ```sh
 cd
-sudo git clone https://github.com/ahmetb/kubectx
+git clone https://github.com/ahmetb/kubectx
 
 mkdir -p ~/.local/bin
 
