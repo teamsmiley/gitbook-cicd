@@ -381,7 +381,7 @@ helm uninstall longhorn -n longhorn-system
 ```sh
 USER=<USERNAME_HERE>; PASSWORD=<PASSWORD_HERE>; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
 
-USER=admin; PASSWORD=SieUYRLvqSJByE; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
+USER=admin; PASSWORD=XXXXX; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" >> auth
 
 cat auth | base64
 ```
