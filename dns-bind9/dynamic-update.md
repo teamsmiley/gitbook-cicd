@@ -36,7 +36,7 @@ cat Kteamsmiley-dev-secret.+157+39736.private
 
 Private-key-format: v1.3
 Algorithm: 165 (HMAC_SHA512)
-Key: VfOJ3UOQ8KntWAayZ9x/JR0zOjLg==
+Key: KzqRA3OnnSxx3Awp9m8Pt
 Bits: AAA=
 Created: 20220209130648
 Publish: 20220209130648
@@ -59,7 +59,7 @@ zone "teamsmiley.dev"{
 ## 다음 추가 
 key "teamsmiley-dev-secret" {
     algorithm hmac-sha256;
-    secret "VfOJ3UOQ8KntWAayZ9x/JR0zOjLg==";
+    secret "KzqRA3OnnSxx3Awp9m8Pt";
 };
 ```
 
@@ -74,16 +74,16 @@ key "teamsmiley-dev-secret" {
 nsupdate 툴을 이용하여 테스트하기로 한다.
 
 ```sh
-nsupdate -y hmac-md5:teamsmiley-dev-secret:VfOJ3UOQ8KntWAayZ98inpufRQUBAT/JR0zOjLg==
+nsupdate -y hmac-md5:teamsmiley-dev-secret:KzqRA3OnnSxx3Awp9m8Pt
 
 update add teamsmiley.dev 60 txt testing
 
 send
 ```
 
-## 실패 
+## 실패
 
-혹시 실패한다면 named 폴더의 그룹에 write권한을 부여해주세요 
+혹시 실패한다면 named 폴더의 그룹에 write권한을 부여해주세요.
 
 ```sh
 chmod 775 /var/named/chroot/var/named/
@@ -93,4 +93,3 @@ chmod 775 /var/named/chroot/var/named/
 
 다시 테스트해본다.
 
-동작할것임.

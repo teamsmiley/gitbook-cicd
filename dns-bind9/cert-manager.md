@@ -36,7 +36,7 @@ spec:
           rfc2136:
             nameserver: 172.21.1.20:53
             tsigKeyName: teamsmiley-dev-secret
-            tsigAlgorithm: HMACSHA256
+            tsigAlgorithm: HMACSHA512
             tsigSecretSecretRef:
               name: tsig-secret
               key: tsig-secret-key
