@@ -73,3 +73,6 @@ spec:
 ```
 
 잘 생성되는지 확인한다.
+
+
+<https://cert-manager.io/docs/configuration/acme/dns01/rfc2136/#configuration-step-1-set-up-your-dns-server-for-secure-dynamic-updates>
