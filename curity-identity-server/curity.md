@@ -75,35 +75,35 @@ port forwarding으로는 접근이 되고 ingress로 안되면 helm 옵션중에
 
 설정해둔 url로 접근하면 다음 화면이 나온다.
 
-![](<../.gitbook/assets/2021-08-31-06-34-51 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-06-34-51 (2) (2) (1).png>)
 
 설정해둔 비번으로 로그인
 
-![](<../.gitbook/assets/2021-08-31-06-31-58 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-06-31-58 (2) (2) (1).png>)
 
 Run Basic Setup 클릭
 
-![](<../.gitbook/assets/2021-08-31-06-32-42 (1).png>)
+![](<../.gitbook/assets/2021-08-31-06-32-42 (1) (1).png>)
 
 커뮤니티 라이센스를 발급받아서 업로드 해주자.
 
-![](<../.gitbook/assets/2021-08-31-06-33-20 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-06-33-20 (2) (2) (1).png>)
 
 next 클릭
 
-![](<../.gitbook/assets/2021-08-31-06-33-41 (1).png>)
+![](<../.gitbook/assets/2021-08-31-06-33-41 (1) (1).png>)
 
 일단 기본값으로 모두 next를 누르면 된다.
 
-![](<../.gitbook/assets/2021-08-31-06-35-42 (1).png>)
+![](<../.gitbook/assets/2021-08-31-06-35-42 (1) (1).png>)
 
-![](<../.gitbook/assets/2021-08-31-06-35-53 (1).png>)
+![](<../.gitbook/assets/2021-08-31-06-35-53 (1) (1).png>)
 
-![](<../.gitbook/assets/2021-08-31-06-36-03 (1).png>)
+![](<../.gitbook/assets/2021-08-31-06-36-03 (1) (1).png>)
 
-![](<../.gitbook/assets/2021-08-31-06-36-14 (1).png>)
+![](<../.gitbook/assets/2021-08-31-06-36-14 (1) (1).png>)
 
-![](<../.gitbook/assets/2021-08-31-06-36-29 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-06-36-29 (2) (2) (1).png>)
 
 ![](../.gitbook/assets/2021-08-31-06-36-40.png)
 
@@ -115,21 +115,21 @@ curity는 유저데이터등은 db에 저장하지만 이 설정파일등은 xml
 
 다 로딩이 되면
 
-![](<../.gitbook/assets/2021-08-31-06-37-46 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-06-37-46 (2) (2) (1).png>)
 
 admin 하나와 runtime 모듈 3개가 올라와 있다.
 
-![](<../.gitbook/assets/2021-08-31-06-38-19 (1).png>)
+![](<../.gitbook/assets/2021-08-31-06-38-19 (1) (1).png>)
 
 ## url change
 
 baseurl을 수정해주자.
 
-![](<../.gitbook/assets/2021-08-31-06-40-26 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-06-40-26 (2) (2) (1).png>)
 
 general 메뉴에서도 수정
 
-![](<../.gitbook/assets/2021-08-31-06-41-21 (1).png>)
+![](<../.gitbook/assets/2021-08-31-06-41-21 (1) (1).png>)
 
 변경할때마다 commit을 해야한다.
 
@@ -147,9 +147,9 @@ kubectl cp ~/Downloads/mysql-connector-java-8.0.26.jar -n curity $(kubectl get p
 
 [https://curity.io/docs/idsvr/latest/system-admin-guide/data-sources/jdbc.html?highlight=session#mysql-and-mariadb](https://curity.io/docs/idsvr/latest/system-admin-guide/data-sources/jdbc.html?highlight=session#mysql-and-mariadb)
 
-![](<../.gitbook/assets/2021-08-31-07-04-35 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-07-04-35 (2) (2) (1).png>)
 
-![](<../.gitbook/assets/2021-08-31-07-11-15 (1).png>)
+![](<../.gitbook/assets/2021-08-31-07-11-15 (1) (1).png>)
 
 create
 
@@ -163,7 +163,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 
 ![](../.gitbook/assets/2021-08-31-07-09-33.png)
 
-![](<../.gitbook/assets/2021-08-31-07-10-16 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-07-10-16 (2) (2) (1).png>)
 
 추가 완료
 
@@ -171,7 +171,7 @@ jdbc:mysql://MYSQL_HOST:3306/se_curity_store?useSSL=false
 
 스크립트는 어드민 컨테이너에 있다.
 
-![](<../.gitbook/assets/2021-08-31-07-13-40 (1).png>)
+![](<../.gitbook/assets/2021-08-31-07-13-40 (1) (1).png>)
 
 가지고와서 디비에 적용해주자.
 
@@ -183,7 +183,7 @@ create database se_curity_store;
 kubectl cp -n curity $(kubectl get pods -l "role=curity-idsvr-admin" -o jsonpath="{.items[0].metadata.name}"):/opt/idsvr/etc/mysql-create_database.sql ~/Downloads/mysql-create_database.sql
 ```
 
-![](<../.gitbook/assets/2021-08-31-07-19-38 (1).png>)
+![](<../.gitbook/assets/2021-08-31-07-19-38 (1) (1).png>)
 
 이상하게 에러가 나서 Linked Accounts 앞까지만 먼저 실행하고 완료후 뒤 스크립트를 실행하였다.
 
@@ -193,7 +193,7 @@ commit
 
 ## 현재까지 구조
 
-![](<../.gitbook/assets/2021-08-31-07-31-22 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-07-31-22 (2) (2) (1).png>)
 
 ## custom image
 
@@ -306,17 +306,17 @@ docker build . -t ghcr.io/teamsmiley/curity:latest
 docker push ghcr.io/teamsmiley/curity:latest
 ```
 
-![](<../.gitbook/assets/2021-08-31-09-31-05 (1).png>)
+![](<../.gitbook/assets/2021-08-31-09-31-05 (1) (1).png>)
 
 이제 이 이미지를 써보자.
 
-![](<../.gitbook/assets/2021-08-31-09-33-06 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-09-33-06 (2) (2) (1).png>)
 
 이제 웹사이트에서 뭔가를 바구고 commit을 해보자.
 
 컨테이너에 /tmp에 파일이 저장됫는지 확인
 
-![](<../.gitbook/assets/2021-08-31-07-55-29 (2) (2).png>)
+![](<../.gitbook/assets/2021-08-31-07-55-29 (2) (2) (1).png>)
 
 생성되었다.
 
@@ -351,7 +351,7 @@ helm 옵션에 `curity.config.backup=true`를 사용하자.
 
 commit 을 할때마다 secret에 추가 데이터가 저장이 된다.
 
-![](<../.gitbook/assets/2021-08-31-20-30-47 (1).png>)
+![](<../.gitbook/assets/2021-08-31-20-30-47 (1) (1).png>)
 
 날짜-트랜잭션 ID로 저장이 된다.
 

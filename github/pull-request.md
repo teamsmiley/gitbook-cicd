@@ -35,25 +35,25 @@ Pull Request(PR) 보내는 방법
     git add --all && git commit -m "admin-svc-selector-update" && git push origin update-svc-selector
     ```
 
-    ![](<../.gitbook/assets/2021-08-30-06-23-56 (1) (1).png>)
+    ![](<../.gitbook/assets/2021-08-30-06-23-56 (1) (1) (1).png>)
 6.  github에서 PR 보내기
 
     github웹사이트에 가보면 compare & pull request버튼이 활성화 되있다. 여기서 PR을 보내면 원격 저장소에 새로운 버전이 생성된다. 위 그림에 있는 로그에 경로로 직접 접속해도 됨.
 
-    ![](<../.gitbook/assets/2021-08-30-06-25-23 (1).png>)
+    ![](<../.gitbook/assets/2021-08-30-06-25-23 (1) (1).png>)
 7.  부모 프로젝트에 PR이 있는지 확인하기
 
-    ![](<../.gitbook/assets/2021-08-30-06-27-37 (1).png>)
+    ![](<../.gitbook/assets/2021-08-30-06-27-37 (1) (1).png>)
 8. 머지될때가지 기다린다. 머지되면 내 브랜치는 지워도 된다. 로컬하고 리모트 모두다.
 
-![](<../.gitbook/assets/2021-08-30-07-22-33 (1).png>)
+![](<../.gitbook/assets/2021-08-30-07-22-33 (1) (1).png>)
 
-![](<../.gitbook/assets/2021-08-30-07-22-54 (1).png>)
+![](<../.gitbook/assets/2021-08-30-07-22-54 (1) (1).png>)
 
 approve 완료
 
 몇일있다 merge됫다는 이메일이 온다.
 
-![](<../.gitbook/assets/2021-09-01-07-43-46 (1).png>)
+![](<../.gitbook/assets/2021-09-01-07-43-46 (1) (1).png>)
 
 완료
