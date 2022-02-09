@@ -93,3 +93,17 @@ chmod 775 /var/named/chroot/var/named/
 
 다시 테스트해본다.
 
+## update-policy
+
+allow-update 보다는 update-policy를 사용하는 것이 좋다. 자세한 컨트롤이 가능
+
+```conf
+zone "teamsmiley.dev"{
+        type master;
+        file "teamsmiley.dev";
+        #allow-update { key "ooma-com-secret"; };
+        update-policy {
+          grant ooma-com-secret name _acme-challenge.teamsmiley.dev. txt;
+        };
+};
+```
