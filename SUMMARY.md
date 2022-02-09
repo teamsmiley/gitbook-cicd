@@ -103,6 +103,6 @@
 
 * [DNS Bind9](dns-bind9/README.md)
   * [Dynamic Update](dns-bind9/dynamic-update.md)
+  * [Log](dns-bind9/log.md)
   * [Cert-Manager](dns-bind9/cert-manager.md)
   * [Certbot](dns-bind9/certbot.md)
-  * [Log](dns-bind9/log.md)
