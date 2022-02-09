@@ -59,6 +59,5 @@ docker run -it --rm \
  	--agree-tos \
  	--no-eff-email \
  	--email teamsmiley@gmail.com \
- 	-n \
- 	-d www.teamsmiley.dev
+ 	-n 
 ```

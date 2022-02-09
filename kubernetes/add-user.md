@@ -66,7 +66,7 @@ kubectl create rolebinding dev-eng-binding-roleonly --role=dev-eng --user=dev-en
 ```sh
 kubectl config set-credentials dev-eng --client-key=dev-eng.key --client-certificate=dev-eng.crt --embed-certs=true
 
-kubectl config set-context dev-eng --cluster=ooma-c1 --user=dev-eng
+kubectl config set-context dev-eng --cluster=c1 --user=dev-eng
 
 ```
 
