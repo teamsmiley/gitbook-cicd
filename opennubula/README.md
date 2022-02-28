@@ -138,7 +138,9 @@ cat /etc/libvirt/libvirtd.conf  | grep unix
 
 sudo sed -i -E 's/#unix_sock_group.*/unix_sock_group\ \=\ \"oneadmin\"/gi' /etc/libvirt/libvirtd.conf
 sudo sed -i -E 's/#unix_sock_rw_perms.*/unix_sock_rw_perms\ \=\ \"0777\"/gi' /etc/libvirt/libvirtd.conf
+
 cat /etc/libvirt/libvirtd.conf  | grep unix
+
 systemctl restart libvirtd
 systemctl enable libvirtd
 ```
