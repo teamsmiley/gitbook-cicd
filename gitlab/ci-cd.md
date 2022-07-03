@@ -473,3 +473,9 @@ production-deploy:
     gitrepo_name: production
   <<: *template
 ```
+
+## todo
+
+- approval email
+- ci/cd list for all project
+- jira 연동
