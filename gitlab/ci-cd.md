@@ -439,6 +439,7 @@ release:
     description: '$(cat release.md)'
 
 .deploy-template: &template
+  image: alpine:3.8
   rules:
     - if: $CI_COMMIT_TAG
   before_script:
@@ -455,9 +456,6 @@ release:
 
 staging-deploy:
   stage: staging
-  image: alpine:3.8
-  rules:
-    - if: $CI_COMMIT_TAG
   # 이부분을 추가한다.
   variables:
     gitrepo_name: staging
@@ -465,9 +463,6 @@ staging-deploy:
 
 production-deploy:
   stage: production
-  image: alpine:3.8
-  rules:
-    - if: $CI_COMMIT_TAG
   # 이부분을 추가한다.
   variables:
     gitrepo_name: production
