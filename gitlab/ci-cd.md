@@ -172,7 +172,7 @@ staging-deploy:
     - git config --global user.email "gitlab@gitlab.com"
     - git config --global user.name "GitLab CI/CD"
   script:
-    - git clone https://${CI_REGISTRY_USER}:${CI_PUSH_TOKEN}@gitlab.com/teamsmiley/staging.git
+    - git clone https://${CI_USER}:${CI_PUSH_TOKEN}@gitlab.com/teamsmiley/staging.git
     - cd k8s-c1/apps/default/sample-www-internal
     - sed "s/:latest/:${CI_COMMIT_SHORT_SHA}/g" deploy.origin > deploy.yaml
     - git commit -am "change docker tag"
@@ -448,7 +448,7 @@ release:
     - git config --global user.email "gitlab@gitlab.com"
     - git config --global user.name "GitLab CI/CD"
   script:
-    - git clone https://${CI_REGISTRY_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/staging.git
+    - git clone https://${CI_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/staging.git
     - cd staging/apps/default/sample-www-internal
     - sed "s/:latest/:${CI_COMMIT_SHORT_SHA}/g" deploy.origin > deploy.yaml
     - git commit -am "change docker tag"
