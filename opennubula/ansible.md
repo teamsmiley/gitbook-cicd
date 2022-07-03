@@ -25,3 +25,7 @@ ansible-playbook -i inventory/inventory.ini opennebula-server.yaml
 ```sh
 ansible-playbook -i inventory/inventory.ini opennebula-kvm-node.yaml
 ```
+
+## source code
+
+<https://github.com/teamsmiley/opennebula-ansible> 를 참고하세요
