@@ -210,13 +210,15 @@ spec:
         - name: gitlab-regcred
 ```
 
-## production 배포
+## production 배포(job template)
 
 스테이징 코드를 복사해서 만들면 된다. 그런데 코드의 중복이 생긴다.
 
 여기서 job template라는 개념이 생긴다.
 
 job template는 사용한곳보다는 yaml파일에 상단에 위치해야한다. yaml에 추가하자.
+
+jobname이 .으로 시작한다. 이건 실제로 동작하지는 않는 작업이다.
 
 ```yaml
 .deploy-template: &template
@@ -360,3 +362,114 @@ approval을 하면 다음 프로세스가 진행되는것을 알수 있다.
 ## 전체 ci/cd 프로세스
 
 ![](./images/2022-07-02-18-57-57.png)
+
+```yaml
+stages:
+  - build
+  - testing
+  - dev
+  - release
+  - qa
+  - prod
+
+variables:
+  IMAGE_NAME: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}
+  LATEST_IMAGE_NAME: ${CI_REGISTRY_IMAGE}:latest
+
+run_job:
+  stage: dev
+  image: alpine:3.8
+  before_script:
+    - echo pre
+  script:
+    - echo hello world
+  after_script:
+    - echo post
+unit_test_job:
+  stage: dev
+  image: alpine:3.8
+  script:
+    - echo unit test
+
+run_e2e_tests:
+  stage: testing
+  image: alpine:3.8
+  before_script:
+    - echo pre
+  script:
+    - echo hello world
+  after_script:
+    - echo post
+
+build:
+  stage: build
+  image: docker:20.10
+  services:
+    - docker:20.10-dind
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+  script:
+    - docker build -f Dockerfile -t ${IMAGE_NAME} -t ${LATEST_IMAGE_NAME} .
+    - docker push ${IMAGE_NAME}
+    - docker push ${LATEST_IMAGE_NAME}
+  after_script:
+    - docker logout
+
+changelog:
+  stage: release
+  image: docker:git
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:'At %ci, %cN committed %h - %s' --decorate --graph >release.md
+  artifacts:
+    paths: [release.md]
+
+release:
+  stage: release
+  needs: ['changelog']
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - echo "running release_job for $TAG"
+  release:
+    tag_name: '$CI_COMMIT_TAG'
+    name: 'Release $CI_COMMIT_TAG'
+    description: '$(cat release.md)'
+
+.deploy-template: &template
+  rules:
+    - if: $CI_COMMIT_TAG
+  before_script:
+    - apk add --no-cache git curl bash
+    - echo ${CI_COMMIT_SHORT_SHA}
+    - git config --global user.email "gitlab@gitlab.com"
+    - git config --global user.name "GitLab CI/CD"
+  script:
+    - git clone https://${CI_REGISTRY_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/staging.git
+    - cd staging/apps/default/sample-www-internal
+    - sed "s/:latest/:${CI_COMMIT_SHORT_SHA}/g" deploy.origin > deploy.yaml
+    - git commit -am "change docker tag"
+    - git push
+
+staging-deploy:
+  stage: staging
+  image: alpine:3.8
+  rules:
+    - if: $CI_COMMIT_TAG
+  # 이부분을 추가한다.
+  variables:
+    gitrepo_name: staging
+  <<: *template
+
+production-deploy:
+  stage: production
+  image: alpine:3.8
+  rules:
+    - if: $CI_COMMIT_TAG
+  # 이부분을 추가한다.
+  variables:
+    gitrepo_name: production
+  <<: *template
+```
