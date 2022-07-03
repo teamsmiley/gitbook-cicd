@@ -354,3 +354,9 @@ environment 에 가서 productin을 선택하고 들어가면 컨펌을 할수�
 ![](./images/2022-07-02-18-55-32.png)
 
 approval을 할수가 있다.
+
+approval을 하면 다음 프로세스가 진행되는것을 알수 있다.
+
+## 전체 ci/cd 프로세스
+
+![](./images/2022-07-02-18-57-57.png)
