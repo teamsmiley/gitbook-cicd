@@ -10,6 +10,12 @@ onevm list # id를 알수 있다. 7번을 지우고 싶다면
 onevm recover --delete 7
 ```
 
+ui에서도 recover를 하면 지울수 있다.
+
+![](./images/2022-07-02-17-15-49.png)
+
+![](./images/2022-07-02-17-16-07.png)
+
 ## Instantiate as persistent
 
 ![](./images/2021-11-01-06-41-31.png)
