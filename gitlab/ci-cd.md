@@ -230,7 +230,7 @@ jobname이 .으로 시작한다. 이건 실제로 동작하지는 않는 작업�
     - git config --global user.email "gitlab@gitlab.com"
     - git config --global user.name "GitLab CI/CD"
   script:
-    - git clone https://${CI_REGISTRY_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/staging.git
+    - git clone https://${CI_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/staging.git
     - cd staging/apps/default/sample-www-internal
     - sed "s/:latest/:${CI_COMMIT_SHORT_SHA}/g" deploy.origin > deploy.yaml
     - git commit -am "change docker tag"
@@ -259,7 +259,7 @@ production과 staging을 하다보니 git repo의 경로가 다르다.
 staging.git / production.git 이다. 어떻게 처리해야할까?
 
 ```yaml
-- git clone https://${CI_REGISTRY_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/staging.git
+- git clone https://${CI_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/staging.git
 - cd staging/apps/default/sample-www-internal
 ```
 
@@ -275,7 +275,7 @@ staging.git / production.git 이다. 어떻게 처리해야할까?
     - git config --global user.email "gitlab@gitlab.com"
     - git config --global user.name "GitLab CI/CD"
   script:
-    - git clone https://${CI_REGISTRY_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/$gitrepo_name.git # $gitrepo_name은 variable을 사용하여 정해준다.
+    - git clone https://${CI_USER}:${CI_PUSH_TOKEN}@gitlab.com/oomaforbin/oomacorp/networkoperations/$gitrepo_name.git # $gitrepo_name은 variable을 사용하여 정해준다.
     - cd $gitrepo_name/apps/default/sample-www-internal # $gitrepo_name은 variable을 사용하여 정해준다.
     - sed "s/:latest/:${CI_COMMIT_SHORT_SHA}/g" deploy.origin > deploy.yaml
     - git commit -am "change docker tag"

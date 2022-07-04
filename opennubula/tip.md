@@ -27,3 +27,4 @@ vm 생성시에 이걸 사용하면 vm이 재부팅 되도 데이터가 남는�
 ```sh
 yum localinstall one-context-5.12.0.2-1.el7.noarch.rpm
 ```
+
