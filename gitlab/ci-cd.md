@@ -469,8 +469,32 @@ production-deploy:
   <<: *template
 ```
 
+## jira ticket create for rtp with release.md
+
+```yaml
+unit_test_job:
+  stage: qa
+  image: alpine:3.8
+  script:
+    - curl xxxxxxxxxx (jira api with api key)
+```
+
+this will create ma ticket
+
+## when we click argocd sync button
+
+### deploy
+
+- update jira ticket status to start
+- deploy
+- update jira ticket status to done
+
+### rollback
+
+- update jira ticket status to rollback-start
+- deploy
+- update jira ticket status to rollback-done
+
 ## todo
 
 - approval email
-- ci/cd list for all project
-- jira 연동
