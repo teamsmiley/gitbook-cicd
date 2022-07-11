@@ -67,6 +67,7 @@
 ## GitLab
 
 - [CI/CD](gitlab/ci-cd.md)
+- [ssl renew](gitlab/tls-renew.md)
 
 ## Helm
 
