@@ -488,6 +488,11 @@ controller.metrics.serviceMonitor.enabled=true
 controller.metrics.serviceMonitor.additionalLabels.release="prometheus" 
 ```
 
+타켓에 추가된걸 알수가 있다.
+
+![](./images/2022-07-23-00-02-05.png)
+
+
 ![](./images/2022-07-22-23-59-43.png)
 
 
