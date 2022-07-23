@@ -124,7 +124,7 @@ docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./bu
 
 이제 다시 지워고 다시 빌드 커밋 푸시 하면 원래대로 돌아오는것을 알수 있다.
 
-## ingress에 서비스를 오픈
+## ingress를 통해서 public domain으로 접근가능하게
 
 [https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/exposing-prometheus-alertmanager-grafana-ingress.md](https://github.com/prometheus-operator/kube-prometheus/blob/main/docs/exposing-prometheus-alertmanager-grafana-ingress.md)
 
@@ -481,6 +481,15 @@ grafana+:: {
 잘보인다.
 
 여기서 알아야할점은 serviceMonitor 추가하면 프로메테우스에서 모니터링이 가능하다.
+
+```text
+controller.metrics.enabled=true
+controller.metrics.serviceMonitor.enabled=true
+controller.metrics.serviceMonitor.additionalLabels.release="prometheus" 
+```
+
+![](./images/2022-07-22-23-59-43.png)
+
 
 ## serviceMonitor 추가하기
 
