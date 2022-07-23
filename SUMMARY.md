@@ -84,7 +84,7 @@
   - [external-dns](kubernetes/extension/external-dns.md)
   - [ingress-nginx](kubernetes/extension/ingress-nginx.md)
   - [Cert-Manager](kubernetes/extension/cert-manager.md)
-  - [kube-prometheus]kubernetes/extension/kube-prometheus.md)
+  - [kube-prometheus](kubernetes/extension/kube-prometheus.md)
 - [TIP](kubernetes/tip/README.md)
   - [job](kubernetes/tip/job.md)
   - [pod](kubernetes/tip/pod.md)
