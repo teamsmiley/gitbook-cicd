@@ -65,16 +65,22 @@ git submodule update --init --recursive
 
 ```sh
 cd core/kube-prometheus
+jb install # vendor 폴더가 생긴다.
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
 
 manifest폴더가 생긴다. 이걸 argocd repo에 넣고 argocd에서 app등록하면 디플로이가 되는 것을 볼수 있다.
 
-## 확인 
+example.jsonnet을 각자의 상황에 맞게 이름을 바꿔서 사용한다.
+
+이파일을 수정하면  수정된 manifest가 생성이 된다.
+
+
+## 확인
 
 포트 포워딩으로 확인할수 있다.
 
-```bash
+```sh
 kubectl -n monitoring port-forward svc/prometheus-k8s 9090
 kubectl -n monitoring port-forward svc/alertmanager-main 9093
 kubectl -n monitoring port-forward svc/grafana 3000
@@ -93,22 +99,13 @@ kubectl -n monitoring port-forward svc/grafana 3000
 [http://localhost:3000/login](http://localhost:3000/login) 
 
 
-## Customize kube-prometheus
+## customize manifest
 
-소스코드를 받은걸 컴파일을 하면 자기가 원하는 모양으로 만들어진다.
-
-jsonnet을 사용한다. docker 버전으로 제공한다.
-
-```bash
-docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
-```
-
-
-
+example.jsonnet을 수정 해서 manifest 수정
 
 grafana/prometheus/alertmanager svc가 현재는 clusterip 인데 node port로 변경해보자.
 
-`kube-prometheus/addons/node-ports.libsonnet` 이부분만 주석해제 해주면된다.
+`kube-prometheus/addons/node-ports.libsonnet` 이부분만 주석 해제 해주면된다.
 
 ```text
 local kp =
@@ -119,7 +116,7 @@ local kp =
 
 다시 빌드하고 커밋하면된다.
 
-```bash
+```sh
 docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh example.jsonnet
 ```
 
@@ -143,7 +140,7 @@ auth라는 파일을 참조하는것을 알수 있다.
 
 이걸 만들기 위해서는 다음과 같이 한다.
 
-```bash
+```sh
 sudo apt install apache2-utils
 #sudo yum install httpd-tools
 
@@ -191,40 +188,19 @@ grafana: {
 
 ## etcd 모니터링
 
-```bash
-ssh c4-master01.c4
+```sh
+brew install cfssl # install cfssl
 
-# Copy etcd CA cert from etcd server "/etc/ssl/etcd/ssl/ca.pem"
-sudo cp /etc/ssl/etcd/ssl/ca.pem /home/ubuntu/
+cd core/kube-prometheus
 
-# Copy etcd CA cert from etcd server "/etc/ssl/etcd/ssl/ca-key.pem"
-sudo cp /etc/ssl/etcd/ssl/ca-key.pem /home/ubuntu/
+scp master1-eqix-sv5:/etc/ssl/etcd/ssl/ca.pem etcd/
+scp master1-eqix-sv5:/etc/ssl/etcd/ssl/ca-key.pem etcd/
 
-cd /home/ubuntu/
+chmod 755 etcd/*.pem
 
-sudo apt install golang-cfssl
+vi etcd/client.json
 
-# centos
-
-VERSION=$(curl --silent "https://api.github.com/repos/cloudflare/cfssl/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-echo $VERSION
-
-VNUMBER=${VERSION#"v"}
-echo $VNUMBER
-
-wget https://github.com/cloudflare/cfssl/releases/download/${VERSION}/cfssl_${VNUMBER}_linux_amd64 -O cfssl
-chmod +x cfssl
-mv cfssl /usr/local/bin/
-
-wget https://github.com/cloudflare/cfssl/releases/download/${VERSION}/cfssljson_${VNUMBER}_linux_amd64 -O cfssljson
-chmod +x cfssljson
-mv cfssljson /usr/local/bin/
-###
-
-cat client.json
-```
-
-```javascript
+cat <<EOF > etcd/client.json
 {
   "CN": "etcd-ca",
   "hosts": [""],
@@ -234,21 +210,12 @@ cat client.json
   },
   "names": [{}]
 }
+EOF
 ```
 
-```bash
-sudo chmod 755 *.pem
-
+```sh
 # Generate client certificate
 cfssl gencert -ca ca.pem -ca-key ca-key.pem client.json | cfssljson -bare etcd-client
-```
-
-관련 파일이 만들어진다. 전부 로컬로 가져온다.
-
-```bash
-scp c4-master01.c4:~/ca.pem ~/Desktop/GitHub/argocd-c4/core/prometheus/etcd
-scp c4-master01.c4:~/etcd-client-key.pem ~/Desktop/GitHub/argocd-c4/core/prometheus/etcd
-scp c4-master01.c4:~/etcd-client.pem ~/Desktop/GitHub/argocd-c4/core/prometheus/etcd
 ```
 
 jsonnet 설정
@@ -272,9 +239,15 @@ etcd+: {
       },
 ```
 
-빌드하고 커밋 푸시해보자.
+manifest를 업데이트하자.
+
+```sh
+docker run --rm -v $(pwd):$(pwd) --workdir $(pwd) quay.io/coreos/jsonnet-ci ./build.sh c4.jsonnet
+```
 
 prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확인된다.
+
+![](./images/2022-07-22-23-17-30.png)
 
 ## instance가 하나의 노드에 2개뜨는걸 방지
 
@@ -300,10 +273,13 @@ prometheus 웹에 가서 etcd_cluster_version 으로 검색해서 나오면 확�
 
 [https://prometheus.io/docs/alerting/latest/notification_examples/](https://prometheus.io/docs/alerting/latest/notification_examples/)
 
-```text
+```sh
+mkdir alertmanager
+
+cat <<EOF > alertmanager/config.yml
 global:
   resolve_timeout: 1m
-  slack_api_url: 'https://hooks.slack.com/services/T/B01P/hp0IAsK'
+  slack_api_url: 'https://hooks.slack.com/services/T/B01P/ddd'
 route:
   receiver: 'slack-notifications'
 receivers:
@@ -322,6 +298,7 @@ receivers:
             {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
             {{ end }}
           {{ end }}
+EOF
 ```
 
 웹 후크 url을 적어주고 나머지는 잘 수정해서 보내준다.
@@ -342,7 +319,7 @@ values+:: {
 
 문제가 생기면 슬랙으로 알림이 잘 온다.
 
-### KubeSchedulerDown-alert
+## KubeSchedulerDown-alert
 
 KubeSchedulerDown 알림이 계속온다.
 
