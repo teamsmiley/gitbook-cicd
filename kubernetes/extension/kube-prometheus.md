@@ -141,11 +141,7 @@ auth라는 파일을 참조하는것을 알수 있다.
 이걸 만들기 위해서는 다음과 같이 한다.
 
 ```sh
-sudo apt install apache2-utils
-#sudo yum install httpd-tools
-
-htpasswd -c auth admin
-> password를 넣는다. 엔터
+USER=admin; PASSWORD=XXXXX; echo "${USER}:$(openssl passwd -stdin -apr1 <<< ${PASSWORD})" > auth
 ```
 
 auth라는 파일이 생겼다. 내용을 복사하여 example.jsonnet파일과 같은 디렉토리에 복사해서 넣어준다.
