@@ -108,5 +108,6 @@
 - [install-ansible](opennubula/ansible.md)
 
 ## Prometheus
+
 - [TIP](prometheus/tip.md)
 - [loki](prometheus/loki.md)
