@@ -12,15 +12,28 @@ cd kube-prometheus
 git checkout tags/v0.8.0
 ```
 
-## checkout
+## clone
+
+클론을 처음 받을때 submodule까지 받을수 있다.
+
+```sh
+git clone --recursive git@git://github.com/foo/bar.git
+```
+
+## 클론을 미리 받은경우
 
 새로 체크아웃 받는경우 submodule은 다운로드 되지 않는다. 따로 관리해야한다.
 
 ```bash
+git clone git://github.com/foo/bar.git
+cd bar
 git submodule update --init --recursive
 ```
 
-checkout을 tag로 해두었다. 어디서 클론을 하던 이 버전이 유지된다. \* 중요
+## tag를 유지
+
+checkout을 tag로 해두면 이 버전이 유지된다.
+
 
 ## submodule 삭제
 

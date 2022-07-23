@@ -1,13 +1,54 @@
-# Prometheus
+# kube-prometheus
 
-서버 포드 서비스 등을 모니터링 하기 위한 툴
+## prometheus
 
-쿠버네티스클러스터당 각자 1개씩 추천 . 왜냐면 서비스 디스커버리랑 내부 pod가 통신이 되야하니까.
+서버의 메트릭을 모니터링을 하기 위한 툴
 
-argocd repo에 submodule로 등록을 햇다.
+<https://github.com/prometheus>
+
+보통은 그라파나와 같이 사용하여 서버 메트릭을 모니터링한다.
+
+## what is kube-prometheus
+
+<https://github.com/prometheus-operator/kube-prometheus>
+
+k8s에서 메트릭을 모니터링 하기 위한 툴
+
+쿠버네티스클러스터당 각자 1개씩 추천 . 왜냐면 서비스 디스커버리랑 내부 pod가 통신이 되야한다. 외부도 모니터링이 가능은 하나 구지 그럴필요 없어 보인다. 
+
+이건 k8s 클러스터만 모니터링 하는것으로 사용하자. 
+
+기본적으로 메모리에만 저장되는듯 보인다. 그래서 상태를 저장하려면 추가 작업이 필요하다.
+
+## 클러스터에 설치하기 
 
 ```bash
+cd ~/Desktop
+
+git clone https://github.com/prometheus-operator/kube-prometheus.git 
+```
+
+나는 argocd를 k8s 설정으로 사용하기 때문에 argocd git repo에 넣고 싶었다. 
+
+git에 submodule을 이용하자. 
+
+초기 등록은 이렇게 한다.
+
+```sh
+cd ~/Desktop/k8s-config # argocd repo
+
 git submodule add https://github.com/prometheus-operator/kube-prometheus.git core/kube-prometheus
+git add --all && git commit -am "add submodule kube-prometheus" && git push
+```
+
+argocd repo를 다운받을때는 다음처럼 사용
+
+```sh
+git clone xxxx
+git submodule update
+# 한꺼번에 클론할수도 있다. git clone xxx --recursive
+```
+
 
 cd core/kube-prometheus
 
