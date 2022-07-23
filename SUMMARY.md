@@ -84,6 +84,7 @@
   - [external-dns](kubernetes/extension/external-dns.md)
   - [ingress-nginx](kubernetes/extension/ingress-nginx.md)
   - [Cert-Manager](kubernetes/extension/cert-manager.md)
+  - [kube-prometheus]kubernetes/extension/kube-prometheus.md)
 - [TIP](kubernetes/tip/README.md)
   - [job](kubernetes/tip/job.md)
   - [pod](kubernetes/tip/pod.md)
@@ -107,8 +108,5 @@
 - [install-ansible](opennubula/ansible.md)
 
 ## Prometheus
-
-- [Prometheus](prometheus/prometheus.md)
-- [Customize kube-prometheus](prometheus/customize-kube-prometheus.md)
 - [TIP](prometheus/tip.md)
 - [loki](prometheus/loki.md)
